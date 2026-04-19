@@ -1,0 +1,207 @@
+{
+  "no": {
+    "nav": {
+      "howItWorks": "Hvordan det fungerer",
+      "theTeam": "Teamet",
+      "pricing": "Priser",
+      "about": "Om oss",
+      "faq": "FAQ",
+      "joinBeta": "Bli med i Beta"
+    },
+    "hero": {
+      "label": "Nå i Beta",
+      "h1": "Ditt lederteam.<br><em>Klart fra dag én.</em>",
+      "sub": "9 ekspert-AI-ledere jobber sammen med deg - skriver kode, definerer produktet ditt, designer UX, planlegger strategi, håndterer økonomi, markedsføring og mer. Ikke et verktøy. Et ekte team.",
+      "cta1": "Bli med i Beta",
+      "cta2": "Se hvordan det fungerer",
+      "stat1": "Ekspertledere",
+      "stat2": "Alltid tilgjengelig",
+      "stat3": "Fullt operativt",
+      "caption": "Hver gründer får et unikt teambilde - klart til å deles på oppstartsbedriftens sosiale medier."
+    },
+    "problem": {
+      "label": "Problemet",
+      "h2": "Du har visjonen.<br>Du burde ikke måtte gjøre det alene.",
+      "sub": "Enhver god oppstartside fortjener et ekte team. Frem til nå var det bare tilgjengelig for de med gode kontakter eller god finansiering.",
+      "c1": {
+        "h3": "Ingen medgründer? Ikke noe problem.",
+        "p": "Å finne den rette partneren tar år - og de har kanskje fortsatt ikke ekspertisen du trenger. HypeShow gir deg 9 spesialister fra dag én."
+      },
+      "c2": {
+        "h3": "Har ikke råd til et fullt team enda.",
+        "p": "En enkelt seniorleder koster $10K+ per måned. HypeShow gir deg en hel ledergruppe - CEO, CTO, CFO, CMO og fem andre spesialister - for en brøkdel av det."
+      },
+      "c3": {
+        "h3": "Vet ikke hva du ikke vet.",
+        "p": "De største farene for oppstartsbedrifter er blindsoner. Våre ledere har kunnskapen - og de vil fortelle deg det før det koster deg alt."
+      }
+    },
+    "value": {
+      "label": "Hvordan det fungerer",
+      "h2": "Tre ting skjer<br>samtidig - alltid.",
+      "sub": "HypeShow er ikke bare et verktøy du bruker. Det er et miljø du vokser i.",
+      "c1": {
+        "h3": "Bygg din oppstartsbedrift",
+        "p": "Teamet ditt håndterer hele livssyklusen til oppstartsbedriften - produktspesifikasjon, UX-design, programvareutvikling, teknisk arkitektur, forretningsplan, finansiell modellering, merkestrategi og juridisk grunnlag. Et ekte produkt, bygget riktig, fra kode til markedslansering og videre."
+      },
+      "c2": {
+        "h3": "Lær mens du leder",
+        "p": "Du lærer ved å gjøre - den eneste måten som faktisk fungerer. Tenk på det som å ha dedikerte ekspertmentorer og ledere på hvert domene, men det er du som tar beslutninger, handler og vokser sammen med produktet ditt. Ekte erfaring, i sanntid med supereksperter som realiserer visjonen din."
+      },
+      "c3": {
+        "h3": "Bli klar til å lede mennesker",
+        "p": "Når du er klar til å ansette din første ingeniør, designer eller operatør - vil du allerede vite hvordan du skal lede, delegere og bygge en sunn teamkultur. HypeShow forbereder deg på den dagen - og fortsetter å jobbe med deg mens du vokser."
+      }
+    },
+    "team": {
+      "label": "Teamet",
+      "h2": "9 Ledere. Ett team.<br>Helt ditt. På ditt språk.",
+      "sub": "Hver leder har et definert domene, en ekte personlighet og erfaring som vokser med hvert prosjekt - ditt og alle andres på plattformen.",
+      "chooseName": "velg navn",
+      "ceo": { "title": "Strategisk leder for bedriften", "domain": "Sprint-oversikt, strategisk ruting, ditt primære grensesnitt. Holder enhver beslutning i tråd med det store bildet." },
+      "coo": { "title": "Daglig driftsledelse", "domain": "Prosesseffektivitet, sprint-sporing, tidslinjer for utførelse. Hvis det beveger seg - vet Yaniv statusen." },
+      "cto": { "title": "Teknologi og arkitektur", "domain": "Arkitektur, stack-beslutninger, full programvareutvikling. Gjør produktvisjon om til fungerende kode." },
+      "cpo": { "title": "Produkt og UX", "domain": "Brukerreiser, funksjonsdefinisjon, UX-design. Er besatt av hva brukerne føler ved hver interaksjon." },
+      "cmo": { "title": "Markedsføring, merkevare og vekst", "domain": "Merkestemme, innholdsstrategi, vekstkanaler. \"Ambisjonsrik, men menneskelig\" i hver melding vi sender." },
+      "cfo": { "title": "Forvaltning av finansiell strategi", "domain": "Finansielle modeller, prisstrategi, rullebane-administrasjon. Holder ambisjon og virkelighet perfekt på linje." },
+      "ciso": { "title": "Sikkerhetsbeskyttelse", "domain": "Trusselmodellering, IP-beskyttelse, personvern. Hver funksjon lanseres bare når den er genuint trygg." },
+      "qa": { "title": "Produktkvalitetssikring", "domain": "Testing, kanttilfeller, tilgjengelighet. Ingenting lanseres ødelagt. Brukere husker det som ikke fungerer." },
+      "cpsyo": { "title": "Gründerens velvære", "domain": "Gründerens velvære, teamdynamikk, emosjonell intelligens. Å bygge et selskap er vanskelig. Du bør ikke føle deg alene om det." },
+      "quality": {
+        "h3": "Trent for oppstartsbedrifter.<br>Ikke for bedriftsbyråkrati.",
+        "p": "Hver HypeShow-leder er spesialtrent for de spesifikke utfordringene i tidligfase-oppstartsbedrifter. De forstår sprinter, pivots, pengeinnsamling, MVP-er og den emosjonelle virkeligheten ved å bygge fra bunnen av. Arbeidet ditt, ideene dine og samtalene dine er strengt konfidensielle - deles aldri, brukes aldri utenfor prosjektet ditt."
+      },
+      "tags": {
+        "startupTrained": "Oppstartstrent",
+        "proactive": "Proaktiv",
+        "honest": "Ærlig",
+        "detailOriented": "Detaljorientert",
+        "alwaysAvailable": "Alltid tilgjengelig",
+        "zeroEgo": "Null Ego",
+        "confidential": "Konfidensiell",
+        "growsWith": "Vokser Med Deg"
+      }
+    },
+    "why": {
+      "label": "Hvorfor HypeShow",
+      "h2": "Ledergruppen du ikke<br>hadde råd til. Før nå.",
+      "table": {
+        "headerHs": "✦ HypeShow",
+        "headerAlt": "Alternativene",
+        "r1": { "hs": "Ekspertledere trent for oppstartsbedrifter - ledet av deg", "alt": "Generiske AI-verktøy uten domenefokus" },
+        "r2": { "hs": "Bygger, koder, administrerer, veileder - alt på en gang", "alt": "Punktløsninger for isolerte problemer" },
+        "r3": { "hs": "Forbereder deg på å lede et ekte menneskelig team", "alt": "Prøver å erstatte teamet ditt permanent" },
+        "r4": { "hs": "Blir smartere med hvert prosjekt på plattformen", "alt": "Starter fra null med hver nye økt" },
+        "r5": { "hs": "Prosjektet ditt er fullt ut konfidensielt - alltid", "alt": "Uklare dataretningslinjer og IP-eierskap" },
+        "r6": { "hs": "Tilgjengelig 24/7, null ego, blir aldri utbrent", "alt": "Medgründere med tidsplaner, humørsvingninger og krav til egenkapital" },
+        "r7": { "hs": "Et tydelig veikart: fra idé til selskap", "alt": "Ingen retning, ingen milepæler, ingen følelse av fremgang" },
+        "r8": { "hs": "Veileder deg til å balansere ambisjoner, liv og velvære", "alt": "Hustle-kultur uten hensyn til mennesket bak oppstarten" }
+      },
+      "moat": {
+        "h3": "Den kollektive visdomsmotoren",
+        "p": "Hver gründer som jobber med HypeShow, mottar ikke bare verdi - de skaper den. Hver beslutning, hver sprint, hver lærdom gjør lederne våre mer kapable for din neste dag, din neste sprint - og mer tilpasningsdyktige for deg og for hele samfunnet.",
+        "quote": "\"En konkurrent kan kopiere prompten vår. De kan ikke kopiere den akkumulerte erfaringen fra tusenvis av reelle oppstartsbeslutninger.\""
+      }
+    },
+    "journey": {
+      "label": "Reisen",
+      "h2": "Fra dag 1 til dag 300 -<br>du vil tenke annerledes.",
+      "sub": "Helten er alltid gründeren. HypeShow er teamet ditt.",
+      "d1": { "dot": "Dag 1", "h4": "Teamet er klart", "q": "\"Det føles som min første dag i en ny jobb - bortsett fra at jeg er administrerende direktør eller styreleder, og hele teamet er allerede her og venter på meg.\"" },
+      "d7": { "dot": "Dag 7", "h4": "Første reelle beslutninger", "q": "\"De hjalp meg å finne ut ting jeg ikke kunne ha funnet ut av alene. Og beslutningene var riktige.\"" },
+      "d14": { "dot": "Dag 14", "h4": "Tenker som en gründer", "q": "\"Jeg ruter, bestemmer, gjennomgår. Jeg spør ikke bare - jeg leder.\"" },
+      "d30": { "dot": "Dag 30", "h4": "NPS-øyeblikket", "q": "\"Jeg må fortelle alle gründere jeg kjenner om dette. Suksessen føles som min egen - fordi den er det.\"" }
+    },
+    "pricing": {
+      "label": "Priser",
+      "h2": "Samme gode team.<br>Mer tid med dem.",
+      "sub": "Hvert nivå inkluderer det fulle teamet på 9 ekspert-AI-ledere med identisk opplæring og kvalitet. Forskjellen er hvor mye du kan bruke dem hver måned - målt i kreditter, valutaen for samarbeidet deres.",
+      "noteP": "<strong>Hver leder er like godt trent og like engasjert - uavhengig av planen din.</strong><br>Prisen gjenspeiler hvor mye du bruker dem, ikke hvor gode de er. Hver gründer får det samme ekspertteamet.",
+      "monthly": "Månedlig",
+      "annual": "Årlig",
+      "billedAnnually": "/mnd, faktureres årlig",
+      "save": "Spar 40%",
+      "permo": "/mnd",
+      "creditsLabel": "kreditter<br>per måned",
+      "allInclude": "Alle nivåer inkluderer:",
+      "growthPlus": "Alt i Starter, pluss:",
+      "partnerPlus": "Alt i Growth, pluss:",
+      "cta": "Kom i gang",
+      "starter": {
+        "tier": "Starter Suite",
+        "desc": "Ideell for tidlig utforskning og fokuserte sprinter. Hver kreditt dekker en full, meningsfull utveksling med en leder."
+      },
+      "growth": {
+        "badge": "Mest populær",
+        "tier": "Growth Suite",
+        "desc": "For gründere som aktivt bygger. Nok dybde for daglige lederinteraksjoner på tvers av alle domener."
+      },
+      "partner": {
+        "tier": "Partner Suite",
+        "desc": "For gründere i høyt tempo som kjører flere arbeidsstrømmer. Nesten ubegrenset daglig tilgang til hele lederteamet ditt."
+      },
+      "f": {
+        "all1": "Alle 9 ekspert AI-ledere",
+        "all2": "Full programvareutviklingsstøtte",
+        "all3": "Sprintstyring",
+        "all4": "Vedvarende samtaletråder",
+        "all5": "Forretningsplan og finansiell veiledning",
+        "all6": "Tilgang til Entrepreneur School",
+        "g1": "3x det månedlige kredittbudsjettet",
+        "g2": "Lengre, dypere samtaler",
+        "g3": "Flere samtidige aktive sprinter",
+        "g4": "Prioritert svarkø",
+        "p1": "2,5x Growth kredittbudsjett",
+        "p2": "Utvidet samtaleminne",
+        "p3": "Tidlig tilgang til Freelancer Marketplace",
+        "p4": "Pris låst i 2 år"
+      }
+    },
+    "about": {
+      "label": "Vår visjon",
+      "h2": "Vi mener alle gründere<br>fortjener et ekte team.",
+      "quote": "\"Jeg ønsket at alle gründere - unge eller erfarne, alene eller i en liten gruppe - skulle ha tilgang til det som bare er tilgjengelig for de med kontakter eller kapital: et ekte profesjonelt team som hjelper dem å vokse, lære og lykkes.\"",
+      "founderTitle": "Grunnlegger & styreleder, HypeShow",
+      "p1": "De beste oppstartsbedriftene lykkes ikke på grunn av én strålende person. De lykkes på grunn av <strong>et team som utfordrer, støtter og gjennomfører sammen.</strong> Frem til nå var dette teamet kun tilgjengelig for gründere med de rette kontaktene eller nok kapital.",
+      "p2": "HypeShow endrer dette. Vi er ikke her for å erstatte menneskelige team - vi er her for å <strong>bygge bro over gapet</strong> mellom \"Jeg har en idé\" og \"Jeg har et selskap\". Når du er klar til å ansette dine første ingeniører, designere og operatører, vil du allerede vite hvordan du skal lede dem - fordi du har gjort det med oss.",
+      "p3": "Vårt mål: å få hver gründer i det minste til å generere inntekter eller bli klar for investering, med ferdighetene, vanene og lederskapets selvtillit til å bygge noe varig som gjør godt i verden.",
+      "stat1": "Spesialiserte AI-ledere, hver med et definert domene og voksende ekspertise",
+      "stat2": "Ting som skjer samtidig: bygge, lære og forberede seg på å lede mennesker",
+      "stat3": "Teamet ditt er fullt operativt i det øyeblikket du blir med - ingen oppsett, ingen forsinkelse",
+      "stat4": "Jobber erstattet. HypeShow bygger bro til et ekte menneskelig team - ikke bort fra et."
+    },
+    "faq": {
+      "label": "FAQ",
+      "h2": "Vanlige spørsmål",
+      "q1": "Er dette virkelig AI, eller er det mennesker involvert?",
+      "a1": "Lederne er AI - spesialtrent for utfordringer i oppstartsbedrifter. Ingen mennesker står bak svarene. Det som gjør dem annerledes, er at de er bygget spesielt for din kontekst, ikke som generiske assistenter.",
+      "q2": "Hva skjer med ideene mine og samtalene mine?",
+      "a2": "Samtalene dine og åndsverkene dine tilhører deg i sin helhet. Vi bruker kun anonymiserte, aggregerte mønstre for å forbedre lederkvaliteten - aldri ditt spesifikke innhold. Prosjektet ditt er konfidensielt.",
+      "q3": "Erstatter HypeShow menneskelige medgründere eller ansatte?",
+      "a3": "Nei - og det er med vilje. HypeShow forbereder deg på å jobbe med et ekte menneskelig team. Jo bedre du blir med AI-lederne dine, desto mer klar er du til å lede faktiske mennesker.",
+      "q4": "Hva er en kreditt, nøyaktig?",
+      "a4": "En kreditt dekker en full, meningsfull utveksling med en leder - vanligvis et spørsmål, en analyse eller et oppgaveresultat. Starter-planen (200 kreditter) dekker komfortabelt daglig bruk for de fleste gründere i tidlig fase.",
+      "q5": "Kan jeg bytte plan eller avbryte når som helst?",
+      "a5": "Ja. Du kan oppgradere, nedgradere eller avbryte på slutten av en faktureringssyklus - ingen bindingstid, ingen straffegebyrer. Din akkumulerte ledererfaring bevares uavhengig av endringer i planen.",
+      "q6": "Hva om jeg har et lite team, ikke bare meg?",
+      "a6": "HypeShow er designet for solo-gründere, men fungerer også bra for små grunnlegger-team. Flerbrukerstøtte er på veikartet - ta kontakt hvis det er din situasjon."
+    },
+    "waitlist": {
+      "h2": "Vær blant de første.",
+      "p": "HypeShow er i beta. Legg igjen navn og e-post, så gir vi deg beskjed i det øyeblikket en plass åpner seg.",
+      "namePlaceholder": "Fornavnet ditt",
+      "emailPlaceholder": "E-postadressen din",
+      "btn": "Gi meg beskjed når den er klar",
+      "note": "Ingen spam. Én e-post når vi er klare for deg. Det er alt."
+    },
+    "cta": {
+      "label": "Klar?",
+      "h2": "Klar til å møte<br><em style=\"color:var(--coral);font-style:normal;\">teamet ditt?</em>",
+      "p": "Lederne dine er trent. Din første sprint venter. Det eneste som mangler er deg.",
+      "btn": "Bli med i Beta"
+    },
+    "footer": {
+      "copy": "© 2026 HypeShow. Med enerett."
+    }
+  }
+}

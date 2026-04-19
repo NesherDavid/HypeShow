@@ -1,0 +1,13 @@
+{
+  "officer_titles": {
+    "ceo": "CEO - Strategic company leader",
+    "coo": "COO - Daily operations management",
+    "cto": "CTO - Technology and architecture",
+    "cpo": "CPO - Product and UX",
+    "cmo": "CMO - Marketing, Brand & growth",
+    "cfo": "CFO - Financial strategy management",
+    "ciso": "CISO - Security protection",
+    "qa": "QA Lead - Product quality assurance",
+    "cpsyo": "CPsyO - Founder emotional wellbeing"
+  }
+}

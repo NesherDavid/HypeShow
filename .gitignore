@@ -1,0 +1,55 @@
+# ============================================================
+# HYPESHOW — .gitignore
+# Maintained by: Iftach (CISO)
+# Last updated: 2026-04-06
+# ============================================================
+
+# ── OFFICER PROMPTS & SKILLS (IP — Never in any repo) ──────
+.claude/skills/
+.claude/plans/
+.claude/sessions/
+.claude/history.jsonl
+
+# ── API KEYS & SECRETS ──────────────────────────────────────
+.env
+.env.local
+.env.production
+.env*.local
+*.pem
+secrets/
+*secret*
+*apikey*
+
+# ── NODE / SERVER ───────────────────────────────────────────
+node_modules/
+dist/
+.vercel/
+
+# ── SYSTEM FILES ────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── LOGS ────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── PYTHON ──────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.venv/
+venv/
+
+# ── LARGE BINARY ASSETS (use Git LFS for these) ─────────────
+# Team photo — 30MB. Tracked manually, not in git.
+assets/images/team/team-officers-v1.png
+# PDFs are generated artifacts — source files are in git; PDFs can be regenerated.
+# Uncomment the line below to exclude all PDFs from git:
+# *.pdf
+
+# ── CLAUDE MEMORY (personal, not shared) ────────────────────
+.claude/projects/
+.claude/memory/

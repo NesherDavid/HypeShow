@@ -1,0 +1,207 @@
+{
+  "de": {
+    "nav": {
+      "howItWorks": "Wie es funktioniert",
+      "theTeam": "Das Team",
+      "pricing": "Preise",
+      "about": "Über uns",
+      "faq": "FAQ",
+      "joinBeta": "Beta beitreten"
+    },
+    "hero": {
+      "label": "Jetzt in der Beta",
+      "h1": "Ihr Führungsteam.<br><em>Bereit ab Tag Eins.</em>",
+      "sub": "9 erfahrene KI-Führungskräfte arbeiten an Ihrer Seite – sie schreiben Code, definieren Ihr Produkt, entwerfen UX, planen Strategien, kümmern sich um Finanzen, Marketing und mehr. Kein Tool. Ein echtes Team.",
+      "cta1": "Der Beta beitreten",
+      "cta2": "Sehen, wie es funktioniert",
+      "stat1": "Erfahrene Führungskräfte",
+      "stat2": "Immer verfügbar",
+      "stat3": "Voll einsatzbereit",
+      "caption": "Jeder Gründer erhält ein einzigartiges Teamfoto – bereit zum Teilen auf den Social-Media-Kanälen Ihres Startups."
+    },
+    "problem": {
+      "label": "Das Problem",
+      "h2": "Sie haben die Vision.<br>Sie sollten sie nicht alleine umsetzen müssen.",
+      "sub": "Jede großartige Startup-Idee verdient ein echtes Team. Bisher war das nur für gut Vernetzte oder gut Finanzierte zugänglich.",
+      "c1": {
+        "h3": "Kein Mitgründer? Kein Problem.",
+        "p": "Den richtigen Partner zu finden dauert Jahre – und selbst dann hat er vielleicht nicht die Expertise, die Sie brauchen. HypeShow gibt Ihnen ab Tag eins 9 Spezialisten an die Hand."
+      },
+      "c2": {
+        "h3": "Sie können sich noch kein volles Team leisten.",
+        "p": "Eine einzelne leitende Führungskraft kostet 10.000$+ pro Monat. HypeShow bietet Ihnen eine komplette Führungsebene (C-Suite) – CEO, CTO, CFO, CMO und fünf weitere Spezialisten – zu einem Bruchteil davon."
+      },
+      "c3": {
+        "h3": "Sie wissen nicht, was Sie nicht wissen.",
+        "p": "Die größten Startup-Killer sind blinde Flecken. Unsere Führungskräfte haben das Know-how – und sie werden es Ihnen sagen, bevor es Sie alles kostet."
+      }
+    },
+    "value": {
+      "label": "Wie es funktioniert",
+      "h2": "Drei Dinge geschehen<br>gleichzeitig – immer.",
+      "sub": "HypeShow ist nicht nur ein Tool, das Sie nutzen. Es ist eine Umgebung, in der Sie wachsen.",
+      "c1": {
+        "h3": "Bauen Sie Ihr Startup auf",
+        "p": "Ihr Team kümmert sich um den gesamten Startup-Lebenszyklus – Produktspezifikation, UX-Design, Softwareentwicklung, Technologiearchitektur, Geschäftsplan, Finanzmodellierung, Markenstrategie und rechtliche Grundlagen. Ein echtes Produkt, richtig aufgebaut, vom Code bis zur Markteinführung und darüber hinaus."
+      },
+      "c2": {
+        "h3": "Lernen Sie beim Managen",
+        "p": "Sie lernen durch Handeln – der einzige Weg, der wirklich funktioniert. Stellen Sie sich vor, Sie hätten engagierte Fachmentoren und Führungskräfte in jedem Bereich, aber Sie sind derjenige, der Entscheidungen trifft, handelt und an der Seite Ihres Produkts wächst. Echte Erfahrung, in Echtzeit mit Top-Experten, die Ihre Vision verwirklichen."
+      },
+      "c3": {
+        "h3": "Werden Sie bereit, Menschen zu führen",
+        "p": "Wenn Sie bereit sind, Ihren ersten Ingenieur, Designer oder Operator einzustellen, wissen Sie bereits, wie man managt, delegiert und eine gesunde Teamkultur aufbaut. HypeShow bereitet Sie auf diesen Tag vor – und arbeitet weiter mit Ihnen, während Sie wachsen."
+      }
+    },
+    "team": {
+      "label": "Das Team",
+      "h2": "9 Führungskräfte. Ein Team.<br>Ganz für Sie. In Ihrer Sprache.",
+      "sub": "Jede Führungskraft hat einen definierten Bereich, eine echte Persönlichkeit und Erfahrung, die mit jedem Projekt wächst – Ihrem eigenen und dem aller anderen auf der Plattform.",
+      "chooseName": "Namen wählen",
+      "ceo": { "domain": "Sprint-Überwachung, strategisches Routing, Ihre primäre Schnittstelle. Hält jede Entscheidung mit dem großen Ganzen in Einklang." },
+      "coo": { "domain": "Prozesseffizienz, Sprint-Verfolgung, Ausführungszeitpläne. Wenn sich etwas bewegt – Yaniv kennt den Status." },
+      "cto": { "domain": "Architektur, Stack-Entscheidungen, vollständige Softwareentwicklung. Verwandelt die Produktvision in funktionierenden Code." },
+      "cpo": { "domain": "User Journeys, Funktionsdefinition, UX-Design. Ist besessen davon, was Benutzer bei jeder Interaktion fühlen." },
+      "cmo": { "domain": "Markenstimme, Inhaltsstrategie, Wachstumskanäle. \"Ehrgeizig, aber menschlich\" in jeder Nachricht, die wir senden." },
+      "cfo": { "domain": "Finanzmodelle, Preisstrategie, Runway-Management. Hält Ehrgeiz und Realität perfekt in Einklang." },
+      "ciso": { "domain": "Bedrohungsmodellierung, IP-Schutz, Datenschutz. Jede Funktion wird erst ausgeliefert, wenn sie wirklich sicher ist." },
+      "qa": { "domain": "Testing, Edge Cases, Barrierefreiheit. Nichts wird kaputt ausgeliefert. Benutzer merken sich, was nicht funktioniert." },
+      "cpsyo": { "domain": "Wohlbefinden der Gründer, Teamdynamik, emotionale Intelligenz. Ein Unternehmen aufzubauen ist schwer. Sie sollten sich dabei nicht allein fühlen." },
+      "quality": {
+        "h3": "Für Startups trainiert.<br>Nicht für Unternehmensbürokratie.",
+        "p": "Jede Führungskraft von HypeShow ist speziell für die spezifischen Herausforderungen von Startups in der Frühphase geschult. Sie verstehen Sprints, Pivots, Fundraising, MVPs und die emotionale Realität, etwas von Grund auf neu aufzubauen. Ihre Arbeit, Ihre Ideen und Ihre Gespräche sind streng vertraulich – sie werden niemals geteilt oder außerhalb Ihres Projekts verwendet."
+      },
+      "tags": {
+        "startupTrained": "Startup-geschult",
+        "proactive": "Proaktiv",
+        "honest": "Ehrlich",
+        "detailOriented": "Detailorientiert",
+        "alwaysAvailable": "Immer verfügbar",
+        "zeroEgo": "Null Ego",
+        "confidential": "Vertraulich",
+        "growsWith": "Wächst mit Ihnen"
+      }
+    },
+    "why": {
+      "label": "Warum HypeShow",
+      "h2": "Die Führungsebene, die Sie sich<br>nicht leisten konnten. Bis jetzt.",
+      "table": {
+        "headerHs": "✦ HypeShow",
+        "headerAlt": "Die Alternativen",
+        "r1": { "hs": "Für Startups geschulte Experten – von Ihnen geführt", "alt": "Generische KI-Tools ohne fachlichen Fokus" },
+        "r2": { "hs": "Baut, programmiert, managt, betreut – alles auf einmal", "alt": "Punktuelle Lösungen für isolierte Probleme" },
+        "r3": { "hs": "Bereitet Sie darauf vor, ein echtes menschliches Team zu führen", "alt": "Versucht, Ihr Team dauerhaft zu ersetzen" },
+        "r4": { "hs": "Wird mit jedem Projekt auf der Plattform intelligenter", "alt": "Beginnt bei jeder neuen Sitzung bei Null" },
+        "r5": { "hs": "Ihr Projekt ist streng vertraulich – immer", "alt": "Unklare Datenrichtlinien und IP-Eigentumsverhältnisse" },
+        "r6": { "hs": "Rund um die Uhr verfügbar, null Ego, brennt nie aus", "alt": "Mitgründer mit Zeitplänen, Launen und Eigenkapitalforderungen" },
+        "r7": { "hs": "Ein klarer Fahrplan: Von der Idee zum Unternehmen", "alt": "Keine Richtung, keine Meilensteine, kein Gefühl des Fortschritts" },
+        "r8": { "hs": "Führt Sie dazu, Ehrgeiz, Leben und Wohlbefinden in Einklang zu bringen", "alt": "Hustle-Kultur ohne Rücksicht auf den Menschen hinter dem Startup" }
+      },
+      "moat": {
+        "h3": "Die kollektive Wissensmaschine",
+        "p": "Jeder Unternehmer, der mit HypeShow arbeitet, erhält nicht nur Wert – er schafft ihn. Jede Entscheidung, jeder Sprint, jede gelernte Lektion macht unsere Führungskräfte für Ihren nächsten Tag, Ihren nächsten Sprint fähiger – und anpassungsfähiger für Sie und die gesamte Community.",
+        "quote": "\"Ein Konkurrent kann unseren Prompt kopieren. Er kann aber nicht die angesammelte Erfahrung aus Tausenden von echten Startup-Entscheidungen kopieren.\""
+      }
+    },
+    "journey": {
+      "label": "Die Reise",
+      "h2": "Von Tag 1 bis Tag 300 –<br>Sie werden anders denken.",
+      "sub": "Der Held ist immer der Unternehmer. HypeShow ist Ihr Team.",
+      "d1": { "dot": "Tag 1", "h4": "Das Team ist bereit", "q": "\"Es fühlt sich an wie mein erster Tag in einem neuen Job – außer dass ich der CEO oder Vorsitzende bin und das gesamte Team bereits hier ist und auf mich wartet.\"" },
+      "d7": { "dot": "Tag 7", "h4": "Erste echte Entscheidungen", "q": "\"Sie haben mir geholfen, Dinge herauszufinden, die ich alleine nicht hätte lösen können. Und die Entscheidungen waren richtig.\"" },
+      "d14": { "dot": "Tag 14", "h4": "Denken wie ein Gründer", "q": "\"Ich lenke, entscheide, überprüfe. Ich frage nicht nur – ich führe.\"" },
+      "d30": { "dot": "Tag 30", "h4": "Der NPS-Moment", "q": "\"Ich muss jedem Gründer, den ich kenne, davon erzählen. Der Erfolg fühlt sich wie meiner an – weil er es ist.\"" }
+    },
+    "pricing": {
+      "label": "Preise",
+      "h2": "Dasselbe großartige Team.<br>Mehr Zeit mit ihnen.",
+      "sub": "Jede Stufe beinhaltet das volle Team aus 9 erfahrenen KI-Führungskräften mit identischer Ausbildung und Qualität. Der Unterschied besteht darin, wie viel Sie diese jeden Monat nutzen können – gemessen in Credits, der Währung für Ihre Zusammenarbeit.",
+      "monthly": "Monatlich",
+      "annual": "Jährlich",
+      "billedAnnually": "/Monat, jährlich abgerechnet",
+      "save": "Sparen Sie 40%",
+      "permo": "/Monat",
+      "creditsLabel": "Credits<br>pro Monat",
+      "allInclude": "Alle Stufen beinhalten:",
+      "growthPlus": "Alles in Starter, plus:",
+      "partnerPlus": "Alles in Growth, plus:",
+      "noteP": "<strong>Jede Führungskraft ist gleichermaßen geschult und engagiert – unabhängig von Ihrem Plan.</strong><br>Der Preis spiegelt wider, wie oft Sie sie nutzen, nicht wie gut sie sind. Jeder Gründer bekommt dasselbe Expertenteam.",
+      "cta": "Loslegen",
+      "starter": {
+        "tier": "Starter Suite",
+        "desc": "Ideal für frühe Erkundungen und fokussierte Sprints. Ein Credit deckt einen vollständigen, bedeutungsvollen Austausch mit einer Führungskraft ab."
+      },
+      "growth": {
+        "badge": "Am beliebtesten",
+        "tier": "Growth Suite",
+        "desc": "Für Gründer, die aktiv aufbauen. Genügend Tiefe für tägliche Interaktionen mit Führungskräften in allen Bereichen."
+      },
+      "partner": {
+        "tier": "Partner Suite",
+        "desc": "Für sehr schnelle Gründer, die mehrere Workstreams leiten. Nahezu unbegrenzter täglicher Zugriff auf Ihr gesamtes Führungsteam."
+      },
+      "f": {
+        "all1": "Alle 9 erfahrenen KI-Führungskräfte",
+        "all2": "Volle Unterstützung bei der Softwareentwicklung",
+        "all3": "Sprint-Management",
+        "all4": "Beständige Konversationsstränge",
+        "all5": "Geschäftsplan & finanzielle Beratung",
+        "all6": "Zugang zur Entrepreneur School",
+        "g1": "3-faches monatliches Credit-Budget",
+        "g2": "Längere, tiefere Gespräche",
+        "g3": "Mehr gleichzeitige aktive Sprints",
+        "g4": "Priorisierte Antwortwarteschlange",
+        "p1": "2,5-faches Growth-Credit-Budget",
+        "p2": "Erweitertes Konversationsgedächtnis",
+        "p3": "Frühzeitiger Zugang zum Freelancer-Marktplatz",
+        "p4": "Preis für 2 Jahre gesichert"
+      }
+    },
+    "about": {
+      "label": "Unsere Vision",
+      "h2": "Wir glauben, dass jeder Gründer<br>ein echtes Team verdient.",
+      "p1": "Die besten Startups sind nicht wegen einer brillanten Person erfolgreich. Sie sind erfolgreich durch <strong>ein Team, das sich gegenseitig herausfordert, unterstützt und gemeinsam umsetzt.</strong> Bis jetzt war dieses Team nur Gründern mit den richtigen Kontakten oder genug Kapital zugänglich.",
+      "p2": "HypeShow ändert das. Wir sind nicht hier, um menschliche Teams zu ersetzen – wir sind hier, um <strong>die Lücke zu schließen</strong> zwischen \"Ich habe eine Idee\" und \"Ich habe ein Unternehmen\". Wenn Sie bereit sind, Ihre ersten Ingenieure, Designer und Operatoren einzustellen, wissen Sie bereits, wie man sie führt – weil Sie es mit uns zusammen getan haben.",
+      "p3": "Unser Ziel: Jeden Unternehmer mindestens in die Phase der Umsatzgenerierung oder Investitionsreife zu bringen, mit den Fähigkeiten, Gewohnheiten und dem Selbstvertrauen in die eigene Führung, um etwas aufzubauen, das Bestand hat und der Welt Gutes tut.",
+      "stat1": "Spezialisierte KI-Führungskräfte, jeder mit einem definierten Bereich und wachsender Expertise",
+      "stat2": "Dinge, die gleichzeitig geschehen: Aufbauen, Lernen und sich auf die Führung von Menschen vorbereiten",
+      "stat3": "Ihr Team ist sofort voll einsatzbereit, sobald Sie beitreten – keine Einrichtung, keine Verzögerung",
+      "stat4": "Ersetzte Jobs. HypeShow ist Ihre Brücke zu einem echten menschlichen Team – nicht weg von einem.",
+      "quote": "\"Ich wollte, dass jeder Unternehmer – ob jung oder erfahren, solo oder in einer kleinen Gruppe – Zugang zu dem hat, was sonst nur denen mit Kontakten oder Kapital zur Verfügung steht: ein echtes professionelles Team, das ihm hilft zu wachsen, zu lernen und erfolgreich zu sein.\"",
+      "founderTitle": "Gründer & Vorsitzender, HypeShow"
+    },
+    "faq": {
+      "label": "FAQ",
+      "h2": "Häufige Fragen",
+      "q1": "Ist das wirklich KI, oder sind Menschen involviert?",
+      "a1": "Die Führungskräfte sind KI – speziell für die Herausforderungen von Startups trainiert. Es stecken keine Menschen hinter den Antworten. Was sie besonders macht, ist, dass sie spezifisch für Ihren Kontext entwickelt wurden, nicht als generische Assistenten.",
+      "q2": "Was passiert mit meinen Ideen und Gesprächen?",
+      "a2": "Ihre Gespräche und Ihr geistiges Eigentum gehören vollständig Ihnen. Wir verwenden nur anonymisierte, aggregierte Muster, um die Qualität der Führungskräfte zu verbessern – niemals Ihre spezifischen Inhalte. Ihr Projekt ist vertraulich.",
+      "q3": "Ersetzt HypeShow menschliche Mitgründer oder Mitarbeiter?",
+      "a3": "Nein – und das ist Absicht. HypeShow bereitet Sie auf die Arbeit mit einem echten menschlichen Team vor. Je besser Sie mit Ihren KI-Führungskräften werden, desto bereiter sind Sie, echte Menschen zu führen.",
+      "q4": "Was genau ist ein Credit?",
+      "a4": "Ein Credit deckt einen vollständigen, bedeutungsvollen Austausch mit einer Führungskraft ab – typischerweise eine Frage, eine Analyse oder ein Aufgabenergebnis. Der Starter-Plan (200 Credits) deckt bequem die tägliche Nutzung für die meisten Gründer in der Frühphase ab.",
+      "q5": "Kann ich jederzeit den Plan wechseln oder kündigen?",
+      "a5": "Ja. Sie können am Ende jedes Abrechnungszyklus ein Upgrade oder Downgrade durchführen oder kündigen – keine Bindung, keine Strafen. Ihre angesammelte Führungserfahrung bleibt unabhängig von Planänderungen erhalten.",
+      "q6": "Was ist, wenn ich ein kleines Team habe und nicht nur alleine bin?",
+      "a6": "HypeShow ist für Solo-Gründer konzipiert, funktioniert aber auch hervorragend für kleine Gründerteams. Multi-User-Unterstützung ist auf der Roadmap – melden Sie sich, wenn das auf Sie zutrifft."
+    },
+    "waitlist": {
+      "h2": "Gehören Sie zu den Ersten.",
+      "p": "HypeShow befindet sich in der Beta-Phase. Hinterlassen Sie Ihren Namen und Ihre E-Mail-Adresse und wir benachrichtigen Sie, sobald ein Platz frei wird.",
+      "namePlaceholder": "Ihr Vorname",
+      "emailPlaceholder": "Ihre E-Mail-Adresse",
+      "btn": "Benachrichtigen Sie mich, wenn es bereit ist",
+      "note": "Kein Spam. Eine einzige E-Mail, wenn wir für Sie bereit sind. Das ist alles."
+    },
+    "cta": {
+      "label": "Bereit?",
+      "h2": "Bereit, <br><em style=\"color:var(--coral);font-style:normal;\">Ihr Team zu treffen?</em>",
+      "p": "Ihre Führungskräfte sind trainiert. Ihr erster Sprint wartet. Das Einzige, was fehlt, sind Sie.",
+      "btn": "Der Beta beitreten"
+    },
+    "footer": {
+      "copy": "© 2026 HypeShow. Alle Rechte vorbehalten."
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "hypeshow-preview",
+      "runtimeExecutable": "/usr/local/bin/node",
+      "runtimeArgs": ["design-preview/server.js"],
+      "port": 3456
+    },
+    {
+      "name": "landing-preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["landing-server.js"],
+      "port": 3457
+    }
+  ]
+}

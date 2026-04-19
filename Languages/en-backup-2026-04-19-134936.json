@@ -1,0 +1,177 @@
+{
+  "en": {
+    "nav": {
+      "howItWorks": "How It Works",
+      "theTeam": "The Team",
+      "pricing": "Pricing",
+      "about": "About",
+      "faq": "FAQ",
+      "joinBeta": "Join Beta"
+    },
+    "hero": {
+      "label": "Now in Beta",
+      "h1": "Your Executive Team.<br><em>Ready on Day One.</em>",
+      "sub": "9 expert AI executives work alongside you - writing code, defining your product, designing UX, planning strategy, handling finance, marketing and more. Not a tool. A real team.",
+      "cta1": "Join the Beta",
+      "cta2": "See How It Works",
+      "stat1": "Expert Executives",
+      "stat2": "Always Available",
+      "stat3": "Fully Operational",
+      "caption": "Every founder gets a unique team photo - ready to share on your startup's social media."
+    },
+    "problem": {
+      "label": "The Problem",
+      "h2": "You have the vision.<br>You shouldn't have to do it alone.",
+      "sub": "Every great startup idea deserves a real team. Until now, that was only available to the well-connected or well-funded.",
+      "c1": {
+        "h3": "No co-founder? No problem.",
+        "p": "Finding the right partner takes years - and they still might not have the expertise you need. HypeShow gives you 9 specialists from day one."
+      },
+      "c2": {
+        "h3": "Can't afford a full team yet.",
+        "p": "A single senior exec costs $10K+ per month. HypeShow gives you an entire C-suite - CEO, CTO, CFO, CMO, and five more specialists - for a fraction of that."
+      },
+      "c3": {
+        "h3": "Don't know what you don't know.",
+        "p": "The biggest startup killers are blind spots. Our executives have the know-how - and they'll tell you before it costs you everything."
+      }
+    },
+    "value": {
+      "label": "How It Works",
+      "h2": "Three things happening<br>at the same time - always.",
+      "sub": "HypeShow isn't just a tool you use. It's an environment you grow inside.",
+      "c1": {
+        "h3": "Build Your Startup",
+        "p": "Your team handles the full startup lifecycle - product spec, UX design, software development, tech architecture, business plan, financial modeling, brand strategy, and legal groundwork. A real product, built properly, from code to go-to-market and beyond."
+      },
+      "c2": {
+        "h3": "Learn While You Manage",
+        "p": "You learn by doing - the only way that actually sticks. Think of it as having dedicated expert mentors and executives in every domain, but you're the one making decisions, taking action, and growing alongside your product. Real experience, in real time with super experts realizing your vision."
+      },
+      "c3": {
+        "h3": "Become Ready to Lead Humans",
+        "p": "When you're ready to hire your first engineer, designer, or operator - you'll already know how to manage, delegate, and build healthy team culture. HypeShow prepares you for that day - and keeps working with you as you grow."
+      }
+    },
+    "team": {
+      "label": "The Team",
+      "h2": "9 Executives. One Team.<br>All Yours. In Your Language.",
+      "sub": "Each executive has a defined domain, a real personality, and experience that grows with every project - yours and everyone else's on the platform.",
+      "chooseName": "choose name",
+      "ceo": { "domain": "Sprint oversight, strategic routing, your primary interface. Keeps every decision aligned with the big picture." },
+      "coo": { "domain": "Process efficiency, sprint tracking, execution timelines. If it's moving - Yaniv knows its status." },
+      "cto": { "domain": "Architecture, stack decisions, full software development. Turns product vision into working code." },
+      "cpo": { "domain": "User journeys, feature definition, UX design. Obsesses over what users feel at every interaction." },
+      "cmo": { "domain": "Brand voice, content strategy, growth channels. \"Ambitious but human\" in every message we send." },
+      "cfo": { "domain": "Financial models, pricing strategy, runway management. Keeps ambition and reality perfectly aligned." },
+      "ciso": { "domain": "Threat modeling, IP protection, data privacy. Every feature ships only when it's genuinely safe." },
+      "qa": { "domain": "Testing, edge cases, accessibility. Nothing ships broken. Users remember what doesn't work." },
+      "cpsyo": { "domain": "Founder wellbeing, team dynamics, emotional intelligence. Building a company is hard. You shouldn't feel alone in it." },
+      "quality": {
+        "h3": "Trained for startups.<br>Not for corporate bureaucracy.",
+        "p": "Every HypeShow executive is purpose-trained for the specific challenges of early-stage startups. They understand sprints, pivots, fundraising, MVPs, and the emotional reality of building from scratch. Your work, your ideas, and your conversations are strictly confidential - never shared, never used outside your project."
+      }
+    },
+    "why": {
+      "label": "Why HypeShow",
+      "h2": "The executive suite you<br>couldn't afford. Until now.",
+      "moat": {
+        "h3": "The Collective Wisdom Engine",
+        "p": "Every entrepreneur who works with HypeShow doesn't just receive value - they create it. Every decision, every sprint, every lesson learned makes our executives more capable for your next day, your next sprint - and more adaptable for you and for the whole community.",
+        "quote": "\"A competitor can copy our prompt. They cannot copy the accumulated experience of thousands of real startup decisions.\""
+      }
+    },
+    "journey": {
+      "label": "The Journey",
+      "h2": "From Day 1 to Day 300 -<br>you'll think differently.",
+      "sub": "The hero is always the entrepreneur. HypeShow is your team.",
+      "d1": { "dot": "Day 1", "h4": "The Team is Ready", "q": "\"It feels like my first day at a new job - except I'm the CEO or the Chairman, and the whole team is already here, waiting for me.\"" },
+      "d7": { "dot": "Day 7", "h4": "First Real Decisions", "q": "\"They helped me figure out things I couldn't have figured out alone. And the calls were right.\"" },
+      "d14": { "dot": "Day 14", "h4": "Thinking Like a Founder", "q": "\"I'm routing, deciding, reviewing. I'm not just asking - I'm leading.\"" },
+      "d30": { "dot": "Day 30", "h4": "The NPS Moment", "q": "\"I have to tell every founder I know about this. The success feels like mine - because it is.\"" }
+    },
+    "pricing": {
+      "label": "Pricing",
+      "h2": "Same great team.<br>More time with them.",
+      "sub": "Every tier includes the full team of 9 expert executives with identical training and quality. The difference is how much you can use them each month - measured in credits, the currency of your work together.",
+      "monthly": "Monthly",
+      "annual": "Annual",
+      "billedAnnually": "/mo, billed annually",
+      "save": "Save 40%",
+      "permo": "/mo",
+      "creditsLabel": "credits<br>per month",
+      "allInclude": "All tiers include:",
+      "growthPlus": "Everything in Starter, plus:",
+      "partnerPlus": "Everything in Growth, plus:",
+      "cta": "Get Started",
+      "starter": {
+        "tier": "Starter Suite",
+        "desc": "Ideal for early exploration and focused sprints. Each credit covers a full, meaningful exchange with an executive."
+      },
+      "growth": {
+        "badge": "Most Popular",
+        "tier": "Growth Suite",
+        "desc": "For founders who are actively building. Enough depth for daily executive interactions across all domains."
+      },
+      "partner": {
+        "tier": "Partner Suite",
+        "desc": "For high-velocity founders running multiple workstreams. Near-unlimited daily access to your full executive team."
+      },
+      "f": {
+        "all1": "All 9 expert AI executives",
+        "all2": "Full software development support",
+        "all3": "Sprint management",
+        "all4": "Persistent conversation threads",
+        "all5": "Business plan & financial guidance",
+        "all6": "Entrepreneur School access",
+        "g1": "3x the monthly credit budget",
+        "g2": "Longer, deeper conversations",
+        "g3": "More simultaneous active sprints",
+        "g4": "Priority response queue",
+        "p1": "2.5x the Growth credit budget",
+        "p2": "Extended conversation memory",
+        "p3": "Freelancer Marketplace early access",
+        "p4": "Price locked for 2 years"
+      }
+    },
+    "about": {
+      "label": "Our Vision",
+      "h2": "We believe every founder<br>deserves a real team.",
+      "quote": "\"I wanted every entrepreneur - young or seasoned, solo or in a small group - to have access to what's only available to those with connections or capital: a real professional team that helps them grow, learn, and succeed.\"",
+      "founderTitle": "Founder & Chairman, HypeShow"
+    },
+    "faq": {
+      "label": "FAQ",
+      "h2": "Common Questions",
+      "q1": "Is this really AI, or are there humans involved?",
+      "a1": "The executives are AI - purpose-trained for startup challenges. No humans are behind the responses. What makes them different is that they're built specifically for your context, not generic assistants.",
+      "q2": "What happens to my ideas and conversations?",
+      "a2": "Your conversations and intellectual property belong entirely to you. We use only anonymized, aggregated patterns to improve executive quality - never your specific content. Your project is confidential.",
+      "q3": "Is HypeShow replacing human co-founders or employees?",
+      "a3": "No - and that's intentional. HypeShow prepares you to work with a real human team. The better you get with your AI executives, the more ready you are to lead actual people.",
+      "q4": "What is a credit, exactly?",
+      "a4": "One credit covers a full, meaningful exchange with an executive - typically a question, analysis, or task result. The Starter plan (200 credits) comfortably covers daily use for most early-stage founders.",
+      "q5": "Can I switch plans or cancel anytime?",
+      "a5": "Yes. You can upgrade, downgrade, or cancel at the end of any billing cycle - no lock-in, no penalties. Your accumulated executive experience is preserved regardless of plan changes.",
+      "q6": "What if I have a small team, not just me?",
+      "a6": "HypeShow is designed for solo founders but works great for small founding teams too. Multi-user support is on the roadmap - reach out if that's your situation."
+    },
+    "waitlist": {
+      "h2": "Be Among the First.",
+      "p": "HypeShow is in beta. Leave your name and email and we'll notify you the moment a spot opens up.",
+      "namePlaceholder": "Your first name",
+      "emailPlaceholder": "Your email address",
+      "btn": "Notify Me When It's Ready",
+      "note": "No spam. One email when we're ready for you. That's it."
+    },
+    "cta": {
+      "label": "Ready?",
+      "h2": "Ready to meet<br><em style=\"color:var(--coral);font-style:normal;\">your team?</em>",
+      "p": "Your executives are trained. Your first sprint is waiting. The only thing missing is you.",
+      "btn": "Join the Beta"
+    },
+    "footer": {
+      "copy": "© 2026 HypeShow. All rights reserved."
+    }
+  }
+}

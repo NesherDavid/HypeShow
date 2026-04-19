@@ -1,0 +1,205 @@
+{
+  "fr": {
+    "nav": {
+      "howItWorks": "Comment ça marche",
+      "theTeam": "L'Équipe",
+      "pricing": "Tarifs",
+      "about": "À propos",
+      "faq": "FAQ",
+      "joinBeta": "Rejoindre la Bêta"
+    },
+    "hero": {
+      "label": "Actuellement en Bêta",
+      "h1": "Votre équipe de direction.<br><em>Prête dès le premier jour.</em>",
+      "sub": "9 cadres experts en IA travaillent à vos côtés : écriture de code, définition de votre produit, conception de l'UX, planification stratégique, gestion financière, marketing, etc. Pas un outil. Une vraie équipe.",
+      "cta1": "Rejoindre la Bêta",
+      "cta2": "Voir comment ça marche",
+      "stat1": "Cadres experts",
+      "stat2": "Toujours disponibles",
+      "stat3": "Totalement opérationnels",
+      "caption": "Chaque fondateur obtient une photo d'équipe unique, prête à être partagée sur les réseaux sociaux de votre startup."
+    },
+    "problem": {
+      "label": "Le Problème",
+      "h2": "Vous avez la vision.<br>Vous ne devriez pas avoir à le faire seul.",
+      "sub": "Toute grande idée de startup mérite une véritable équipe. Jusqu'à présent, cela n'était accessible qu'aux personnes bien connectées ou bien financées.",
+      "c1": {
+        "h3": "Pas de co-fondateur ? Pas de problème.",
+        "p": "Trouver le bon partenaire prend des années – et ils pourraient toujours ne pas avoir l'expertise dont vous avez besoin. HypeShow vous offre 9 spécialistes dès le premier jour."
+      },
+      "c2": {
+        "h3": "Pas encore les moyens pour une équipe complète.",
+        "p": "Un seul cadre supérieur coûte plus de 10 000 $ par mois. HypeShow vous donne accès à toute une direction (CEO, CTO, CFO, CMO et cinq autres spécialistes) pour une fraction de ce prix."
+      },
+      "c3": {
+        "h3": "Vous ne savez pas ce que vous ignorez.",
+        "p": "Les angles morts sont les plus grands tueurs de startups. Nos cadres ont le savoir-faire – et ils vous avertiront avant que cela ne vous coûte tout."
+      }
+    },
+    "value": {
+      "label": "Comment ça marche",
+      "h2": "Trois choses se produisent<br>en même temps – toujours.",
+      "sub": "HypeShow n'est pas seulement un outil que vous utilisez. C'est un environnement dans lequel vous grandissez.",
+      "c1": {
+        "h3": "Construisez votre Startup",
+        "p": "Votre équipe gère tout le cycle de vie de la startup : spécifications produit, design UX, développement logiciel, architecture technique, business plan, modélisation financière, stratégie de marque et bases juridiques. Un vrai produit, construit correctement, du code à la mise sur le marché et au-delà."
+      },
+      "c2": {
+        "h3": "Apprenez en dirigeant",
+        "p": "Vous apprenez par la pratique – la seule méthode qui fonctionne vraiment. Voyez-le comme le fait d'avoir des mentors experts et des cadres dédiés dans chaque domaine, mais c'est vous qui prenez les décisions, agissez et grandissez aux côtés de votre produit. Une véritable expérience, en temps réel avec de super experts qui réalisent votre vision."
+      },
+      "c3": {
+        "h3": "Devenez prêt à diriger des humains",
+        "p": "Lorsque vous serez prêt à embaucher votre premier ingénieur, designer ou opérateur, vous saurez déjà comment gérer, déléguer et bâtir une culture d'équipe saine. HypeShow vous prépare pour ce jour – et continue de travailler avec vous tout au long de votre croissance."
+      }
+    },
+    "team": {
+      "label": "L'Équipe",
+      "h2": "9 Cadres. Une Équipe.<br>Toute à vous. Dans votre langue.",
+      "sub": "Chaque cadre a un domaine défini, une vraie personnalité et une expérience qui grandit à chaque projet – le vôtre et celui de tous les autres sur la plateforme.",
+      "chooseName": "choisir un nom",
+      "ceo": { "domain": "Supervision des sprints, orientation stratégique, votre interface principale. Maintient chaque décision alignée avec la vision globale." },
+      "coo": { "domain": "Efficacité des processus, suivi des sprints, délais d'exécution. Si ça bouge, Yaniv en connaît le statut." },
+      "cto": { "domain": "Architecture, décisions technologiques, développement logiciel complet. Transforme la vision du produit en code fonctionnel." },
+      "cpo": { "domain": "Parcours utilisateur, définition des fonctionnalités, design UX. Obsédé par ce que les utilisateurs ressentent à chaque interaction." },
+      "cmo": { "domain": "Ton de la marque, stratégie de contenu, canaux de croissance. « Ambitieux mais humain » dans chaque message que nous envoyons." },
+      "cfo": { "domain": "Modèles financiers, stratégie de prix, gestion de la trésorerie. Maintient l'ambition et la réalité parfaitement alignées." },
+      "ciso": { "domain": "Modélisation des menaces, protection de la PI, confidentialité des données. Chaque fonctionnalité n'est publiée que lorsqu'elle est véritablement sécurisée." },
+      "qa": { "domain": "Tests, cas limites, accessibilité. Rien de cassé n'est publié. Les utilisateurs se souviennent de ce qui ne fonctionne pas." },
+      "cpsyo": { "domain": "Bien-être du fondateur, dynamique d'équipe, intelligence émotionnelle. Créer une entreprise est difficile. Vous ne devriez pas vous sentir seul." },
+      "quality": {
+        "h3": "Entraînés pour les startups.<br>Pas pour la bureaucratie corporative.",
+        "p": "Chaque cadre HypeShow est spécialement formé pour les défis spécifiques des startups en phase d'amorçage. Ils comprennent les sprints, les pivots, les levées de fonds, les MVP et la réalité émotionnelle de partir de zéro. Votre travail, vos idées et vos conversations sont strictement confidentiels – jamais partagés, jamais utilisés en dehors de votre projet."
+      },
+      "tags": {
+        "startupTrained": "Formé pour les Startups",
+        "proactive": "Proactif",
+        "honest": "Honnête",
+        "detailOriented": "Soucieux du Détail",
+        "alwaysAvailable": "Toujours Disponible",
+        "zeroEgo": "Zéro Égo",
+        "confidential": "Confidentiel",
+        "growsWith": "Grandit Avec Vous"
+      }
+    },
+    "why": {
+      "label": "Pourquoi HypeShow",
+      "h2": "L'équipe de direction que vous ne<br>pouviez pas vous offrir. Jusqu'à maintenant.",
+      "table": {
+        "headerHs": "✦ HypeShow",
+        "headerAlt": "Les Alternatives",
+        "r1": { "hs": "Des cadres experts formés pour les startups - dirigés par vous", "alt": "Des outils d'IA génériques sans spécialisation" },
+        "r2": { "hs": "Construit, code, gère, conseille - tout à la fois", "alt": "Solutions ponctuelles pour des problèmes isolés" },
+        "r3": { "hs": "Vous prépare à diriger une véritable équipe humaine", "alt": "Tente de remplacer définitivement votre équipe" },
+        "r4": { "hs": "Devient plus intelligent avec chaque projet sur la plateforme", "alt": "Repart de zéro à chaque nouvelle session" },
+        "r5": { "hs": "Votre projet est totalement confidentiel - toujours", "alt": "Politiques de données et propriété intellectuelle floues" },
+        "r6": { "hs": "Disponible 24/7, zéro égo, ne fait jamais de burn-out", "alt": "Des co-fondateurs avec des contraintes d'horaires, d'humeur et d'équité" },
+        "r7": { "hs": "Une feuille de route claire : de l'idée à l'entreprise", "alt": "Aucune direction, aucune étape clé, aucun sentiment de progression" },
+        "r8": { "hs": "Vous guide pour équilibrer ambition, vie et bien-être", "alt": "Culture de la « Hustle » sans égard pour l'humain derrière la startup" }
+      },
+      "moat": {
+        "h3": "Le Moteur de Sagesse Collective",
+        "p": "Chaque entrepreneur qui travaille avec HypeShow ne reçoit pas seulement de la valeur – il en crée. Chaque décision, chaque sprint, chaque leçon apprise rend nos cadres plus compétents pour votre lendemain, votre prochain sprint – et plus adaptables pour vous et pour l'ensemble de la communauté.",
+        "quote": "\"Un concurrent peut copier notre prompt. Ils ne peuvent pas copier l'expérience accumulée de milliers de vraies décisions de startups.\""
+      }
+    },
+    "journey": {
+      "label": "Le Parcours",
+      "h2": "Du Jour 1 au Jour 300 -<br>vous penserez différemment.",
+      "sub": "Le héros est toujours l'entrepreneur. HypeShow est votre équipe.",
+      "d1": { "dot": "Jour 1", "h4": "L'Équipe est Prête", "q": "\"C'est comme mon premier jour dans un nouveau travail – sauf que je suis le CEO ou le Président, et que toute l'équipe est déjà là, à m'attendre.\"" },
+      "d7": { "dot": "Jour 7", "h4": "Premières Vraies Décisions", "q": "\"Ils m'ont aidé à comprendre des choses que je n'aurais pas pu comprendre seul. Et les décisions étaient bonnes.\"" },
+      "d14": { "dot": "Jour 14", "h4": "Penser comme un Fondateur", "q": "\"J'oriente, je décide, j'évalue. Je ne fais pas que demander – je dirige.\"" },
+      "d30": { "dot": "Jour 30", "h4": "Le Moment NPS", "q": "\"Je dois en parler à tous les fondateurs que je connais. Le succès semble être le mien – parce que c'est le cas.\"" }
+    },
+    "pricing": {
+      "label": "Tarifs",
+      "h2": "La même super équipe.<br>Plus de temps avec eux.",
+      "sub": "Chaque niveau comprend l'équipe complète de 9 cadres experts en IA avec une formation et une qualité identiques. La différence réside dans la fréquence à laquelle vous pouvez les utiliser chaque mois - mesurée en crédits, la monnaie de votre travail ensemble.",
+      "noteP": "<strong>Chaque cadre est tout aussi bien formé et impliqué - quel que soit votre forfait.</strong><br>Le prix reflète votre fréquence d'utilisation, pas leur niveau de compétence. Chaque fondateur bénéficie de la même équipe d'experts.",
+      "monthly": "Mensuel",
+      "save": "Économisez 40%",
+      "permo": "/mois",
+      "creditsLabel": "crédits<br>par mois",
+      "allInclude": "Tous les forfaits incluent :",
+      "growthPlus": "Tout ce qui est dans Starter, plus :",
+      "partnerPlus": "Tout ce qui est dans Growth, plus :",
+      "cta": "Commencer",
+      "starter": {
+        "tier": "Suite Starter",
+        "desc": "Idéal pour l'exploration initiale et les sprints ciblés. Chaque crédit couvre un échange complet et significatif avec un cadre."
+      },
+      "growth": {
+        "badge": "Le Plus Populaire",
+        "tier": "Suite Growth",
+        "desc": "Pour les fondateurs qui construisent activement. Suffisamment de profondeur pour des interactions quotidiennes avec les cadres dans tous les domaines."
+      },
+      "partner": {
+        "tier": "Suite Partner",
+        "desc": "Pour les fondateurs à haute vélocité gérant plusieurs flux de travail. Accès quotidien quasi illimité à toute votre équipe de direction."
+      },
+      "f": {
+        "all1": "Les 9 cadres experts en IA",
+        "all2": "Support complet de développement logiciel",
+        "all3": "Gestion des sprints",
+        "all4": "Fils de conversation persistants",
+        "all5": "Business plan et conseils financiers",
+        "all6": "Accès à l'École des Entrepreneurs",
+        "g1": "Budget de crédits mensuel x3",
+        "g2": "Conversations plus longues et plus approfondies",
+        "g3": "Plus de sprints actifs simultanés",
+        "g4": "File d'attente de réponse prioritaire",
+        "p1": "Budget de crédits Growth x2.5",
+        "p2": "Mémoire de conversation étendue",
+        "p3": "Accès anticipé à la Marketplace Freelance",
+        "p4": "Prix bloqué pendant 2 ans"
+      }
+    },
+    "about": {
+      "label": "Notre Vision",
+      "h2": "Nous croyons que chaque fondateur<br>mérite une vraie équipe.",
+      "quote": "\"Je voulais que chaque entrepreneur – jeune ou expérimenté, seul ou en petit groupe – ait accès à ce qui n'est disponible que pour ceux qui ont des relations ou des capitaux : une véritable équipe professionnelle qui les aide à grandir, à apprendre et à réussir.\"",
+      "founderTitle": "Fondateur et Président, HypeShow",
+      "p1": "Les meilleures startups ne réussissent pas grâce à une seule personne brillante. Elles réussissent grâce à <strong>une équipe qui se remet en question, se soutient et exécute ensemble.</strong> Jusqu'à présent, cette équipe n'était accessible qu'aux fondateurs ayant les bonnes relations ou suffisamment de capitaux.",
+      "p2": "HypeShow change la donne. Nous ne sommes pas là pour remplacer les équipes humaines - nous sommes là pour <strong>combler le vide</strong> entre « J'ai une idée » et « J'ai une entreprise ». Lorsque vous serez prêt à embaucher vos premiers ingénieurs, designers et opérateurs, vous saurez déjà comment les diriger - parce que vous l'aurez fait avec nous.",
+      "p3": "Notre objectif : amener chaque entrepreneur au moins au stade de la génération de revenus ou de la préparation à l'investissement, avec les compétences, les habitudes et la confiance en leadership pour bâtir quelque chose de durable et d'utile pour le monde.",
+      "stat1": "Des cadres IA spécialisés, chacun avec un domaine défini et une expertise croissante",
+      "stat2": "Des choses qui se produisent simultanément : construire, apprendre et se préparer à diriger des humains",
+      "stat3": "Votre équipe est pleinement opérationnelle dès votre inscription - pas de configuration, pas de délai",
+      "stat4": "Emplois remplacés. HypeShow vous rapproche d'une vraie équipe humaine - il ne vous en éloigne pas."
+    },
+    "faq": {
+      "label": "FAQ",
+      "h2": "Questions Fréquentes",
+      "q1": "Est-ce vraiment de l'IA, ou y a-t-il des humains impliqués ?",
+      "a1": "Les cadres sont des IA – spécialement entraînées pour les défis des startups. Aucun humain ne se cache derrière les réponses. Ce qui les différencie, c'est qu'ils sont conçus spécifiquement pour votre contexte, et non comme des assistants génériques.",
+      "q2": "Qu'advient-il de mes idées et de mes conversations ?",
+      "a2": "Vos conversations et votre propriété intellectuelle vous appartiennent entièrement. Nous n'utilisons que des modèles anonymisés et agrégés pour améliorer la qualité des cadres – jamais votre contenu spécifique. Votre projet est confidentiel.",
+      "q3": "HypeShow remplace-t-il les co-fondateurs ou employés humains ?",
+      "a3": "Non – et c'est intentionnel. HypeShow vous prépare à travailler avec une vraie équipe humaine. Plus vous serez à l'aise avec vos cadres IA, plus vous serez prêt à diriger de vraies personnes.",
+      "q4": "Qu'est-ce qu'un crédit, exactement ?",
+      "a4": "Un crédit couvre un échange complet et significatif avec un cadre – généralement une question, une analyse ou le résultat d'une tâche. Le plan Starter (200 crédits) couvre confortablement une utilisation quotidienne pour la plupart des fondateurs en phase de démarrage.",
+      "q5": "Puis-je changer de plan ou annuler à tout moment ?",
+      "a5": "Oui. Vous pouvez passer à un forfait supérieur ou inférieur, ou annuler à la fin de n'importe quel cycle de facturation – sans engagement, sans pénalités. Votre expérience exécutive accumulée est préservée quels que soient les changements de forfait.",
+      "q6": "Et si j'ai une petite équipe, et non pas seulement moi ?",
+      "a6": "HypeShow est conçu pour les fondateurs solo mais fonctionne très bien pour les petites équipes fondatrices. Le support multi-utilisateurs est prévu dans la feuille de route – contactez-nous si c'est votre situation."
+    },
+    "waitlist": {
+      "h2": "Soyez parmi les premiers.",
+      "p": "HypeShow est en version bêta. Laissez votre nom et votre e-mail et nous vous informerons dès qu'une place se libérera.",
+      "namePlaceholder": "Votre prénom",
+      "emailPlaceholder": "Votre adresse e-mail",
+      "btn": "Notifiez-moi quand ce sera prêt",
+      "note": "Pas de spam. Un seul e-mail quand nous serons prêts pour vous. C'est tout."
+    },
+    "cta": {
+      "label": "Prêt ?",
+      "h2": "Prêt à rencontrer<br><em style=\"color:var(--coral);font-style:normal;\">votre équipe ?</em>",
+      "p": "Vos cadres sont entraînés. Votre premier sprint vous attend. La seule chose qui manque, c'est vous.",
+      "btn": "Rejoindre la Bêta"
+    },
+    "footer": {
+      "copy": "© 2026 HypeShow. Tous droits réservés."
+    }
+  }
+}
