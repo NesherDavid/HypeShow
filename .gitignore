@@ -44,7 +44,7 @@ __pycache__/
 venv/
 
 # ── LARGE BINARY ASSETS (use Git LFS for these) ─────────────
-# Team photo — 30MB. Tracked manually, not in git.
+# Team photo — 30MB original. NOT in git. Use team-officers-v1-web.jpg instead.
 assets/images/team/team-officers-v1.png
 # PDFs are generated artifacts — source files are in git; PDFs can be regenerated.
 # Uncomment the line below to exclude all PDFs from git:
