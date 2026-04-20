@@ -1,4 +1,5 @@
 {
+  "cleanUrls": true,
   "rewrites": [
     { "source": "/", "destination": "/02_MARKETING_ASSETS/marketing-foundation/index.html" }
   ]
