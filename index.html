@@ -320,7 +320,7 @@
     /* RESPONSIVE */
     @media (max-width: 960px) {
       #hero { grid-template-columns: 1fr; padding-top: 100px; display: flex; flex-direction: column; }
-      .hero-image-col { order: -1; margin-bottom: 40px; }
+      .hero-image-col { order: -1; margin-bottom: 20px; }
       .hero-image-wrap { display: block; max-height: 300px; }
       .problem-grid, .value-grid, .officers-grid { grid-template-columns: 1fr 1fr; }
       .journey-timeline { grid-template-columns: 1fr 1fr; }
@@ -405,14 +405,6 @@
 
   <div class="drawer-sep"></div>
 
-  <div>
-    <div class="drawer-label" data-i18n="ui.theme"></div>
-    <div class="theme-row">
-      <button class="theme-btn active" id="theme-dark" onclick="setTheme('dark')" data-i18n="ui.dark"></button>
-      <button class="theme-btn" id="theme-light" onclick="setTheme('light')" data-i18n="ui.light"></button>
-    </div>
-  </div>
-
 </div>
 
 <!-- HERO -->
@@ -442,7 +434,6 @@
         </div>
       </div>
     </div>
-    <p class="hero-image-caption" data-i18n="hero.caption"></p>
   </div>
 </section>
 
