@@ -338,7 +338,10 @@
       .problem-grid, .value-grid, .officers-grid { grid-template-columns: 1fr; }
       section { padding: 10px 5%; }
       .footer-links { flex-wrap: wrap; gap: 16px; }
-      .hero-stats { gap: 16px; margin-top: 24px; flex-wrap: nowrap; }
+      .hero-stats { gap: 0; margin-top: 24px; flex-wrap: nowrap; justify-content: space-between; width: 100%; }
+      .stat { align-items: center; }
+      .stat:first-child { align-items: flex-end; }
+      .stat:last-child { align-items: flex-start; }
       .stat-num { font-size: 22px; }
       .stat-label { font-size: 11px; }
     }
