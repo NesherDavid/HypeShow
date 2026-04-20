@@ -319,8 +319,9 @@
 
     /* RESPONSIVE */
     @media (max-width: 960px) {
-      #hero { grid-template-columns: 1fr; padding-top: 100px; }
-      .hero-image-wrap { display: none; }
+      #hero { grid-template-columns: 1fr; padding-top: 100px; display: flex; flex-direction: column; }
+      .hero-image-col { order: -1; margin-bottom: 40px; }
+      .hero-image-wrap { display: block; max-height: 300px; }
       .problem-grid, .value-grid, .officers-grid { grid-template-columns: 1fr 1fr; }
       .journey-timeline { grid-template-columns: 1fr 1fr; }
       .journey-timeline::before { display: none; }
@@ -371,10 +372,19 @@
     <a href="#team" onclick="closeDrawer()" data-i18n="nav.theTeam"></a>
     <a href="#pricing" onclick="closeDrawer()" data-i18n="nav.pricing"></a>
     <a href="#about" onclick="closeDrawer()" data-i18n="nav.about"></a>
-    <a href="#faq" onclick="closeDrawer()" data-i18n="nav.faq"></a>
     <a href="#waitlist" onclick="closeDrawer()" style="color:var(--coral);font-weight:700;" data-i18n="nav.joinBeta"></a>
     <div class="drawer-sep" style="margin-top:8px;"></div>
   </div>
+
+  <div>
+    <div class="drawer-label">Theme</div>
+    <div class="theme-row">
+      <button class="theme-btn active" id="theme-dark" onclick="setTheme('dark')">Dark</button>
+      <button class="theme-btn" id="theme-light" onclick="setTheme('light')">Light</button>
+    </div>
+  </div>
+
+  <div class="drawer-sep"></div>
 
   <div>
     <div class="drawer-label">Language</div>
@@ -961,8 +971,8 @@
 
   // Auto-apply saved language on load
   (async () => {
-    const saved = localStorage.getItem('hs_lang');
-    if (saved && saved !== 'en') await setLang(saved);
+    const saved = localStorage.getItem('hs_lang') || 'en';
+    await setLang(saved);
   })();
 </script>
 
