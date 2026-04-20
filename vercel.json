@@ -1,5 +1,6 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/02_MARKETING_ASSETS/marketing-foundation/index.html" }
+    { "source": "/", "destination": "/02_MARKETING_ASSETS/marketing-foundation/index.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" }
   ]
 }
