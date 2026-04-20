@@ -58,15 +58,42 @@
       "h2": "9 Ejecutivos. Un Equipo.<br>Todo Tuyo. En Tu Idioma.",
       "sub": "Cada ejecutivo tiene un dominio definido, una personalidad real y una experiencia que crece con cada proyecto: el tuyo y el de todos los demás en la plataforma.",
       "chooseName": "elegir nombre",
-      "ceo": { "title": "CEO - Líder estratégico de la empresa", "domain": "Supervisión de sprints, enrutamiento estratégico, tu interfaz principal. Mantiene cada decisión alineada con el panorama general." },
-      "coo": { "title": "COO - Gestión de operaciones diarias", "domain": "Eficiencia de procesos, seguimiento de sprints, plazos de ejecución. Si se está moviendo, Yaniv conoce su estado." },
-      "cto": { "title": "CTO - Tecnología y arquitectura", "domain": "Arquitectura, decisiones de stack, desarrollo de software completo. Convierte la visión del producto en código funcional." },
-      "cpo": { "title": "CPO - Producto y UX", "domain": "Viajes de usuario, definición de características, diseño UX. Se obsesiona con lo que sienten los usuarios en cada interacción." },
-      "cmo": { "title": "CMO - Marketing, marca y crecimiento", "domain": "Voz de la marca, estrategia de contenido, canales de crecimiento. \"Ambicioso pero humano\" en cada mensaje que enviamos." },
-      "cfo": { "title": "CFO - Gestión de estrategia financiera", "domain": "Modelos financieros, estrategia de precios, gestión de la pista de aterrizaje (runway). Mantiene la ambición y la realidad perfectamente alineadas." },
-      "ciso": { "title": "CISO - Protección de seguridad", "domain": "Modelado de amenazas, protección de propiedad intelectual, privacidad de datos. Cada característica se lanza solo cuando es genuinamente segura." },
-      "qa": { "title": "QA Lead - Garantía de calidad del producto", "domain": "Pruebas, casos extremos, accesibilidad. Nada se lanza roto. Los usuarios recuerdan lo que no funciona." },
-      "cpsyo": { "title": "CPsyO - Bienestar emocional del fundador", "domain": "Bienestar del fundador, dinámica de equipo, inteligencia emocional. Construir una empresa es difícil. No deberías sentirte solo en esto." },
+      "ceo": {
+        "title": "CEO - Líder estratégico de la empresa",
+        "domain": "Supervisión de sprints, enrutamiento estratégico, tu interfaz principal. Mantiene cada decisión alineada con el panorama general."
+      },
+      "coo": {
+        "title": "COO - Gestión de operaciones diarias",
+        "domain": "Eficiencia de procesos, seguimiento de sprints, plazos de ejecución. Si se está moviendo, Yaniv conoce su estado."
+      },
+      "cto": {
+        "title": "CTO - Tecnología y arquitectura",
+        "domain": "Arquitectura, decisiones de stack, desarrollo de software completo. Convierte la visión del producto en código funcional."
+      },
+      "cpo": {
+        "title": "CPO - Producto y UX",
+        "domain": "Viajes de usuario, definición de características, diseño UX. Se obsesiona con lo que sienten los usuarios en cada interacción."
+      },
+      "cmo": {
+        "title": "CMO - Marketing, marca y crecimiento",
+        "domain": "Voz de la marca, estrategia de contenido, canales de crecimiento. \"Ambicioso pero humano\" en cada mensaje que enviamos."
+      },
+      "cfo": {
+        "title": "CFO - Gestión de estrategia financiera",
+        "domain": "Modelos financieros, estrategia de precios, gestión de la pista de aterrizaje (runway). Mantiene la ambición y la realidad perfectamente alineadas."
+      },
+      "ciso": {
+        "title": "CISO - Protección de seguridad",
+        "domain": "Modelado de amenazas, protección de propiedad intelectual, privacidad de datos. Cada característica se lanza solo cuando es genuinamente segura."
+      },
+      "qa": {
+        "title": "QA Lead - Garantía de calidad del producto",
+        "domain": "Pruebas, casos extremos, accesibilidad. Nada se lanza roto. Los usuarios recuerdan lo que no funciona."
+      },
+      "cpsyo": {
+        "title": "CPsyO - Bienestar emocional del fundador",
+        "domain": "Bienestar del fundador, dinámica de equipo, inteligencia emocional. Construir una empresa es difícil. No deberías sentirte solo en esto."
+      },
       "quality": {
         "h3": "Entrenados para startups.<br>No para la burocracia corporativa.",
         "p": "Cada ejecutivo de HypeShow está entrenado específicamente para los desafíos de las startups en etapa inicial. Entienden los sprints, los pivotes, la recaudación de fondos, los MVP y la realidad emocional de construir desde cero. Tu trabajo, tus ideas y tus conversaciones son estrictamente confidenciales: nunca se comparten ni se usan fuera de tu proyecto."
@@ -88,14 +115,38 @@
       "table": {
         "headerHs": "✦ HypeShow",
         "headerAlt": "Las Alternativas",
-        "r1": { "hs": "Ejecutivos expertos entrenados para startups, liderados por ti", "alt": "Herramientas de IA genéricas sin enfoque en un dominio" },
-        "r2": { "hs": "Construye, codifica, gestiona, es mentor... todo a la vez", "alt": "Soluciones puntuales para problemas aislados" },
-        "r3": { "hs": "Te prepara para liderar un equipo humano real", "alt": "Intenta reemplazar permanentemente a tu equipo" },
-        "r4": { "hs": "Se vuelve más inteligente con cada proyecto en la plataforma", "alt": "Comienza desde cero con cada nueva sesión" },
-        "r5": { "hs": "Tu proyecto es completamente confidencial, siempre", "alt": "Políticas de datos y propiedad de IP poco claras" },
-        "r6": { "hs": "Disponible 24/7, cero ego, nunca se agota (burnout)", "alt": "Cofundadores con horarios, cambios de humor y demandas de equidad" },
-        "r7": { "hs": "Una hoja de ruta clara: de idea a empresa", "alt": "Sin dirección, sin hitos, sin sentido de progreso" },
-        "r8": { "hs": "Te guía para equilibrar la ambición, la vida y el bienestar", "alt": "Cultura del ajetreo (Hustle culture) sin respeto por el humano detrás de la startup" }
+        "r1": {
+          "hs": "Ejecutivos expertos entrenados para startups, liderados por ti",
+          "alt": "Herramientas de IA genéricas sin enfoque en un dominio"
+        },
+        "r2": {
+          "hs": "Construye, codifica, gestiona, es mentor... todo a la vez",
+          "alt": "Soluciones puntuales para problemas aislados"
+        },
+        "r3": {
+          "hs": "Te prepara para liderar un equipo humano real",
+          "alt": "Intenta reemplazar permanentemente a tu equipo"
+        },
+        "r4": {
+          "hs": "Se vuelve más inteligente con cada proyecto en la plataforma",
+          "alt": "Comienza desde cero con cada nueva sesión"
+        },
+        "r5": {
+          "hs": "Tu proyecto es completamente confidencial, siempre",
+          "alt": "Políticas de datos y propiedad de IP poco claras"
+        },
+        "r6": {
+          "hs": "Disponible 24/7, cero ego, nunca se agota (burnout)",
+          "alt": "Cofundadores con horarios, cambios de humor y demandas de equidad"
+        },
+        "r7": {
+          "hs": "Una hoja de ruta clara: de idea a empresa",
+          "alt": "Sin dirección, sin hitos, sin sentido de progreso"
+        },
+        "r8": {
+          "hs": "Te guía para equilibrar la ambición, la vida y el bienestar",
+          "alt": "Cultura del ajetreo (Hustle culture) sin respeto por el humano detrás de la startup"
+        }
       },
       "moat": {
         "h3": "El Motor de Sabiduría Colectiva",
@@ -107,10 +158,26 @@
       "label": "El Viaje",
       "h2": "Del Día 1 al Día 300 -<br>pensarás de manera diferente.",
       "sub": "El héroe siempre es el emprendedor. HypeShow es tu equipo.",
-      "d1": { "dot": "Día 1", "h4": "El Equipo está Listo", "q": "\"Se siente como mi primer día en un nuevo trabajo, excepto que soy el CEO o el Presidente, y todo el equipo ya está aquí, esperándome.\"" },
-      "d7": { "dot": "Día 7", "h4": "Primeras Decisiones Reales", "q": "\"Me ayudaron a resolver cosas que no podría haber resuelto solo. Y las decisiones fueron correctas.\"" },
-      "d14": { "dot": "Día 14", "h4": "Pensando como un Fundador", "q": "\"Estoy enrutando, decidiendo, revisando. No solo estoy preguntando, estoy liderando.\"" },
-      "d30": { "dot": "Día 30", "h4": "El Momento NPS", "q": "\"Tengo que contarle sobre esto a cada fundador que conozco. El éxito se siente como mío, porque lo es.\"" }
+      "d1": {
+        "dot": "Día 1",
+        "h4": "El Equipo está Listo",
+        "q": "\"Se siente como mi primer día en un nuevo trabajo, excepto que soy el CEO o el Presidente, y todo el equipo ya está aquí, esperándome.\""
+      },
+      "d7": {
+        "dot": "Día 7",
+        "h4": "Primeras Decisiones Reales",
+        "q": "\"Me ayudaron a resolver cosas que no podría haber resuelto solo. Y las decisiones fueron correctas.\""
+      },
+      "d14": {
+        "dot": "Día 14",
+        "h4": "Pensando como un Fundador",
+        "q": "\"Estoy enrutando, decidiendo, revisando. No solo estoy preguntando, estoy liderando.\""
+      },
+      "d30": {
+        "dot": "Día 30",
+        "h4": "El Momento NPS",
+        "q": "\"Tengo que contarle sobre esto a cada fundador que conozco. El éxito se siente como mío, porque lo es.\""
+      }
     },
     "pricing": {
       "label": "Precios",
@@ -202,6 +269,14 @@
     },
     "footer": {
       "copy": "© 2026 HypeShow. Todos los derechos reservados."
+    },
+    "ui": {
+      "language": "Language",
+      "theme": "Theme",
+      "dark": "Dark",
+      "light": "Light",
+      "seniorityLabel": "★ Senior",
+      "juniorPlusLabel": "★ Junior+"
     }
   }
 }
