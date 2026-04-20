@@ -11,7 +11,7 @@
     "hero": {
       "label": "Now in Beta",
       "h1": "Your Executive Team.<br><em>Ready on Day One.</em>",
-      "sub": "9 expert AI executives work alongside you - writing code, defining your product, designing UX, planning strategy, handling finance, marketing and more. Not a tool. It's your AI founding squad. Beyond the hype. The Show begins.",
+      "sub": "9 expert AI executives work alongside you - writing code, defining your product, designing UX, planning strategy, handling finance, marketing and more. Not a tool. A real team.",
       "cta1": "Join the Beta",
       "cta2": "See How It Works",
       "stat1": "Expert Executives",
@@ -58,42 +58,15 @@
       "h2": "9 Executives. One Team.<br>All Yours. In Your Language.",
       "sub": "Each executive has a defined domain, a real personality, and experience that grows with every project - yours and everyone else's on the platform.",
       "chooseName": "choose name",
-      "ceo": {
-        "title": "CEO - Strategic company leader",
-        "domain": "Sprint oversight, strategic routing, your primary interface. Keeps every decision aligned with the big picture."
-      },
-      "coo": {
-        "title": "COO - Daily operations management",
-        "domain": "Process efficiency, sprint tracking, execution timelines. If it's moving - Yaniv knows its status."
-      },
-      "cto": {
-        "title": "CTO - Technology and architecture",
-        "domain": "Architecture, stack decisions, full software development. Turns product vision into working code."
-      },
-      "cpo": {
-        "title": "CPO - Product and UX",
-        "domain": "User journeys, feature definition, UX design. Obsesses over what users feel at every interaction."
-      },
-      "cmo": {
-        "title": "CMO - Marketing, Brand & growth",
-        "domain": "Brand voice, content strategy, growth channels. \"Ambitious but human\" in every message we send."
-      },
-      "cfo": {
-        "title": "CFO - Financial strategy management",
-        "domain": "Financial models, pricing strategy, runway management. Keeps ambition and reality perfectly aligned."
-      },
-      "ciso": {
-        "title": "CISO - Security protection",
-        "domain": "Threat modeling, IP protection, data privacy. Every feature ships only when it's genuinely safe."
-      },
-      "qa": {
-        "title": "QA Lead - Product quality assurance",
-        "domain": "Testing, edge cases, accessibility. Nothing ships broken. Users remember what doesn't work."
-      },
-      "cpsyo": {
-        "title": "CPsyO - Founder emotional wellbeing",
-        "domain": "Founder wellbeing, team dynamics, emotional intelligence. Building a company is hard. You shouldn't feel alone in it."
-      },
+      "ceo": { "domain": "Sprint oversight, strategic routing, your primary interface. Keeps every decision aligned with the big picture." },
+      "coo": { "domain": "Process efficiency, sprint tracking, execution timelines. If it's moving - Yaniv knows its status." },
+      "cto": { "domain": "Architecture, stack decisions, full software development. Turns product vision into working code." },
+      "cpo": { "domain": "User journeys, feature definition, UX design. Obsesses over what users feel at every interaction." },
+      "cmo": { "domain": "Brand voice, content strategy, growth channels. \"Ambitious but human\" in every message we send." },
+      "cfo": { "domain": "Financial models, pricing strategy, runway management. Keeps ambition and reality perfectly aligned." },
+      "ciso": { "domain": "Threat modeling, IP protection, data privacy. Every feature ships only when it's genuinely safe." },
+      "qa": { "domain": "Testing, edge cases, accessibility. Nothing ships broken. Users remember what doesn't work." },
+      "cpsyo": { "domain": "Founder wellbeing, team dynamics, emotional intelligence. Building a company is hard. You shouldn't feel alone in it." },
       "quality": {
         "h3": "Trained for startups.<br>Not for corporate bureaucracy.",
         "p": "Every HypeShow executive is purpose-trained for the specific challenges of early-stage startups. They understand sprints, pivots, fundraising, MVPs, and the emotional reality of building from scratch. Your work, your ideas, and your conversations are strictly confidential - never shared, never used outside your project."
@@ -112,26 +85,10 @@
       "label": "The Journey",
       "h2": "From Day 1 to Day 300 -<br>you'll think differently.",
       "sub": "The hero is always the entrepreneur. HypeShow is your team.",
-      "d1": {
-        "dot": "Day 1",
-        "h4": "The Team is Ready",
-        "q": "\"It feels like my first day at a new job - except I'm the CEO or the Chairman, and the whole team is already here, waiting for me.\""
-      },
-      "d7": {
-        "dot": "Day 7",
-        "h4": "First Real Decisions",
-        "q": "\"They helped me figure out things I couldn't have figured out alone. And the calls were right.\""
-      },
-      "d14": {
-        "dot": "Day 14",
-        "h4": "Thinking Like a Founder",
-        "q": "\"I'm routing, deciding, reviewing. I'm not just asking - I'm leading.\""
-      },
-      "d30": {
-        "dot": "Day 30",
-        "h4": "The NPS Moment",
-        "q": "\"I have to tell every founder I know about this. The success feels like mine - because it is.\""
-      }
+      "d1": { "dot": "Day 1", "h4": "The Team is Ready", "q": "\"It feels like my first day at a new job - except I'm the CEO or the Chairman, and the whole team is already here, waiting for me.\"" },
+      "d7": { "dot": "Day 7", "h4": "First Real Decisions", "q": "\"They helped me figure out things I couldn't have figured out alone. And the calls were right.\"" },
+      "d14": { "dot": "Day 14", "h4": "Thinking Like a Founder", "q": "\"I'm routing, deciding, reviewing. I'm not just asking - I'm leading.\"" },
+      "d30": { "dot": "Day 30", "h4": "The NPS Moment", "q": "\"I have to tell every founder I know about this. The success feels like mine - because it is.\"" }
     },
     "pricing": {
       "label": "Pricing",
@@ -215,14 +172,6 @@
     },
     "footer": {
       "copy": "© 2026 HypeShow. All rights reserved."
-    },
-    "ui": {
-      "language": "Language",
-      "theme": "Theme",
-      "dark": "Dark",
-      "light": "Light",
-      "seniorityLabel": "★ Senior",
-      "juniorPlusLabel": "★ Junior+"
     }
   }
 }

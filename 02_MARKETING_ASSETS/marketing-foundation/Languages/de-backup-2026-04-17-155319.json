@@ -11,7 +11,7 @@
     "hero": {
       "label": "Jetzt in der Beta",
       "h1": "Ihr Führungsteam.<br><em>Bereit ab Tag Eins.</em>",
-      "sub": "9 fachkundige KI-Führungskräfte arbeiten an deiner Seite – sie schreiben Code, definieren dein Produkt, entwerfen UX, planen Strategien, verwalten Finanzen, Marketing und mehr. Kein Tool. Es ist dein KI-Gründerteam. Jenseits vom Hype. Die Show beginnt.",
+      "sub": "9 erfahrene KI-Führungskräfte arbeiten an Ihrer Seite – sie schreiben Code, definieren Ihr Produkt, entwerfen UX, planen Strategien, kümmern sich um Finanzen, Marketing und mehr. Kein Tool. Ein echtes Team.",
       "cta1": "Der Beta beitreten",
       "cta2": "Sehen, wie es funktioniert",
       "stat1": "Erfahrene Führungskräfte",
@@ -58,42 +58,15 @@
       "h2": "9 Führungskräfte. Ein Team.<br>Ganz für Sie. In Ihrer Sprache.",
       "sub": "Jede Führungskraft hat einen definierten Bereich, eine echte Persönlichkeit und Erfahrung, die mit jedem Projekt wächst – Ihrem eigenen und dem aller anderen auf der Plattform.",
       "chooseName": "Namen wählen",
-      "ceo": {
-        "title": "CEO - Strategischer Unternehmensführer",
-        "domain": "Sprint-Überwachung, strategisches Routing, Ihre primäre Schnittstelle. Hält jede Entscheidung mit dem großen Ganzen in Einklang."
-      },
-      "coo": {
-        "title": "COO - Tägliches operatives Management",
-        "domain": "Prozesseffizienz, Sprint-Verfolgung, Ausführungszeitpläne. Wenn sich etwas bewegt – Yaniv kennt den Status."
-      },
-      "cto": {
-        "title": "CTO - Technologie und Architektur",
-        "domain": "Architektur, Stack-Entscheidungen, vollständige Softwareentwicklung. Verwandelt die Produktvision in funktionierenden Code."
-      },
-      "cpo": {
-        "title": "CPO - Produkt und UX",
-        "domain": "User Journeys, Funktionsdefinition, UX-Design. Ist besessen davon, was Benutzer bei jeder Interaktion fühlen."
-      },
-      "cmo": {
-        "title": "CMO - Marketing, Marke & Wachstum",
-        "domain": "Markenstimme, Inhaltsstrategie, Wachstumskanäle. \"Ehrgeizig, aber menschlich\" in jeder Nachricht, die wir senden."
-      },
-      "cfo": {
-        "title": "CFO - Finanzstrategiemanagement",
-        "domain": "Finanzmodelle, Preisstrategie, Runway-Management. Hält Ehrgeiz und Realität perfekt in Einklang."
-      },
-      "ciso": {
-        "title": "CISO - Sicherheitsschutz",
-        "domain": "Bedrohungsmodellierung, IP-Schutz, Datenschutz. Jede Funktion wird erst ausgeliefert, wenn sie wirklich sicher ist."
-      },
-      "qa": {
-        "title": "QA Lead - Produktqualitätssicherung",
-        "domain": "Testing, Edge Cases, Barrierefreiheit. Nichts wird kaputt ausgeliefert. Benutzer merken sich, was nicht funktioniert."
-      },
-      "cpsyo": {
-        "title": "CPsyO - Emotionales Wohlbefinden des Gründers",
-        "domain": "Wohlbefinden der Gründer, Teamdynamik, emotionale Intelligenz. Ein Unternehmen aufzubauen ist schwer. Sie sollten sich dabei nicht allein fühlen."
-      },
+      "ceo": { "domain": "Sprint-Überwachung, strategisches Routing, Ihre primäre Schnittstelle. Hält jede Entscheidung mit dem großen Ganzen in Einklang." },
+      "coo": { "domain": "Prozesseffizienz, Sprint-Verfolgung, Ausführungszeitpläne. Wenn sich etwas bewegt – Yaniv kennt den Status." },
+      "cto": { "domain": "Architektur, Stack-Entscheidungen, vollständige Softwareentwicklung. Verwandelt die Produktvision in funktionierenden Code." },
+      "cpo": { "domain": "User Journeys, Funktionsdefinition, UX-Design. Ist besessen davon, was Benutzer bei jeder Interaktion fühlen." },
+      "cmo": { "domain": "Markenstimme, Inhaltsstrategie, Wachstumskanäle. \"Ehrgeizig, aber menschlich\" in jeder Nachricht, die wir senden." },
+      "cfo": { "domain": "Finanzmodelle, Preisstrategie, Runway-Management. Hält Ehrgeiz und Realität perfekt in Einklang." },
+      "ciso": { "domain": "Bedrohungsmodellierung, IP-Schutz, Datenschutz. Jede Funktion wird erst ausgeliefert, wenn sie wirklich sicher ist." },
+      "qa": { "domain": "Testing, Edge Cases, Barrierefreiheit. Nichts wird kaputt ausgeliefert. Benutzer merken sich, was nicht funktioniert." },
+      "cpsyo": { "domain": "Wohlbefinden der Gründer, Teamdynamik, emotionale Intelligenz. Ein Unternehmen aufzubauen ist schwer. Sie sollten sich dabei nicht allein fühlen." },
       "quality": {
         "h3": "Für Startups trainiert.<br>Nicht für Unternehmensbürokratie.",
         "p": "Jede Führungskraft von HypeShow ist speziell für die spezifischen Herausforderungen von Startups in der Frühphase geschult. Sie verstehen Sprints, Pivots, Fundraising, MVPs und die emotionale Realität, etwas von Grund auf neu aufzubauen. Ihre Arbeit, Ihre Ideen und Ihre Gespräche sind streng vertraulich – sie werden niemals geteilt oder außerhalb Ihres Projekts verwendet."
@@ -115,38 +88,14 @@
       "table": {
         "headerHs": "✦ HypeShow",
         "headerAlt": "Die Alternativen",
-        "r1": {
-          "hs": "Für Startups geschulte Experten – von Ihnen geführt",
-          "alt": "Generische KI-Tools ohne fachlichen Fokus"
-        },
-        "r2": {
-          "hs": "Baut, programmiert, managt, betreut – alles auf einmal",
-          "alt": "Punktuelle Lösungen für isolierte Probleme"
-        },
-        "r3": {
-          "hs": "Bereitet Sie darauf vor, ein echtes menschliches Team zu führen",
-          "alt": "Versucht, Ihr Team dauerhaft zu ersetzen"
-        },
-        "r4": {
-          "hs": "Wird mit jedem Projekt auf der Plattform intelligenter",
-          "alt": "Beginnt bei jeder neuen Sitzung bei Null"
-        },
-        "r5": {
-          "hs": "Ihr Projekt ist streng vertraulich – immer",
-          "alt": "Unklare Datenrichtlinien und IP-Eigentumsverhältnisse"
-        },
-        "r6": {
-          "hs": "Rund um die Uhr verfügbar, null Ego, brennt nie aus",
-          "alt": "Mitgründer mit Zeitplänen, Launen und Eigenkapitalforderungen"
-        },
-        "r7": {
-          "hs": "Ein klarer Fahrplan: Von der Idee zum Unternehmen",
-          "alt": "Keine Richtung, keine Meilensteine, kein Gefühl des Fortschritts"
-        },
-        "r8": {
-          "hs": "Führt Sie dazu, Ehrgeiz, Leben und Wohlbefinden in Einklang zu bringen",
-          "alt": "Hustle-Kultur ohne Rücksicht auf den Menschen hinter dem Startup"
-        }
+        "r1": { "hs": "Für Startups geschulte Experten – von Ihnen geführt", "alt": "Generische KI-Tools ohne fachlichen Fokus" },
+        "r2": { "hs": "Baut, programmiert, managt, betreut – alles auf einmal", "alt": "Punktuelle Lösungen für isolierte Probleme" },
+        "r3": { "hs": "Bereitet Sie darauf vor, ein echtes menschliches Team zu führen", "alt": "Versucht, Ihr Team dauerhaft zu ersetzen" },
+        "r4": { "hs": "Wird mit jedem Projekt auf der Plattform intelligenter", "alt": "Beginnt bei jeder neuen Sitzung bei Null" },
+        "r5": { "hs": "Ihr Projekt ist streng vertraulich – immer", "alt": "Unklare Datenrichtlinien und IP-Eigentumsverhältnisse" },
+        "r6": { "hs": "Rund um die Uhr verfügbar, null Ego, brennt nie aus", "alt": "Mitgründer mit Zeitplänen, Launen und Eigenkapitalforderungen" },
+        "r7": { "hs": "Ein klarer Fahrplan: Von der Idee zum Unternehmen", "alt": "Keine Richtung, keine Meilensteine, kein Gefühl des Fortschritts" },
+        "r8": { "hs": "Führt Sie dazu, Ehrgeiz, Leben und Wohlbefinden in Einklang zu bringen", "alt": "Hustle-Kultur ohne Rücksicht auf den Menschen hinter dem Startup" }
       },
       "moat": {
         "h3": "Die kollektive Wissensmaschine",
@@ -158,34 +107,16 @@
       "label": "Die Reise",
       "h2": "Von Tag 1 bis Tag 300 –<br>Sie werden anders denken.",
       "sub": "Der Held ist immer der Unternehmer. HypeShow ist Ihr Team.",
-      "d1": {
-        "dot": "Tag 1",
-        "h4": "Das Team ist bereit",
-        "q": "\"Es fühlt sich an wie mein erster Tag in einem neuen Job – außer dass ich der CEO oder Vorsitzende bin und das gesamte Team bereits hier ist und auf mich wartet.\""
-      },
-      "d7": {
-        "dot": "Tag 7",
-        "h4": "Erste echte Entscheidungen",
-        "q": "\"Sie haben mir geholfen, Dinge herauszufinden, die ich alleine nicht hätte lösen können. Und die Entscheidungen waren richtig.\""
-      },
-      "d14": {
-        "dot": "Tag 14",
-        "h4": "Denken wie ein Gründer",
-        "q": "\"Ich lenke, entscheide, überprüfe. Ich frage nicht nur – ich führe.\""
-      },
-      "d30": {
-        "dot": "Tag 30",
-        "h4": "Der NPS-Moment",
-        "q": "\"Ich muss jedem Gründer, den ich kenne, davon erzählen. Der Erfolg fühlt sich wie meiner an – weil er es ist.\""
-      }
+      "d1": { "dot": "Tag 1", "h4": "Das Team ist bereit", "q": "\"Es fühlt sich an wie mein erster Tag in einem neuen Job – außer dass ich der CEO oder Vorsitzende bin und das gesamte Team bereits hier ist und auf mich wartet.\"" },
+      "d7": { "dot": "Tag 7", "h4": "Erste echte Entscheidungen", "q": "\"Sie haben mir geholfen, Dinge herauszufinden, die ich alleine nicht hätte lösen können. Und die Entscheidungen waren richtig.\"" },
+      "d14": { "dot": "Tag 14", "h4": "Denken wie ein Gründer", "q": "\"Ich lenke, entscheide, überprüfe. Ich frage nicht nur – ich führe.\"" },
+      "d30": { "dot": "Tag 30", "h4": "Der NPS-Moment", "q": "\"Ich muss jedem Gründer, den ich kenne, davon erzählen. Der Erfolg fühlt sich wie meiner an – weil er es ist.\"" }
     },
     "pricing": {
       "label": "Preise",
       "h2": "Dasselbe großartige Team.<br>Mehr Zeit mit ihnen.",
       "sub": "Jede Stufe beinhaltet das volle Team aus 9 erfahrenen KI-Führungskräften mit identischer Ausbildung und Qualität. Der Unterschied besteht darin, wie viel Sie diese jeden Monat nutzen können – gemessen in Credits, der Währung für Ihre Zusammenarbeit.",
       "monthly": "Monatlich",
-      "annual": "Jährlich",
-      "billedAnnually": "/Monat, jährlich abgerechnet",
       "save": "Sparen Sie 40%",
       "permo": "/Monat",
       "creditsLabel": "Credits<br>pro Monat",
@@ -269,14 +200,6 @@
     },
     "footer": {
       "copy": "© 2026 HypeShow. Alle Rechte vorbehalten."
-    },
-    "ui": {
-      "language": "Language",
-      "theme": "Theme",
-      "dark": "Dark",
-      "light": "Light",
-      "seniorityLabel": "★ Senior",
-      "juniorPlusLabel": "★ Junior+"
     }
   }
 }

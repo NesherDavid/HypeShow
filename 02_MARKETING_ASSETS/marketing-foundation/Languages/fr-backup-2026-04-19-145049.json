@@ -11,7 +11,7 @@
     "hero": {
       "label": "Actuellement en Bêta",
       "h1": "Votre équipe de direction.<br><em>Prête dès le premier jour.</em>",
-      "sub": "9 cadres experts en IA travaillent à vos côtés : écriture de code, définition du produit, conception UX, planification stratégique, gestion des finances, du marketing et plus encore. Pas un outil. C'est votre équipe fondatrice IA. Au-delà du Hype. Le Show commence.",
+      "sub": "9 cadres experts en IA travaillent à vos côtés : écriture de code, définition de votre produit, conception de l'UX, planification stratégique, gestion financière, marketing, etc. Pas un outil. Une vraie équipe.",
       "cta1": "Rejoindre la Bêta",
       "cta2": "Voir comment ça marche",
       "stat1": "Cadres experts",
@@ -58,42 +58,15 @@
       "h2": "9 Cadres. Une Équipe.<br>Toute à vous. Dans votre langue.",
       "sub": "Chaque cadre a un domaine défini, une vraie personnalité et une expérience qui grandit à chaque projet – le vôtre et celui de tous les autres sur la plateforme.",
       "chooseName": "choisir un nom",
-      "ceo": {
-        "title": "CEO - Leader stratégique de l'entreprise",
-        "domain": "Supervision des sprints, orientation stratégique, votre interface principale. Maintient chaque décision alignée avec la vision globale."
-      },
-      "coo": {
-        "title": "COO - Gestion des opérations quotidiennes",
-        "domain": "Efficacité des processus, suivi des sprints, délais d'exécution. Si ça bouge, Yaniv en connaît le statut."
-      },
-      "cto": {
-        "title": "CTO - Technologie et architecture",
-        "domain": "Architecture, décisions technologiques, développement logiciel complet. Transforme la vision du produit en code fonctionnel."
-      },
-      "cpo": {
-        "title": "CPO - Produit et UX",
-        "domain": "Parcours utilisateur, définition des fonctionnalités, design UX. Obsédé par ce que les utilisateurs ressentent à chaque interaction."
-      },
-      "cmo": {
-        "title": "CMO - Marketing, marque et croissance",
-        "domain": "Ton de la marque, stratégie de contenu, canaux de croissance. « Ambitieux mais humain » dans chaque message que nous envoyons."
-      },
-      "cfo": {
-        "title": "CFO - Gestion de la stratégie financière",
-        "domain": "Modèles financiers, stratégie de prix, gestion de la trésorerie. Maintient l'ambition et la réalité parfaitement alignées."
-      },
-      "ciso": {
-        "title": "CISO - Protection de la sécurité",
-        "domain": "Modélisation des menaces, protection de la PI, confidentialité des données. Chaque fonctionnalité n'est publiée que lorsqu'elle est véritablement sécurisée."
-      },
-      "qa": {
-        "title": "QA Lead - Assurance qualité du produit",
-        "domain": "Tests, cas limites, accessibilité. Rien de cassé n'est publié. Les utilisateurs se souviennent de ce qui ne fonctionne pas."
-      },
-      "cpsyo": {
-        "title": "CPsyO - Bien-être émotionnel du fondateur",
-        "domain": "Bien-être du fondateur, dynamique d'équipe, intelligence émotionnelle. Créer une entreprise est difficile. Vous ne devriez pas vous sentir seul."
-      },
+      "ceo": { "domain": "Supervision des sprints, orientation stratégique, votre interface principale. Maintient chaque décision alignée avec la vision globale." },
+      "coo": { "domain": "Efficacité des processus, suivi des sprints, délais d'exécution. Si ça bouge, Yaniv en connaît le statut." },
+      "cto": { "domain": "Architecture, décisions technologiques, développement logiciel complet. Transforme la vision du produit en code fonctionnel." },
+      "cpo": { "domain": "Parcours utilisateur, définition des fonctionnalités, design UX. Obsédé par ce que les utilisateurs ressentent à chaque interaction." },
+      "cmo": { "domain": "Ton de la marque, stratégie de contenu, canaux de croissance. « Ambitieux mais humain » dans chaque message que nous envoyons." },
+      "cfo": { "domain": "Modèles financiers, stratégie de prix, gestion de la trésorerie. Maintient l'ambition et la réalité parfaitement alignées." },
+      "ciso": { "domain": "Modélisation des menaces, protection de la PI, confidentialité des données. Chaque fonctionnalité n'est publiée que lorsqu'elle est véritablement sécurisée." },
+      "qa": { "domain": "Tests, cas limites, accessibilité. Rien de cassé n'est publié. Les utilisateurs se souviennent de ce qui ne fonctionne pas." },
+      "cpsyo": { "domain": "Bien-être du fondateur, dynamique d'équipe, intelligence émotionnelle. Créer une entreprise est difficile. Vous ne devriez pas vous sentir seul." },
       "quality": {
         "h3": "Entraînés pour les startups.<br>Pas pour la bureaucratie corporative.",
         "p": "Chaque cadre HypeShow est spécialement formé pour les défis spécifiques des startups en phase d'amorçage. Ils comprennent les sprints, les pivots, les levées de fonds, les MVP et la réalité émotionnelle de partir de zéro. Votre travail, vos idées et vos conversations sont strictement confidentiels – jamais partagés, jamais utilisés en dehors de votre projet."
@@ -115,38 +88,14 @@
       "table": {
         "headerHs": "✦ HypeShow",
         "headerAlt": "Les Alternatives",
-        "r1": {
-          "hs": "Des cadres experts formés pour les startups - dirigés par vous",
-          "alt": "Des outils d'IA génériques sans spécialisation"
-        },
-        "r2": {
-          "hs": "Construit, code, gère, conseille - tout à la fois",
-          "alt": "Solutions ponctuelles pour des problèmes isolés"
-        },
-        "r3": {
-          "hs": "Vous prépare à diriger une véritable équipe humaine",
-          "alt": "Tente de remplacer définitivement votre équipe"
-        },
-        "r4": {
-          "hs": "Devient plus intelligent avec chaque projet sur la plateforme",
-          "alt": "Repart de zéro à chaque nouvelle session"
-        },
-        "r5": {
-          "hs": "Votre projet est totalement confidentiel - toujours",
-          "alt": "Politiques de données et propriété intellectuelle floues"
-        },
-        "r6": {
-          "hs": "Disponible 24/7, zéro égo, ne fait jamais de burn-out",
-          "alt": "Des co-fondateurs avec des contraintes d'horaires, d'humeur et d'équité"
-        },
-        "r7": {
-          "hs": "Une feuille de route claire : de l'idée à l'entreprise",
-          "alt": "Aucune direction, aucune étape clé, aucun sentiment de progression"
-        },
-        "r8": {
-          "hs": "Vous guide pour équilibrer ambition, vie et bien-être",
-          "alt": "Culture de la « Hustle » sans égard pour l'humain derrière la startup"
-        }
+        "r1": { "hs": "Des cadres experts formés pour les startups - dirigés par vous", "alt": "Des outils d'IA génériques sans spécialisation" },
+        "r2": { "hs": "Construit, code, gère, conseille - tout à la fois", "alt": "Solutions ponctuelles pour des problèmes isolés" },
+        "r3": { "hs": "Vous prépare à diriger une véritable équipe humaine", "alt": "Tente de remplacer définitivement votre équipe" },
+        "r4": { "hs": "Devient plus intelligent avec chaque projet sur la plateforme", "alt": "Repart de zéro à chaque nouvelle session" },
+        "r5": { "hs": "Votre projet est totalement confidentiel - toujours", "alt": "Politiques de données et propriété intellectuelle floues" },
+        "r6": { "hs": "Disponible 24/7, zéro égo, ne fait jamais de burn-out", "alt": "Des co-fondateurs avec des contraintes d'horaires, d'humeur et d'équité" },
+        "r7": { "hs": "Une feuille de route claire : de l'idée à l'entreprise", "alt": "Aucune direction, aucune étape clé, aucun sentiment de progression" },
+        "r8": { "hs": "Vous guide pour équilibrer ambition, vie et bien-être", "alt": "Culture de la « Hustle » sans égard pour l'humain derrière la startup" }
       },
       "moat": {
         "h3": "Le Moteur de Sagesse Collective",
@@ -158,26 +107,10 @@
       "label": "Le Parcours",
       "h2": "Du Jour 1 au Jour 300 -<br>vous penserez différemment.",
       "sub": "Le héros est toujours l'entrepreneur. HypeShow est votre équipe.",
-      "d1": {
-        "dot": "Jour 1",
-        "h4": "L'Équipe est Prête",
-        "q": "\"C'est comme mon premier jour dans un nouveau travail – sauf que je suis le CEO ou le Président, et que toute l'équipe est déjà là, à m'attendre.\""
-      },
-      "d7": {
-        "dot": "Jour 7",
-        "h4": "Premières Vraies Décisions",
-        "q": "\"Ils m'ont aidé à comprendre des choses que je n'aurais pas pu comprendre seul. Et les décisions étaient bonnes.\""
-      },
-      "d14": {
-        "dot": "Jour 14",
-        "h4": "Penser comme un Fondateur",
-        "q": "\"J'oriente, je décide, j'évalue. Je ne fais pas que demander – je dirige.\""
-      },
-      "d30": {
-        "dot": "Jour 30",
-        "h4": "Le Moment NPS",
-        "q": "\"Je dois en parler à tous les fondateurs que je connais. Le succès semble être le mien – parce que c'est le cas.\""
-      }
+      "d1": { "dot": "Jour 1", "h4": "L'Équipe est Prête", "q": "\"C'est comme mon premier jour dans un nouveau travail – sauf que je suis le CEO ou le Président, et que toute l'équipe est déjà là, à m'attendre.\"" },
+      "d7": { "dot": "Jour 7", "h4": "Premières Vraies Décisions", "q": "\"Ils m'ont aidé à comprendre des choses que je n'aurais pas pu comprendre seul. Et les décisions étaient bonnes.\"" },
+      "d14": { "dot": "Jour 14", "h4": "Penser comme un Fondateur", "q": "\"J'oriente, je décide, j'évalue. Je ne fais pas que demander – je dirige.\"" },
+      "d30": { "dot": "Jour 30", "h4": "Le Moment NPS", "q": "\"Je dois en parler à tous les fondateurs que je connais. Le succès semble être le mien – parce que c'est le cas.\"" }
     },
     "pricing": {
       "label": "Tarifs",
@@ -269,14 +202,6 @@
     },
     "footer": {
       "copy": "© 2026 HypeShow. Tous droits réservés."
-    },
-    "ui": {
-      "language": "Language",
-      "theme": "Theme",
-      "dark": "Dark",
-      "light": "Light",
-      "seniorityLabel": "★ Senior",
-      "juniorPlusLabel": "★ Junior+"
     }
   }
 }

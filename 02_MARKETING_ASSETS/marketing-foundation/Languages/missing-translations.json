@@ -1,0 +1,46 @@
+{
+  "_instructions": "Translate every value below into the target language. Keep HTML tags (<strong>, <br>, <em>) exactly as-is. Do not change the keys.",
+  "why": {
+    "table": {
+      "headerHs": "✦ HypeShow",
+      "headerAlt": "The Alternatives",
+      "r1": { "hs": "Expert officers trained for startups - led by you", "alt": "Generic AI tools with no domain focus" },
+      "r2": { "hs": "Builds, codes, manages, mentors - all at once", "alt": "Point solutions for isolated problems" },
+      "r3": { "hs": "Prepares you to lead a real human team", "alt": "Tries to permanently replace your team" },
+      "r4": { "hs": "Gets smarter with every project on the platform", "alt": "Starts from zero with every new session" },
+      "r5": { "hs": "Your project is fully confidential - always", "alt": "Unclear data policies and IP ownership" },
+      "r6": { "hs": "Available 24/7, zero ego, never burns out", "alt": "Co-founders with schedules, moods, and equity demands" },
+      "r7": { "hs": "A clear roadmap: from idea to company", "alt": "No direction, no milestones, no sense of progress" },
+      "r8": { "hs": "Guides you to balance ambition, life, and wellbeing", "alt": "Hustle culture with no regard for the human behind the startup" }
+    },
+    "moat": {
+      "h3": "The Collective Wisdom Engine",
+      "p": "Every entrepreneur who works with HypeShow doesn't just receive value - they create it. Every decision, every sprint, every lesson learned makes our executives more capable for your next day, your next sprint - and more adaptable for you and for the whole community.",
+      "quote": "\"A competitor can copy our prompt. They cannot copy the accumulated experience of thousands of real startup decisions.\""
+    }
+  },
+  "pricing": {
+    "noteP": "<strong>Every executive is equally trained and equally committed - regardless of your plan.</strong><br>Pricing reflects how much you use them, not how good they are. Every founder gets the same expert team."
+  },
+  "team": {
+    "tags": {
+      "startupTrained": "Startup-Trained",
+      "proactive": "Proactive",
+      "honest": "Honest",
+      "detailOriented": "Detail-Oriented",
+      "alwaysAvailable": "Always Available",
+      "zeroEgo": "Zero Ego",
+      "confidential": "Confidential",
+      "growsWith": "Grows With You"
+    }
+  },
+  "about": {
+    "p1": "The best startups don't succeed because of one brilliant person. They succeed because of <strong>a team that challenges, supports, and executes together.</strong> Until now, that team was only available to founders with the right connections or enough capital.",
+    "p2": "HypeShow changes that. We're not here to replace human teams - we're here to <strong>bridge the gap</strong> between \"I have an idea\" and \"I have a company.\" When you're ready to hire your first engineers, designers, and operators, you'll already know how to lead them - because you've been doing it with us.",
+    "p3": "Our goal: get every entrepreneur at least to revenue or investment-ready, with the skills, habits, and leadership confidence to build something that lasts and does good in the world.",
+    "stat1": "Specialized AI officers, each with a defined domain and growing expertise",
+    "stat2": "Things happening simultaneously: building, learning, and preparing to lead humans",
+    "stat3": "Your team is fully operational the moment you join - no setup, no delay",
+    "stat4": "Jobs replaced. HypeShow bridges you to a real human team - not away from one."
+  }
+}
