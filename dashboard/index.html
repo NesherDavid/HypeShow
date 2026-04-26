@@ -99,6 +99,12 @@ body.dark .sprint-track { background:#2a2a30; }
 .sp-bar:nth-child(4){height:10px;animation-delay:.1s}
 @keyframes snd { from{transform:scaleY(.4)} to{transform:scaleY(1)} }
 
+/* ── TYPING DOTS ── */
+.typing-dots span { animation:blink 1.2s infinite; font-size:18px; line-height:1; }
+.typing-dots span:nth-child(2) { animation-delay:.2s; }
+.typing-dots span:nth-child(3) { animation-delay:.4s; }
+@keyframes blink { 0%,80%,100%{opacity:0} 40%{opacity:1} }
+
 /* ── SIDEBAR ── */
 .sidebar {
   position:fixed; top:0; left:0; width:72px; height:100vh;
@@ -1953,10 +1959,12 @@ const nadav = {name:'Nadav',hex:'#e8623a'};
 let currentOfficer = null;
 let currentMode = 'chat';
 let onlineCount = 8;
+let chatHistory = [];
 
 /* ── OPEN/CLOSE PANEL ── */
 function openPanel(id) {
   currentOfficer = id;
+  chatHistory = [];
   const o = officers[id];
   document.getElementById('pAv').style.background = o.color;
   document.getElementById('pHobby').textContent = o.hobby;
@@ -2032,18 +2040,60 @@ function renderChat() {
 }
 
 /* ── SEND MESSAGE ── */
-function sendMsg() {
+async function sendMsg() {
   const input = document.getElementById('panelInput');
   const val = input.value.trim();
   if (!val) return;
-  if (currentMode==='chat') {
+  input.value = '';
+  input.disabled = true;
+
+  if (currentMode === 'chat') {
     const area = document.getElementById('chatArea');
+    const o = officers[currentOfficer];
+
+    // Add user message
     area.innerHTML += `<div class="chat-msg user">
       <div class="chat-av" style="background:${nadav.hex}">N</div>
       <div><div class="chat-name">Nadav</div><div class="chat-bubble">${val}</div></div>
     </div>`;
-    setTimeout(()=>{ area.scrollTop=area.scrollHeight; },50);
-  } else {
+
+    // Typing indicator
+    const typingId = 'typing-' + Date.now();
+    area.innerHTML += `<div class="chat-msg" id="${typingId}">
+      <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
+      <div><div class="chat-name">${o.name}</div><div class="chat-bubble" style="color:var(--muted)">
+        <span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>
+      </div></div>
+    </div>`;
+    area.scrollTop = area.scrollHeight;
+
+    chatHistory.push({ role: 'user', content: val });
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: val, officerId: currentOfficer, history: chatHistory.slice(-10), mode: '1on1' })
+      });
+      const data = await res.json();
+      const reply = data.reply || '...';
+      chatHistory.push({ role: 'assistant', content: reply });
+
+      document.getElementById(typingId)?.remove();
+      area.innerHTML += `<div class="chat-msg">
+        <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
+        <div><div class="chat-name">${o.name}</div><div class="chat-bubble">${reply}</div></div>
+      </div>`;
+    } catch {
+      document.getElementById(typingId)?.remove();
+      area.innerHTML += `<div class="chat-msg">
+        <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
+        <div><div class="chat-name">${o.name}</div><div class="chat-bubble" style="color:var(--muted)">...</div></div>
+      </div>`;
+    }
+    area.scrollTop = area.scrollHeight;
+
+  } else if (currentMode === 'meeting' || currentMode === 'custom') {
     const msgs = document.getElementById('meetingMsgs');
     msgs.innerHTML += `<div class="comic-msg is-user" data-speaker="nadav">
       <div class="comic-speaker-row">
@@ -2052,9 +2102,64 @@ function sendMsg() {
       </div>
       <div class="comic-bubble">${val}</div>
     </div>`;
-    setTimeout(()=>{ const ma=document.getElementById('meetingArea'); ma.scrollTop=ma.scrollHeight; },50);
+
+    const typingId = 'typing-' + Date.now();
+    msgs.innerHTML += `<div class="comic-msg" id="${typingId}">
+      <div class="comic-speaker-row"><div class="comic-av-sm" style="background:#e8623a">S</div>
+      <div class="comic-name-sm">Steve · CEO</div></div>
+      <div class="comic-bubble" style="color:var(--muted)"><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span></div>
+    </div>`;
+
+    const ma = document.getElementById('meetingArea');
+    ma.scrollTop = ma.scrollHeight;
+
+    const mode = currentMode === 'custom' ? 'custom' : 'meeting';
+    const participants = currentMode === 'custom' ? [...selectedOfficers] : meetingParticipants;
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: val, officerId: 'steve', history: [], mode, participants })
+      });
+      const data = await res.json();
+      const reply = data.reply || '';
+      document.getElementById(typingId)?.remove();
+
+      // Parse multi-officer replies (format: "Name: message")
+      const lines = reply.split('\n').filter(l => l.trim());
+      lines.forEach(line => {
+        const match = line.match(/^(\w+):\s*(.+)$/);
+        if (match) {
+          const name = match[1];
+          const text = match[2];
+          const oId = Object.keys(officers).find(k => officers[k].name === name) || 'steve';
+          const o = officers[oId] || officers.steve;
+          msgs.innerHTML += `<div class="comic-msg" data-speaker="${oId}">
+            <div class="comic-speaker-row">
+              <div class="comic-av-sm" style="background:${o.hex}">${o.name[0]}</div>
+              <div class="comic-name-sm">${o.name} · ${o.role}</div>
+            </div>
+            <div class="comic-bubble">${text}</div>
+          </div>`;
+        } else if (line.trim()) {
+          msgs.innerHTML += `<div class="comic-msg" data-speaker="steve">
+            <div class="comic-speaker-row">
+              <div class="comic-av-sm" style="background:${officers.steve.hex}">S</div>
+              <div class="comic-name-sm">Steve · CEO</div>
+            </div>
+            <div class="comic-bubble">${line.trim()}</div>
+          </div>`;
+        }
+      });
+    } catch {
+      document.getElementById(typingId)?.remove();
+    }
+    ma.scrollTop = ma.scrollHeight;
   }
-  input.value='';
+
+  input.disabled = false;
+  input.focus();
 }
 
 /* ── RENDER MEETING (comic style) ── */
@@ -2235,14 +2340,30 @@ function toggleOfficerSelection(id) {
 }
 function startCustomMeeting() {
   if (selectedOfficers.size === 0) return;
-  // Override participant list temporarily
-  const saved = [...meetingParticipants];
-  meetingParticipants.length = 0;
-  [...selectedOfficers].forEach(id => meetingParticipants.push(id));
-  setMode('meeting');
-  // Restore after render
-  setTimeout(() => { meetingParticipants.length = 0; saved.forEach(id => meetingParticipants.push(id)); }, 0);
-  startMeeting();
+  // Switch to custom live chat mode
+  const msgs = document.getElementById('meetingMsgs');
+  const bar = document.getElementById('meetingBar');
+  msgs.innerHTML = '';
+  bar.innerHTML = '';
+
+  [...selectedOfficers].forEach(id => {
+    const o = officers[id];
+    bar.innerHTML += `<div class="meeting-participant" id="mp-${id}">
+      <div class="mp-av" style="background:${o.hex}">${o.name[0]}</div>
+      <div class="mp-name">${o.name}</div>
+    </div>`;
+  });
+  bar.innerHTML += `<div class="meeting-participant" id="mp-nadav">
+    <div class="mp-av" style="background:${nadav.hex}">N</div>
+    <div class="mp-name">Nadav</div>
+  </div>`;
+
+  // Hide selection, show chat
+  document.getElementById('customArea').style.display = 'none';
+  document.getElementById('meetingArea').style.display = 'block';
+  document.getElementById('meetingArea').style.flex = '1';
+  const cta = document.getElementById('meetingCTA');
+  if (cta) cta.style.display = 'none';
 }
 
 /* ── ARCHIVE ── */
