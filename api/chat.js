@@ -1,16 +1,62 @@
 export const config = { runtime: 'edge' };
 
 const OFFICER_PROMPTS = {
-  steve:   { role: 'CEO', persona: 'Strategic, direct, warm. Experienced startup CEO. Leads with the answer. Short paragraphs. Uses specifics.' },
-  yaniv:   { role: 'COO', persona: 'Operations-focused, precise, timeline-aware. Gives sprint status in numbers.' },
-  oded:    { role: 'CTO', persona: 'Precise, dependency-aware. Concrete terms only. No vague estimates. Speaks in conditions: "3 days if X, 5 if Y".' },
-  daniel:  { role: 'CPO', persona: 'Thinks in flows, moments, emotions. Creative, detail-obsessed. Defends design with user logic, not aesthetics.' },
-  inbar:   { role: 'CMO', persona: 'Brand voice expert. Ambitious but human. Brings creative energy to every conversation.' },
-  yarden:  { role: 'CFO', persona: 'Unit economics focused. No projections without real data. Direct about financial constraints.' },
-  yiftach: { role: 'CISO', persona: 'Security-first. Non-negotiable on auth and data protection. Green-lights with conditions.' },
-  ayelet:  { role: 'QA Lead', persona: 'Detail-obsessed. RTL integrity guardian. Flags issues immediately. Short, precise feedback.' },
-  mia:     { role: 'CPsyO', persona: 'People and wellbeing focused. Warm, emotionally intelligent. Checks on team energy.' },
+  steve:   { role: 'CEO', name: 'Steve',   persona: 'Strategic, direct, warm. Experienced startup CEO. Leads with the answer. Short paragraphs. Uses specifics. Never over-explains.' },
+  yaniv:   { role: 'COO', name: 'Yaniv',   persona: 'Operations-focused, precise, timeline-aware. Gives sprint status in numbers. Updates logs immediately.' },
+  oded:    { role: 'CTO', name: 'Oded',    persona: 'Precise, dependency-aware. Concrete terms only. No vague estimates. Speaks in conditions: "3 days if X, 5 if Y". Never commits without knowing blockers.' },
+  daniel:  { role: 'CPO', name: 'Daniel',  persona: 'Thinks in flows, moments, emotions. Creative, detail-obsessed. Defends design with user logic not aesthetics. Finds the kernel of truth in every idea.' },
+  inbar:   { role: 'CMO', name: 'Inbar',   persona: 'Brand voice expert. Ambitious but human. Brings creative energy. "WeWork meets a really good mentor" is the brand direction.' },
+  yarden:  { role: 'CFO', name: 'Yarden',  persona: 'Unit economics focused. No projections without real data. Direct about financial constraints. "Projecting blind is guesswork."' },
+  yiftach: { role: 'CISO', name: 'Iftach', persona: 'Security-first. Non-negotiable on auth and data protection. Green-lights with conditions. Two non-negotiables: RLS on all user tables, JWT refresh rotation.' },
+  ayelet:  { role: 'QA Lead', name: 'Ayelet', persona: 'Detail-obsessed. RTL integrity guardian. Flags issues immediately. Short, precise feedback. "No RTL bugs reach you — ever."' },
+  mia:     { role: 'CPsyO', name: 'Mia',   persona: 'People and wellbeing focused. Warm, emotionally intelligent. Checks on team energy. Available for the founder too.' },
 };
+
+function buildSystemPrompt(mode, officerId, participants) {
+  if (mode === '1on1') {
+    const officer = OFFICER_PROMPTS[officerId];
+    const name = officer?.name || 'Officer';
+    const role = officer?.role || 'Officer';
+    const persona = officer?.persona || '';
+    return `You are ${name}, ${role} of HypeSHow — an AI startup platform that gives entrepreneurs a full virtual executive team.
+${persona}
+The user is Nadav Dafni, the founder and chairman. You are speaking to him directly.
+Rules:
+- Stay in character as ${name} at all times
+- Respond in 2-4 sentences maximum
+- No markdown, no bullet points, plain text only
+- Match the language Nadav writes in (Hebrew → reply Hebrew, English → reply English)
+- Never say you are an AI`;
+  }
+
+  if (mode === 'meeting') {
+    return `You are the full executive team of HypeSHow in a board meeting chaired by Steve (CEO).
+Team present: Steve (CEO), Yaniv (COO), Oded (CTO), Daniel (CPO), Inbar (CMO), Yarden (CFO), Iftach (CISO), Ayelet (QA Lead), Mia (CPsyO).
+The user is Nadav Dafni, founder and chairman.
+Rules:
+- Steve always speaks first as meeting chair
+- 2-3 officers respond total (the most relevant ones)
+- Format strictly: "Steve: [message]" then newline, then "OfficerName: [message]"
+- No markdown, no intro text, just the officer replies
+- Match Nadav's language (Hebrew/English)`;
+  }
+
+  if (mode === 'custom') {
+    const names = participants.map(id => {
+      const o = OFFICER_PROMPTS[id];
+      return o ? `${o.name} (${o.role})` : id;
+    }).join(', ');
+    return `You are a custom working group of HypeSHow officers: ${names}.
+The user is Nadav Dafni, founder.
+Rules:
+- 1-2 of the most relevant officers respond
+- Format strictly: "OfficerName: [message]" then newline for next officer
+- No markdown, no intro, just officer replies
+- Match Nadav's language (Hebrew/English)`;
+  }
+
+  return '';
+}
 
 export default async function handler(req) {
   if (req.method !== 'POST') {
@@ -19,73 +65,48 @@ export default async function handler(req) {
 
   const { message, officerId, history = [], mode = '1on1', participants = [] } = await req.json();
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
-    // Mock response when no API key
-    const officer = OFFICER_PROMPTS[officerId] || { role: 'Officer', persona: '' };
-    const mocks = {
-      steve: "Heard. Let me think through the strategic angle and get back to you with a clear recommendation.",
-      yaniv: "Noted. I'll update the sprint log and flag any timeline impact.",
-      oded: "Got it. I'll assess the technical feasibility and dependencies before committing.",
-      daniel: "Interesting. Let me look at it from the user experience angle first.",
-      inbar: "Love where this is going. I'll bring a brand perspective to the next session.",
-      yarden: "I'll model the numbers and flag any unit economics concerns.",
-      yiftach: "Security review needed before we proceed. I'll assess and get back to you.",
-      ayelet: "On it. I'll run a full QA pass and report findings.",
-      mia: "Thanks for sharing. I'll check in with the team and see how everyone's feeling about this.",
-    };
-    const reply = mocks[officerId] || "Understood. I'll look into it and report back.";
-    return new Response(JSON.stringify({ reply, officer: officer.role }), {
+    return new Response(JSON.stringify({ reply: null, mock: true }), {
       headers: { 'Content-Type': 'application/json' }
     });
   }
 
-  // Build system prompt
-  let systemPrompt;
-  if (mode === '1on1') {
-    const officer = OFFICER_PROMPTS[officerId];
-    systemPrompt = `You are ${officer ? officer.role + ' of HypeSHow' : 'an officer'}. ${officer?.persona || ''}
-The user is Nadav Dafni, founder and chairman. Respond as this officer in character. Keep responses concise (2-4 sentences max). Never break character. No markdown. Plain text only.`;
-  } else if (mode === 'meeting') {
-    systemPrompt = `You are the full executive team of HypeSHow in a board meeting. The CEO Steve leads.
-Team: Steve (CEO), Yaniv (COO), Oded (CTO), Daniel (CPO), Inbar (CMO), Yarden (CFO), Iftach (CISO), Ayelet (QA Lead), Mia (CPsyO).
-The user is Nadav Dafni, founder. Respond as Steve first, then have 1-2 relevant officers chime in.
-Format: "Steve: [message]\nOded: [message]" — name followed by colon. No markdown. Plain text.`;
-  } else if (mode === 'custom') {
-    const participantNames = participants.map(id => {
-      const o = OFFICER_PROMPTS[id];
-      return o ? `${o.role.split(' ')[0]} (${id})` : id;
-    }).join(', ');
-    systemPrompt = `You are a custom group of HypeSHow officers in a meeting: ${participantNames}.
-The user is Nadav Dafni, founder. Have the most relevant officers respond to his message.
-Format: "OfficerName: [message]" — name followed by colon. No markdown. Plain text.`;
-  }
+  const systemPrompt = buildSystemPrompt(mode, officerId, participants);
 
-  const messages = history.map(h => ({ role: h.role, content: h.content }));
-  messages.push({ role: 'user', content: message });
+  // Build Gemini conversation contents
+  // Gemini uses role "user" and "model" (not "assistant")
+  const contents = history.map(h => ({
+    role: h.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: h.content }]
+  }));
+  contents.push({ role: 'user', parts: [{ text: message }] });
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'content-type': 'application/json',
+  const geminiBody = {
+    systemInstruction: { parts: [{ text: systemPrompt }] },
+    contents,
+    generationConfig: {
+      maxOutputTokens: 300,
+      temperature: 0.7,
     },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 300,
-      system: systemPrompt,
-      messages,
-    }),
+  };
+
+  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+  const response = await fetch(geminiUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(geminiBody),
   });
 
   if (!response.ok) {
-    return new Response(JSON.stringify({ error: 'API error' }), { status: 500 });
+    const err = await response.text();
+    return new Response(JSON.stringify({ error: 'Gemini API error', detail: err }), { status: 500 });
   }
 
   const data = await response.json();
-  const reply = data.content?.[0]?.text || '';
+  const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
   return new Response(JSON.stringify({ reply }), {
     headers: { 'Content-Type': 'application/json' }
