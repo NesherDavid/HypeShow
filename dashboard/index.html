@@ -1981,27 +1981,37 @@ function closePanel() {
   document.getElementById('floatPanel').classList.remove('open');
 }
 
-function saveChatSummary() {
+async function saveChatSummary() {
   if (!currentOfficer || chatHistory.length < 2) return;
   const o = officers[currentOfficer];
   const now = new Date();
   const dateStr = now.toISOString().split('T')[0];
-  const timeStr = now.toTimeString().slice(0,5);
-  const userMsgs = chatHistory.filter(m => m.role === 'user').map(m => m.content);
-  const officerMsgs = chatHistory.filter(m => m.role === 'assistant').map(m => m.content);
-  const summary = {
-    date: dateStr,
-    time: timeStr,
-    officer: o.name,
-    role: o.role,
-    mode: currentMode,
-    turns: chatHistory.length,
-    topics: userMsgs.slice(0,3),
-    lastReply: officerMsgs[officerMsgs.length - 1] || '',
-    history: chatHistory
-  };
   const key = `hypeshow_memory_${currentOfficer}_${dateStr}_${Date.now()}`;
-  localStorage.setItem(key, JSON.stringify(summary));
+
+  // Save raw immediately
+  localStorage.setItem(key, JSON.stringify({
+    date: dateStr, officer: o.name, role: o.role,
+    mode: currentMode, history: chatHistory, summary: null
+  }));
+
+  // Async Gemini summary
+  try {
+    const res = await fetch('/api/summary', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        history: chatHistory, officerName: o.name, officerRole: o.role, mode: '1on1'
+      })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.summary) {
+        const existing = JSON.parse(localStorage.getItem(key) || '{}');
+        existing.summary = data.summary;
+        localStorage.setItem(key, JSON.stringify(existing));
+      }
+    }
+  } catch {}
 }
 
 /* ── MODE SWITCH ── */
@@ -2142,16 +2152,11 @@ async function sendMsg() {
     area.scrollTop = area.scrollHeight;
 
   } else if (currentMode === 'meeting' || currentMode === 'custom') {
-    const msgs = document.getElementById('meetingMsgs');
-    msgs.innerHTML += `<div class="comic-msg is-user" data-speaker="nadav">
-      <div class="comic-speaker-row">
-        <div class="comic-av-sm" style="background:${nadav.hex}">N</div>
-        <div class="comic-name-sm">Nadav (You)</div>
-      </div>
-      <div class="comic-bubble">${val}</div>
-    </div>`;
+    appendMeetingMsg('nadav', val, true);
+    meetingHistory.push({ role: 'user', content: val });
 
     const typingId = 'typing-' + Date.now();
+    const msgs = document.getElementById('meetingMsgs');
     msgs.innerHTML += `<div class="comic-msg" id="${typingId}">
       <div class="comic-speaker-row"><div class="comic-av-sm" style="background:#e8623a">S</div>
       <div class="comic-name-sm">Steve · CEO</div></div>
@@ -2168,41 +2173,28 @@ async function sendMsg() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: val, officerId: 'steve', history: [], mode, participants })
+        body: JSON.stringify({ message: val, officerId: 'steve', history: meetingHistory.slice(-12), mode, participants })
       });
-      const data = await res.json();
-      const reply = data.reply || '';
       document.getElementById(typingId)?.remove();
+      let replyText = '';
+      if (res.ok) {
+        const data = await res.json();
+        replyText = data.reply || '';
+      }
+      if (!replyText) { replyText = 'Steve: ' + getMockReply('steve'); }
 
-      // Parse multi-officer replies (format: "Name: message")
-      const lines = reply.split('\n').filter(l => l.trim());
-      lines.forEach(line => {
-        const match = line.match(/^(\w+):\s*(.+)$/);
-        if (match) {
-          const name = match[1];
-          const text = match[2];
-          const oId = Object.keys(officers).find(k => officers[k].name === name) || 'steve';
-          const o = officers[oId] || officers.steve;
-          msgs.innerHTML += `<div class="comic-msg" data-speaker="${oId}">
-            <div class="comic-speaker-row">
-              <div class="comic-av-sm" style="background:${o.hex}">${o.name[0]}</div>
-              <div class="comic-name-sm">${o.name} · ${o.role}</div>
-            </div>
-            <div class="comic-bubble">${text}</div>
-          </div>`;
-        } else if (line.trim()) {
-          msgs.innerHTML += `<div class="comic-msg" data-speaker="steve">
-            <div class="comic-speaker-row">
-              <div class="comic-av-sm" style="background:${officers.steve.hex}">S</div>
-              <div class="comic-name-sm">Steve · CEO</div>
-            </div>
-            <div class="comic-bubble">${line.trim()}</div>
-          </div>`;
-        }
+      const parsed = parseMeetingReply(replyText);
+      parsed.forEach(p => {
+        appendMeetingMsg(p.id, p.text, false);
+        meetingHistory.push({ role: 'assistant', content: `${officers[p.id]?.name || p.id}: ${p.text}` });
       });
     } catch {
       document.getElementById(typingId)?.remove();
+      const fallback = getMockReply('steve');
+      appendMeetingMsg('steve', fallback, false);
+      meetingHistory.push({ role: 'assistant', content: `Steve: ${fallback}` });
     }
+
     ma.scrollTop = ma.scrollHeight;
   }
 
@@ -2211,66 +2203,58 @@ async function sendMsg() {
 }
 
 /* ── RENDER MEETING (comic style) ── */
+let meetingHistory = [];
+
 function renderMeeting() {
-  /* Participant bar */
   const bar = document.getElementById('meetingBar');
   bar.innerHTML = '';
   meetingParticipants.forEach((id) => {
     const o = officers[id];
     bar.innerHTML += `<div class="meeting-participant" id="mp-${id}">
-      <div class="mp-av" style="background:${o.hex}" data-id="${id}" onclick="filterMeetingBy('${id}')" title="הצג רק את ${o.name}" style="cursor:pointer">${o.name[0]}</div>
+      <div class="mp-av" style="background:${o.hex}" title="${o.name}">${o.name[0]}</div>
       <div class="mp-name">${o.name}</div>
-      <div class="mp-line" id="mpline-${id}"></div>
     </div>`;
   });
-  /* Add Nadav */
   bar.innerHTML += `<div class="meeting-participant" id="mp-nadav">
-    <div class="mp-av" style="background:${nadav.hex}" data-id="nadav" onclick="filterMeetingBy('nadav')" title="הצג רק את Nadav">N</div>
+    <div class="mp-av" style="background:${nadav.hex}">N</div>
     <div class="mp-name">Nadav</div>
-    <div class="mp-line" id="mpline-nadav"></div>
   </div>`;
+  document.getElementById('meetingMsgs').innerHTML = '';
+  meetingHistory = [];
+}
 
-  /* Messages */
+function appendMeetingMsg(speakerId, text, isUser) {
   const msgs = document.getElementById('meetingMsgs');
-  msgs.innerHTML = '';
-  let scriptIdx = 0;
-  meetingScript.forEach((line, i) => {
-    if (line.divider) {
-      msgs.innerHTML += `<div class="comic-time-divider">${line.divider}</div>`;
-      return;
+  const o = isUser ? null : officers[speakerId];
+  const col = isUser ? nadav.hex : (o?.hex || '#e8623a');
+  const init = isUser ? 'N' : (o?.name[0] || speakerId[0].toUpperCase());
+  const label = isUser ? 'Nadav (You)' : (o ? o.name + ' · ' + o.role : speakerId);
+  msgs.innerHTML += `<div class="comic-msg ${isUser ? 'is-user' : ''}" data-speaker="${speakerId}">
+    <div class="comic-speaker-row">
+      <div class="comic-av-sm" style="background:${col}">${init}</div>
+      <div class="comic-name-sm">${label}</div>
+    </div>
+    <div class="comic-bubble">${text}</div>
+  </div>`;
+  const ma = document.getElementById('meetingArea');
+  ma.scrollTop = ma.scrollHeight;
+}
+
+function parseMeetingReply(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+  const parsed = [];
+  lines.forEach(line => {
+    const match = line.match(/^(\w+):\s*(.+)$/);
+    if (match) {
+      const name = match[1];
+      const msg = match[2];
+      const oId = Object.keys(officers).find(k => officers[k].name === name) || 'steve';
+      parsed.push({ id: oId, text: msg });
+    } else if (line.trim() && parsed.length === 0) {
+      parsed.push({ id: 'steve', text: line.trim() });
     }
-    const isNadav = line.speaker==='nadav';
-    const o = isNadav ? nadav : officers[line.speaker];
-    const col = isNadav ? nadav.hex : o.hex;
-    const name = isNadav ? 'Nadav (You)' : o.name + ' · ' + o.role;
-    const init = isNadav ? 'N' : o.name[0];
-    /* colored bubble tint */
-    const r = parseInt(col.slice(1,3),16);
-    const g = parseInt(col.slice(3,5),16);
-    const b = parseInt(col.slice(5,7),16);
-    const bubbleStyle = isNadav ? '' : `style="--bubble-bg:rgba(${r},${g},${b},0.09);--bubble-border:${col}"`;
-    const gapAttr = line.gap ? ` data-gap="${line.gap}"` : '';
-    const speakerId = isNadav ? 'nadav' : line.speaker;
-    /* highlight active speaker in bar */
-    setTimeout(()=>{
-      document.querySelectorAll('.meeting-participant').forEach(el => {
-        el.classList.remove('mp-active');
-        const ln = document.getElementById('mpline-'+el.id.replace('mp-',''));
-        if (ln) ln.style.opacity='0';
-      });
-      const mpEl = document.getElementById('mp-'+speakerId);
-      if (mpEl) mpEl.classList.add('mp-active');
-    }, scriptIdx*80);
-    scriptIdx++;
-    msgs.innerHTML += `<div class="comic-msg ${isNadav?'is-user':''}"${gapAttr} data-speaker="${speakerId}">
-      <div class="comic-speaker-row">
-        <div class="comic-av-sm" style="background:${col}">${init}</div>
-        <div class="comic-name-sm">${name}</div>
-      </div>
-      <div class="comic-bubble" ${bubbleStyle}>${line.text}</div>
-    </div>`;
   });
-  setTimeout(()=>{ const ma=document.getElementById('meetingArea'); ma.scrollTop=ma.scrollHeight; },100);
+  return parsed.length ? parsed : [{ id: 'steve', text: text.trim() }];
 }
 
 /* ── SEARCH ── */
@@ -2310,27 +2294,69 @@ function setFood(name, el) {
 /* ── START / END MEETING ── */
 let meetingState = 'idle';
 let _meetingTimers = [];
-function startMeeting() {
+
+async function startMeeting() {
   if (['active','summarizing','done'].includes(meetingState)) return;
   const inner = document.getElementById('meetingCtaInner');
   const label = document.getElementById('meetingCtaLabel');
   const endLink = document.getElementById('meetingEndLink');
+  const cta = document.getElementById('meetingCTA');
+
   meetingState = 'starting';
   inner.className = 'meeting-cta-inner state-starting';
-  label.textContent = 'מחכה לצוות...';
+  label.textContent = 'מזמין צוות...';
   if (endLink) endLink.classList.remove('visible');
-  // Random 8–10 second wait
-  const wait = 8000 + Math.random() * 2000;
-  _meetingTimers.push(setTimeout(() => {
-    meetingState = 'active';
-    inner.className = 'meeting-cta-inner state-active';
-    label.textContent = 'ישיבה פעילה';
-    if (endLink) endLink.classList.add('visible');
-    const msgs = document.getElementById('meetingMsgs');
-    if (msgs) setTimeout(() => { msgs.scrollTop = msgs.scrollHeight; }, 100);
-  }, wait));
+
+  // Steve opens the meeting live via Gemini
+  await new Promise(r => setTimeout(r, 1200));
+
+  meetingState = 'active';
+  inner.className = 'meeting-cta-inner state-active';
+  label.textContent = 'ישיבה פעילה';
+  if (endLink) endLink.classList.add('visible');
+  if (cta) cta.style.marginBottom = '8px';
+
+  // Typing indicator for Steve
+  const msgs = document.getElementById('meetingMsgs');
+  const typingId = 'mt-' + Date.now();
+  msgs.innerHTML += `<div class="comic-msg" id="${typingId}">
+    <div class="comic-speaker-row">
+      <div class="comic-av-sm" style="background:${officers.steve.hex}">S</div>
+      <div class="comic-name-sm">Steve · CEO</div>
+    </div>
+    <div class="comic-bubble" style="color:var(--muted)"><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span></div>
+  </div>`;
+  document.getElementById('meetingArea').scrollTop = 99999;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: 'פתח את הישיבה בברכה קצרה ושאל את Nadav מה בסדר היום',
+        officerId: 'steve', history: [], mode: 'meeting',
+        participants: meetingParticipants
+      })
+    });
+    document.getElementById(typingId)?.remove();
+    let reply = 'Good morning, team. Nadav — what\'s on the agenda today?';
+    if (res.ok) {
+      const data = await res.json();
+      if (data.reply) reply = data.reply;
+    }
+    const parsed = parseMeetingReply(reply);
+    parsed.forEach(p => {
+      appendMeetingMsg(p.id, p.text, false);
+      meetingHistory.push({ role: 'assistant', content: `${officers[p.id]?.name || p.id}: ${p.text}` });
+    });
+  } catch {
+    document.getElementById(typingId)?.remove();
+    appendMeetingMsg('steve', 'Good morning. Nadav — what\'s on the agenda today?', false);
+    meetingHistory.push({ role: 'assistant', content: 'Steve: Good morning. Nadav — what\'s on the agenda today?' });
+  }
 }
-function endMeeting() {
+
+async function endMeeting() {
   if (meetingState !== 'active') return;
   const inner = document.getElementById('meetingCtaInner');
   const label = document.getElementById('meetingCtaLabel');
@@ -2338,19 +2364,45 @@ function endMeeting() {
   meetingState = 'summarizing';
   inner.className = 'meeting-cta-inner state-summarizing';
   inner.onclick = null;
-  label.textContent = '✍️ Steve מסכם...';
+  label.textContent = 'Steve מסכם...';
   if (endLink) endLink.classList.remove('visible');
-  setTimeout(() => {
-    meetingState = 'done';
-    inner.className = 'meeting-cta-inner state-done';
-    label.textContent = '✓ ישיבה סוכמה — לחץ לצפייה בסיכום';
-    inner.style.cursor = 'pointer';
-    inner.onclick = () => {
-      closePanel();
-      toggleArchive();
-      setTimeout(() => { toggleArchiveRow(1); }, 150);
-    };
-  }, 5000);
+
+  let summary = null;
+  try {
+    const res = await fetch('/api/summary', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ history: meetingHistory, officerName: 'Steve', officerRole: 'CEO', mode: 'meeting', participants: meetingParticipants })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      summary = data.summary;
+    }
+  } catch {}
+
+  const dateStr = new Date().toISOString().split('T')[0];
+  const memKey = `hypeshow_meeting_${dateStr}_${Date.now()}`;
+  localStorage.setItem(memKey, JSON.stringify({
+    date: dateStr, type: 'meeting', mode: 'team',
+    participants: meetingParticipants, history: meetingHistory, summary
+  }));
+
+  meetingState = 'done';
+  inner.className = 'meeting-cta-inner state-done';
+  label.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה';
+  inner.style.cursor = 'default';
+  if (summary) {
+    const msgs = document.getElementById('meetingMsgs');
+    msgs.innerHTML += `<div class="comic-time-divider">סיכום Steve</div>
+    <div class="comic-msg" data-speaker="steve">
+      <div class="comic-speaker-row">
+        <div class="comic-av-sm" style="background:${officers.steve.hex}">S</div>
+        <div class="comic-name-sm">Steve · CEO</div>
+      </div>
+      <div class="comic-bubble">${summary}</div>
+    </div>`;
+    document.getElementById('meetingArea').scrollTop = 99999;
+  }
 }
 
 /* ── CUSTOM MEETING ── */
