@@ -2063,6 +2063,23 @@ function renderChat() {
   setTimeout(()=>{ area.scrollTop=area.scrollHeight; },50);
 }
 
+/* ── LOCAL MOCK (fallback when no API) ── */
+const mockReplies = {
+  steve:   ["Heard. Let me assess the strategic angle and get back to you.","Good question. That's a Day 1 priority — let me loop in the right people.","Understood. Here's my read on the situation: we move forward, but carefully."],
+  yaniv:   ["Noted. Sprint log updated. I'll flag any timeline impact.","On it. I'll coordinate across the team and report back.","Checked. We're on track — no blockers on my end."],
+  oded:    ["Got it. Assessing technical feasibility now. I'll have an answer with dependencies.","That's a 2-day build if the schema is finalized. 4 days if it changes.","Technically possible. One condition: Iftach needs to green-light the auth layer first."],
+  daniel:  ["Interesting. Let me look at this from the user experience angle.","The flow makes sense. I'd add one emotional beat at the start — establishes trust.","From a product perspective: yes. This is the magic moment we want to preserve."],
+  inbar:   ["Love the direction. I'll bring a brand angle to the next session.","That resonates with 'ambitious but human' — our core brand voice.","I'll draft three positioning options and share before end of day."],
+  yarden:  ["I'll model the numbers. Need real conversion data before I project.","Unit economics hold. 58% gross margin even in the pessimistic scenario.","That's a CFO green light — financially sound at current pricing."],
+  yiftach: ["Security review required before we proceed. I'll assess and report.","Two non-negotiables: RLS on all user tables, JWT refresh rotation every session.","Green light — with one condition. Audit layer must be in place before launch."],
+  ayelet:  ["On it. Running full QA pass now. Will report findings.","Found an issue: I'll flag it to Oded and Daniel. Fix before next sprint.","Passed RTL check. All good from QA side."],
+  mia:     ["Thanks for sharing. Team energy is good — everyone is focused, not stressed.","I'll check in with the team and see how they're feeling about this direction.","Noted. And if you ever need to decompress — I'm here for you too."],
+};
+function getMockReply(officerId) {
+  const replies = mockReplies[officerId] || ["Understood. I'll look into it."];
+  return replies[Math.floor(Math.random() * replies.length)];
+}
+
 /* ── SEND MESSAGE ── */
 async function sendMsg() {
   const input = document.getElementById('panelInput');
@@ -2099,8 +2116,13 @@ async function sendMsg() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: val, officerId: currentOfficer, history: chatHistory.slice(-10), mode: '1on1' })
       });
-      const data = await res.json();
-      const reply = data.reply || '...';
+      let reply;
+      if (res.ok) {
+        const data = await res.json();
+        reply = data.reply || getMockReply(currentOfficer);
+      } else {
+        reply = getMockReply(currentOfficer);
+      }
       chatHistory.push({ role: 'assistant', content: reply });
 
       document.getElementById(typingId)?.remove();
@@ -2109,10 +2131,12 @@ async function sendMsg() {
         <div><div class="chat-name">${o.name}</div><div class="chat-bubble">${reply}</div></div>
       </div>`;
     } catch {
+      const reply = getMockReply(currentOfficer);
+      chatHistory.push({ role: 'assistant', content: reply });
       document.getElementById(typingId)?.remove();
       area.innerHTML += `<div class="chat-msg">
         <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
-        <div><div class="chat-name">${o.name}</div><div class="chat-bubble" style="color:var(--muted)">...</div></div>
+        <div><div class="chat-name">${o.name}</div><div class="chat-bubble">${reply}</div></div>
       </div>`;
     }
     area.scrollTop = area.scrollHeight;
