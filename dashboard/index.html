@@ -1976,8 +1976,32 @@ function openPanel(id) {
   document.getElementById('floatPanel').classList.add('open');
 }
 function closePanel() {
+  saveChatSummary();
   document.getElementById('overlay').classList.remove('open');
   document.getElementById('floatPanel').classList.remove('open');
+}
+
+function saveChatSummary() {
+  if (!currentOfficer || chatHistory.length < 2) return;
+  const o = officers[currentOfficer];
+  const now = new Date();
+  const dateStr = now.toISOString().split('T')[0];
+  const timeStr = now.toTimeString().slice(0,5);
+  const userMsgs = chatHistory.filter(m => m.role === 'user').map(m => m.content);
+  const officerMsgs = chatHistory.filter(m => m.role === 'assistant').map(m => m.content);
+  const summary = {
+    date: dateStr,
+    time: timeStr,
+    officer: o.name,
+    role: o.role,
+    mode: currentMode,
+    turns: chatHistory.length,
+    topics: userMsgs.slice(0,3),
+    lastReply: officerMsgs[officerMsgs.length - 1] || '',
+    history: chatHistory
+  };
+  const key = `hypeshow_memory_${currentOfficer}_${dateStr}_${Date.now()}`;
+  localStorage.setItem(key, JSON.stringify(summary));
 }
 
 /* ── MODE SWITCH ── */
