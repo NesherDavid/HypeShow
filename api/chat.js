@@ -58,12 +58,21 @@ Rules:
   return '';
 }
 
+function redactPII(text) {
+  return text
+    .replace(/\b[\w.+-]+@[\w-]+\.[a-z]{2,}\b/gi, '[EMAIL]')
+    .replace(/\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b/g, '[CARD]')
+    .replace(/\b(?:050|051|052|053|054|055|057|058)\d{7}\b/g, '[PHONE]')
+    .replace(/\b\d{9,15}\b/g, '[ID]');
+}
+
 export default async function handler(req) {
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
   }
 
-  const { message, officerId, history = [], mode = '1on1', participants = [] } = await req.json();
+  const { message: rawMessage, officerId, history = [], mode = '1on1', participants = [] } = await req.json();
+  const message = redactPII(rawMessage || '');
 
   const apiKey = process.env.GEMINI_API_KEY;
 
