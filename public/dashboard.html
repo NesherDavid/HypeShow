@@ -99,6 +99,12 @@ body.dark .sprint-track { background:#2a2a30; }
 .sp-bar:nth-child(4){height:10px;animation-delay:.1s}
 @keyframes snd { from{transform:scaleY(.4)} to{transform:scaleY(1)} }
 
+/* ── TYPING DOTS ── */
+.typing-dots span { animation:blink 1.2s infinite; font-size:18px; line-height:1; }
+.typing-dots span:nth-child(2) { animation-delay:.2s; }
+.typing-dots span:nth-child(3) { animation-delay:.4s; }
+@keyframes blink { 0%,80%,100%{opacity:0} 40%{opacity:1} }
+
 /* ── SIDEBAR ── */
 .sidebar {
   position:fixed; top:0; left:0; width:72px; height:100vh;
@@ -1953,10 +1959,12 @@ const nadav = {name:'Nadav',hex:'#e8623a'};
 let currentOfficer = null;
 let currentMode = 'chat';
 let onlineCount = 8;
+let chatHistory = [];
 
 /* ── OPEN/CLOSE PANEL ── */
 function openPanel(id) {
   currentOfficer = id;
+  chatHistory = [];
   const o = officers[id];
   document.getElementById('pAv').style.background = o.color;
   document.getElementById('pHobby').textContent = o.hobby;
@@ -1968,8 +1976,42 @@ function openPanel(id) {
   document.getElementById('floatPanel').classList.add('open');
 }
 function closePanel() {
+  saveChatSummary();
   document.getElementById('overlay').classList.remove('open');
   document.getElementById('floatPanel').classList.remove('open');
+}
+
+async function saveChatSummary() {
+  if (!currentOfficer || chatHistory.length < 2) return;
+  const o = officers[currentOfficer];
+  const now = new Date();
+  const dateStr = now.toISOString().split('T')[0];
+  const key = `hypeshow_memory_${currentOfficer}_${dateStr}_${Date.now()}`;
+
+  // Save raw immediately
+  localStorage.setItem(key, JSON.stringify({
+    date: dateStr, officer: o.name, role: o.role,
+    mode: currentMode, history: chatHistory, summary: null
+  }));
+
+  // Async Gemini summary
+  try {
+    const res = await fetch('/api/summary', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        history: chatHistory, officerName: o.name, officerRole: o.role, mode: '1on1'
+      })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.summary) {
+        const existing = JSON.parse(localStorage.getItem(key) || '{}');
+        existing.summary = data.summary;
+        localStorage.setItem(key, JSON.stringify(existing));
+      }
+    }
+  } catch {}
 }
 
 /* ── MODE SWITCH ── */
@@ -2031,93 +2073,188 @@ function renderChat() {
   setTimeout(()=>{ area.scrollTop=area.scrollHeight; },50);
 }
 
+/* ── LOCAL MOCK (fallback when no API) ── */
+const mockReplies = {
+  steve:   ["Heard. Let me assess the strategic angle and get back to you.","Good question. That's a Day 1 priority — let me loop in the right people.","Understood. Here's my read on the situation: we move forward, but carefully."],
+  yaniv:   ["Noted. Sprint log updated. I'll flag any timeline impact.","On it. I'll coordinate across the team and report back.","Checked. We're on track — no blockers on my end."],
+  oded:    ["Got it. Assessing technical feasibility now. I'll have an answer with dependencies.","That's a 2-day build if the schema is finalized. 4 days if it changes.","Technically possible. One condition: Iftach needs to green-light the auth layer first."],
+  daniel:  ["Interesting. Let me look at this from the user experience angle.","The flow makes sense. I'd add one emotional beat at the start — establishes trust.","From a product perspective: yes. This is the magic moment we want to preserve."],
+  inbar:   ["Love the direction. I'll bring a brand angle to the next session.","That resonates with 'ambitious but human' — our core brand voice.","I'll draft three positioning options and share before end of day."],
+  yarden:  ["I'll model the numbers. Need real conversion data before I project.","Unit economics hold. 58% gross margin even in the pessimistic scenario.","That's a CFO green light — financially sound at current pricing."],
+  yiftach: ["Security review required before we proceed. I'll assess and report.","Two non-negotiables: RLS on all user tables, JWT refresh rotation every session.","Green light — with one condition. Audit layer must be in place before launch."],
+  ayelet:  ["On it. Running full QA pass now. Will report findings.","Found an issue: I'll flag it to Oded and Daniel. Fix before next sprint.","Passed RTL check. All good from QA side."],
+  mia:     ["Thanks for sharing. Team energy is good — everyone is focused, not stressed.","I'll check in with the team and see how they're feeling about this direction.","Noted. And if you ever need to decompress — I'm here for you too."],
+};
+function getMockReply(officerId) {
+  const replies = mockReplies[officerId] || ["Understood. I'll look into it."];
+  return replies[Math.floor(Math.random() * replies.length)];
+}
+
 /* ── SEND MESSAGE ── */
-function sendMsg() {
+async function sendMsg() {
   const input = document.getElementById('panelInput');
   const val = input.value.trim();
   if (!val) return;
-  if (currentMode==='chat') {
+  input.value = '';
+  input.disabled = true;
+
+  if (currentMode === 'chat') {
     const area = document.getElementById('chatArea');
+    const o = officers[currentOfficer];
+
+    // Add user message
     area.innerHTML += `<div class="chat-msg user">
       <div class="chat-av" style="background:${nadav.hex}">N</div>
       <div><div class="chat-name">Nadav</div><div class="chat-bubble">${val}</div></div>
     </div>`;
-    setTimeout(()=>{ area.scrollTop=area.scrollHeight; },50);
-  } else {
-    const msgs = document.getElementById('meetingMsgs');
-    msgs.innerHTML += `<div class="comic-msg is-user" data-speaker="nadav">
-      <div class="comic-speaker-row">
-        <div class="comic-av-sm" style="background:${nadav.hex}">N</div>
-        <div class="comic-name-sm">Nadav (You)</div>
-      </div>
-      <div class="comic-bubble">${val}</div>
+
+    // Typing indicator
+    const typingId = 'typing-' + Date.now();
+    area.innerHTML += `<div class="chat-msg" id="${typingId}">
+      <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
+      <div><div class="chat-name">${o.name}</div><div class="chat-bubble" style="color:var(--muted)">
+        <span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>
+      </div></div>
     </div>`;
-    setTimeout(()=>{ const ma=document.getElementById('meetingArea'); ma.scrollTop=ma.scrollHeight; },50);
+    area.scrollTop = area.scrollHeight;
+
+    chatHistory.push({ role: 'user', content: val });
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: val, officerId: currentOfficer, history: chatHistory.slice(-10), mode: '1on1' })
+      });
+      let reply;
+      if (res.ok) {
+        const data = await res.json();
+        reply = data.reply || getMockReply(currentOfficer);
+      } else {
+        reply = getMockReply(currentOfficer);
+      }
+      chatHistory.push({ role: 'assistant', content: reply });
+
+      document.getElementById(typingId)?.remove();
+      area.innerHTML += `<div class="chat-msg">
+        <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
+        <div><div class="chat-name">${o.name}</div><div class="chat-bubble">${reply}</div></div>
+      </div>`;
+    } catch {
+      const reply = getMockReply(currentOfficer);
+      chatHistory.push({ role: 'assistant', content: reply });
+      document.getElementById(typingId)?.remove();
+      area.innerHTML += `<div class="chat-msg">
+        <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
+        <div><div class="chat-name">${o.name}</div><div class="chat-bubble">${reply}</div></div>
+      </div>`;
+    }
+    area.scrollTop = area.scrollHeight;
+
+  } else if (currentMode === 'meeting' || currentMode === 'custom') {
+    appendMeetingMsg('nadav', val, true);
+    meetingHistory.push({ role: 'user', content: val });
+
+    const typingId = 'typing-' + Date.now();
+    const msgs = document.getElementById('meetingMsgs');
+    msgs.innerHTML += `<div class="comic-msg" id="${typingId}">
+      <div class="comic-speaker-row"><div class="comic-av-sm" style="background:#e8623a">S</div>
+      <div class="comic-name-sm">Steve · CEO</div></div>
+      <div class="comic-bubble" style="color:var(--muted)"><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span></div>
+    </div>`;
+
+    const ma = document.getElementById('meetingArea');
+    ma.scrollTop = ma.scrollHeight;
+
+    const mode = currentMode === 'custom' ? 'custom' : 'meeting';
+    const participants = currentMode === 'custom' ? [...selectedOfficers] : meetingParticipants;
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: val, officerId: 'steve', history: meetingHistory.slice(-12), mode, participants })
+      });
+      document.getElementById(typingId)?.remove();
+      let replyText = '';
+      if (res.ok) {
+        const data = await res.json();
+        replyText = data.reply || '';
+      }
+      if (!replyText) { replyText = 'Steve: ' + getMockReply('steve'); }
+
+      const parsed = parseMeetingReply(replyText);
+      parsed.forEach(p => {
+        appendMeetingMsg(p.id, p.text, false);
+        meetingHistory.push({ role: 'assistant', content: `${officers[p.id]?.name || p.id}: ${p.text}` });
+      });
+    } catch {
+      document.getElementById(typingId)?.remove();
+      const fallback = getMockReply('steve');
+      appendMeetingMsg('steve', fallback, false);
+      meetingHistory.push({ role: 'assistant', content: `Steve: ${fallback}` });
+    }
+
+    ma.scrollTop = ma.scrollHeight;
   }
-  input.value='';
+
+  input.disabled = false;
+  input.focus();
 }
 
 /* ── RENDER MEETING (comic style) ── */
+let meetingHistory = [];
+
 function renderMeeting() {
-  /* Participant bar */
   const bar = document.getElementById('meetingBar');
   bar.innerHTML = '';
   meetingParticipants.forEach((id) => {
     const o = officers[id];
     bar.innerHTML += `<div class="meeting-participant" id="mp-${id}">
-      <div class="mp-av" style="background:${o.hex}" data-id="${id}" onclick="filterMeetingBy('${id}')" title="הצג רק את ${o.name}" style="cursor:pointer">${o.name[0]}</div>
+      <div class="mp-av" style="background:${o.hex}" title="${o.name}">${o.name[0]}</div>
       <div class="mp-name">${o.name}</div>
-      <div class="mp-line" id="mpline-${id}"></div>
     </div>`;
   });
-  /* Add Nadav */
   bar.innerHTML += `<div class="meeting-participant" id="mp-nadav">
-    <div class="mp-av" style="background:${nadav.hex}" data-id="nadav" onclick="filterMeetingBy('nadav')" title="הצג רק את Nadav">N</div>
+    <div class="mp-av" style="background:${nadav.hex}">N</div>
     <div class="mp-name">Nadav</div>
-    <div class="mp-line" id="mpline-nadav"></div>
   </div>`;
+  document.getElementById('meetingMsgs').innerHTML = '';
+  meetingHistory = [];
+}
 
-  /* Messages */
+function appendMeetingMsg(speakerId, text, isUser) {
   const msgs = document.getElementById('meetingMsgs');
-  msgs.innerHTML = '';
-  let scriptIdx = 0;
-  meetingScript.forEach((line, i) => {
-    if (line.divider) {
-      msgs.innerHTML += `<div class="comic-time-divider">${line.divider}</div>`;
-      return;
+  const o = isUser ? null : officers[speakerId];
+  const col = isUser ? nadav.hex : (o?.hex || '#e8623a');
+  const init = isUser ? 'N' : (o?.name[0] || speakerId[0].toUpperCase());
+  const label = isUser ? 'Nadav (You)' : (o ? o.name + ' · ' + o.role : speakerId);
+  msgs.innerHTML += `<div class="comic-msg ${isUser ? 'is-user' : ''}" data-speaker="${speakerId}">
+    <div class="comic-speaker-row">
+      <div class="comic-av-sm" style="background:${col}">${init}</div>
+      <div class="comic-name-sm">${label}</div>
+    </div>
+    <div class="comic-bubble">${text}</div>
+  </div>`;
+  const ma = document.getElementById('meetingArea');
+  ma.scrollTop = ma.scrollHeight;
+}
+
+function parseMeetingReply(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+  const parsed = [];
+  lines.forEach(line => {
+    const match = line.match(/^(\w+):\s*(.+)$/);
+    if (match) {
+      const name = match[1];
+      const msg = match[2];
+      const oId = Object.keys(officers).find(k => officers[k].name === name) || 'steve';
+      parsed.push({ id: oId, text: msg });
+    } else if (line.trim() && parsed.length === 0) {
+      parsed.push({ id: 'steve', text: line.trim() });
     }
-    const isNadav = line.speaker==='nadav';
-    const o = isNadav ? nadav : officers[line.speaker];
-    const col = isNadav ? nadav.hex : o.hex;
-    const name = isNadav ? 'Nadav (You)' : o.name + ' · ' + o.role;
-    const init = isNadav ? 'N' : o.name[0];
-    /* colored bubble tint */
-    const r = parseInt(col.slice(1,3),16);
-    const g = parseInt(col.slice(3,5),16);
-    const b = parseInt(col.slice(5,7),16);
-    const bubbleStyle = isNadav ? '' : `style="--bubble-bg:rgba(${r},${g},${b},0.09);--bubble-border:${col}"`;
-    const gapAttr = line.gap ? ` data-gap="${line.gap}"` : '';
-    const speakerId = isNadav ? 'nadav' : line.speaker;
-    /* highlight active speaker in bar */
-    setTimeout(()=>{
-      document.querySelectorAll('.meeting-participant').forEach(el => {
-        el.classList.remove('mp-active');
-        const ln = document.getElementById('mpline-'+el.id.replace('mp-',''));
-        if (ln) ln.style.opacity='0';
-      });
-      const mpEl = document.getElementById('mp-'+speakerId);
-      if (mpEl) mpEl.classList.add('mp-active');
-    }, scriptIdx*80);
-    scriptIdx++;
-    msgs.innerHTML += `<div class="comic-msg ${isNadav?'is-user':''}"${gapAttr} data-speaker="${speakerId}">
-      <div class="comic-speaker-row">
-        <div class="comic-av-sm" style="background:${col}">${init}</div>
-        <div class="comic-name-sm">${name}</div>
-      </div>
-      <div class="comic-bubble" ${bubbleStyle}>${line.text}</div>
-    </div>`;
   });
-  setTimeout(()=>{ const ma=document.getElementById('meetingArea'); ma.scrollTop=ma.scrollHeight; },100);
+  return parsed.length ? parsed : [{ id: 'steve', text: text.trim() }];
 }
 
 /* ── SEARCH ── */
@@ -2157,27 +2294,69 @@ function setFood(name, el) {
 /* ── START / END MEETING ── */
 let meetingState = 'idle';
 let _meetingTimers = [];
-function startMeeting() {
+
+async function startMeeting() {
   if (['active','summarizing','done'].includes(meetingState)) return;
   const inner = document.getElementById('meetingCtaInner');
   const label = document.getElementById('meetingCtaLabel');
   const endLink = document.getElementById('meetingEndLink');
+  const cta = document.getElementById('meetingCTA');
+
   meetingState = 'starting';
   inner.className = 'meeting-cta-inner state-starting';
-  label.textContent = 'מחכה לצוות...';
+  label.textContent = 'מזמין צוות...';
   if (endLink) endLink.classList.remove('visible');
-  // Random 8–10 second wait
-  const wait = 8000 + Math.random() * 2000;
-  _meetingTimers.push(setTimeout(() => {
-    meetingState = 'active';
-    inner.className = 'meeting-cta-inner state-active';
-    label.textContent = 'ישיבה פעילה';
-    if (endLink) endLink.classList.add('visible');
-    const msgs = document.getElementById('meetingMsgs');
-    if (msgs) setTimeout(() => { msgs.scrollTop = msgs.scrollHeight; }, 100);
-  }, wait));
+
+  // Steve opens the meeting live via Gemini
+  await new Promise(r => setTimeout(r, 1200));
+
+  meetingState = 'active';
+  inner.className = 'meeting-cta-inner state-active';
+  label.textContent = 'ישיבה פעילה';
+  if (endLink) endLink.classList.add('visible');
+  if (cta) cta.style.marginBottom = '8px';
+
+  // Typing indicator for Steve
+  const msgs = document.getElementById('meetingMsgs');
+  const typingId = 'mt-' + Date.now();
+  msgs.innerHTML += `<div class="comic-msg" id="${typingId}">
+    <div class="comic-speaker-row">
+      <div class="comic-av-sm" style="background:${officers.steve.hex}">S</div>
+      <div class="comic-name-sm">Steve · CEO</div>
+    </div>
+    <div class="comic-bubble" style="color:var(--muted)"><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span></div>
+  </div>`;
+  document.getElementById('meetingArea').scrollTop = 99999;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: 'פתח את הישיבה בברכה קצרה ושאל את Nadav מה בסדר היום',
+        officerId: 'steve', history: [], mode: 'meeting',
+        participants: meetingParticipants
+      })
+    });
+    document.getElementById(typingId)?.remove();
+    let reply = 'Good morning, team. Nadav — what\'s on the agenda today?';
+    if (res.ok) {
+      const data = await res.json();
+      if (data.reply) reply = data.reply;
+    }
+    const parsed = parseMeetingReply(reply);
+    parsed.forEach(p => {
+      appendMeetingMsg(p.id, p.text, false);
+      meetingHistory.push({ role: 'assistant', content: `${officers[p.id]?.name || p.id}: ${p.text}` });
+    });
+  } catch {
+    document.getElementById(typingId)?.remove();
+    appendMeetingMsg('steve', 'Good morning. Nadav — what\'s on the agenda today?', false);
+    meetingHistory.push({ role: 'assistant', content: 'Steve: Good morning. Nadav — what\'s on the agenda today?' });
+  }
 }
-function endMeeting() {
+
+async function endMeeting() {
   if (meetingState !== 'active') return;
   const inner = document.getElementById('meetingCtaInner');
   const label = document.getElementById('meetingCtaLabel');
@@ -2185,19 +2364,45 @@ function endMeeting() {
   meetingState = 'summarizing';
   inner.className = 'meeting-cta-inner state-summarizing';
   inner.onclick = null;
-  label.textContent = '✍️ Steve מסכם...';
+  label.textContent = 'Steve מסכם...';
   if (endLink) endLink.classList.remove('visible');
-  setTimeout(() => {
-    meetingState = 'done';
-    inner.className = 'meeting-cta-inner state-done';
-    label.textContent = '✓ ישיבה סוכמה — לחץ לצפייה בסיכום';
-    inner.style.cursor = 'pointer';
-    inner.onclick = () => {
-      closePanel();
-      toggleArchive();
-      setTimeout(() => { toggleArchiveRow(1); }, 150);
-    };
-  }, 5000);
+
+  let summary = null;
+  try {
+    const res = await fetch('/api/summary', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ history: meetingHistory, officerName: 'Steve', officerRole: 'CEO', mode: 'meeting', participants: meetingParticipants })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      summary = data.summary;
+    }
+  } catch {}
+
+  const dateStr = new Date().toISOString().split('T')[0];
+  const memKey = `hypeshow_meeting_${dateStr}_${Date.now()}`;
+  localStorage.setItem(memKey, JSON.stringify({
+    date: dateStr, type: 'meeting', mode: 'team',
+    participants: meetingParticipants, history: meetingHistory, summary
+  }));
+
+  meetingState = 'done';
+  inner.className = 'meeting-cta-inner state-done';
+  label.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה';
+  inner.style.cursor = 'default';
+  if (summary) {
+    const msgs = document.getElementById('meetingMsgs');
+    msgs.innerHTML += `<div class="comic-time-divider">סיכום Steve</div>
+    <div class="comic-msg" data-speaker="steve">
+      <div class="comic-speaker-row">
+        <div class="comic-av-sm" style="background:${officers.steve.hex}">S</div>
+        <div class="comic-name-sm">Steve · CEO</div>
+      </div>
+      <div class="comic-bubble">${summary}</div>
+    </div>`;
+    document.getElementById('meetingArea').scrollTop = 99999;
+  }
 }
 
 /* ── CUSTOM MEETING ── */
@@ -2235,14 +2440,30 @@ function toggleOfficerSelection(id) {
 }
 function startCustomMeeting() {
   if (selectedOfficers.size === 0) return;
-  // Override participant list temporarily
-  const saved = [...meetingParticipants];
-  meetingParticipants.length = 0;
-  [...selectedOfficers].forEach(id => meetingParticipants.push(id));
-  setMode('meeting');
-  // Restore after render
-  setTimeout(() => { meetingParticipants.length = 0; saved.forEach(id => meetingParticipants.push(id)); }, 0);
-  startMeeting();
+  // Switch to custom live chat mode
+  const msgs = document.getElementById('meetingMsgs');
+  const bar = document.getElementById('meetingBar');
+  msgs.innerHTML = '';
+  bar.innerHTML = '';
+
+  [...selectedOfficers].forEach(id => {
+    const o = officers[id];
+    bar.innerHTML += `<div class="meeting-participant" id="mp-${id}">
+      <div class="mp-av" style="background:${o.hex}">${o.name[0]}</div>
+      <div class="mp-name">${o.name}</div>
+    </div>`;
+  });
+  bar.innerHTML += `<div class="meeting-participant" id="mp-nadav">
+    <div class="mp-av" style="background:${nadav.hex}">N</div>
+    <div class="mp-name">Nadav</div>
+  </div>`;
+
+  // Hide selection, show chat
+  document.getElementById('customArea').style.display = 'none';
+  document.getElementById('meetingArea').style.display = 'block';
+  document.getElementById('meetingArea').style.flex = '1';
+  const cta = document.getElementById('meetingCTA');
+  if (cta) cta.style.display = 'none';
 }
 
 /* ── ARCHIVE ── */
