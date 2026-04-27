@@ -2492,6 +2492,8 @@ function resolveConflict(choice) {
 
 function _applyLocalWins() {
   // local already has priority — nothing to overwrite, just dismiss
+  const overlay = document.getElementById('conflictModalOverlay');
+  if (overlay) overlay.classList.remove('show');
 }
 
 function _showOfficerPIIWelcome(officerId) {
@@ -2537,10 +2539,12 @@ function _applyCloudWins(conflicts) {
   conflicts.forEach(({ cloud, localKey }) => {
     localStorage.setItem(localKey, JSON.stringify({
       date: cloud.date, officer: cloud.officer_name, role: cloud.officer_role,
-      mode: cloud.mode, history: cloud.history || [], summary: cloud.summary
+      mode: cloud.mode, history: cloud.history || [], summary: cloud.summary,
+      updated_at: cloud.updated_at
     }));
   });
-  document.getElementById('syncConflictModal')?.remove();
+  const overlay = document.getElementById('conflictModalOverlay');
+  if (overlay) overlay.classList.remove('show');
   markActiveOfficers();
 }
 
