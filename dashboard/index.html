@@ -505,6 +505,32 @@ body.dark .sprint-track { background:#2a2a30; }
 .notif-dot { width:7px; height:7px; border-radius:50%; background:var(--coral); flex-shrink:0; margin-top:4px; }
 .notif-empty { padding:28px 16px; text-align:center; color:rgba(255,255,255,.3); font-size:12px; }
 
+/* ── DAILY BRIEFING ── */
+.daily-briefing { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:22px 28px 20px; margin-bottom:20px; position:relative; overflow:hidden; }
+.daily-briefing::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--coral),#f0855e,#7b3dd5); }
+.db-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px; }
+.db-greeting { font-size:20px; font-weight:700; color:var(--text); }
+.db-date { font-size:11px; color:var(--muted); margin-top:3px; }
+.db-sprint-pill { background:rgba(232,98,58,.1); border:1px solid rgba(232,98,58,.25); border-radius:100px; padding:5px 12px; font-size:11px; font-weight:600; color:var(--coral); white-space:nowrap; }
+.db-updates { display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
+.db-update-row { display:flex; align-items:flex-start; gap:10px; }
+.db-av { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; flex-shrink:0; margin-top:1px; }
+.db-update-text { font-size:12px; color:var(--muted); line-height:1.5; }
+.db-update-text strong { color:var(--text); font-weight:600; }
+.db-cta { display:inline-flex; align-items:center; gap:8px; background:var(--coral); color:#fff; border:none; border-radius:100px; padding:10px 20px; font-size:13px; font-weight:600; cursor:pointer; transition:all .15s; font-family:'DM Sans',sans-serif; }
+.db-cta:hover { background:var(--coral-mid); transform:translateY(-1px); }
+.db-cta-daily { background:transparent; border:1.5px solid var(--coral); color:var(--coral); }
+.db-cta-daily:hover { background:var(--coral); color:#fff; }
+
+/* ── OFFICER CARD ACTIVE STATE ── */
+.officer-card .card-active-tag { display:none; font-size:10px; color:var(--coral); font-weight:600; margin-top:4px; }
+.officer-card.has-convo .card-active-tag { display:block; }
+.officer-card.has-convo .card-task { display:none; }
+
+/* ── FIRST LOGIN TOUR ── */
+.tour-highlight { animation:tourPulse 1.8s ease-in-out 3; }
+@keyframes tourPulse { 0%,100%{box-shadow:0 0 0 0 rgba(232,98,58,0)} 50%{box-shadow:0 0 0 6px rgba(232,98,58,.35)} }
+
 /* Language button in topbar */
 .tb-lang-btn {
   display:flex; align-items:center; gap:5px;
@@ -1605,6 +1631,19 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
 
 <!-- MAIN -->
 <main class="main">
+
+  <!-- DAILY BRIEFING -->
+  <div class="daily-briefing" id="dailyBriefing" style="display:none">
+    <div class="db-top">
+      <div>
+        <div class="db-greeting" id="dbGreeting">שלום, Nadav</div>
+        <div class="db-date" id="dbDate"></div>
+      </div>
+      <div class="db-sprint-pill" id="dbSprintPill">Sprint Day —</div>
+    </div>
+    <div class="db-updates" id="dbUpdates"></div>
+    <button class="db-cta" id="dbCta" onclick="handleDbCta()">הכר את הצוות שלך</button>
+  </div>
 
   <div class="sprint-bar" bis_skin_checked="1">
     <div bis_skin_checked="1"><div class="sprint-lbl" bis_skin_checked="1">Active Sprint</div><div class="sprint-name" bis_skin_checked="1">MVP Foundation</div></div>
@@ -2981,6 +3020,145 @@ function updateSprintCounter() {
   if (logFill) setTimeout(() => { logFill.style.width = pct + '%'; }, 100);
 }
 document.addEventListener('DOMContentLoaded', updateSprintCounter);
+
+/* ══════════════════════════════════════
+   DAILY BRIEFING + FIRST/RETURNING USER
+══════════════════════════════════════ */
+const OFFICER_UPDATES = [
+  { id:'steve',   color:'#e8623a', icon:'S', text:'<strong>Steve:</strong> Sprint 2 מוכן להתחלה — ממתין לאישורך על הפריורטיות.' },
+  { id:'oded',    color:'#2a2a2a', icon:'O', text:'<strong>Oded:</strong> ארכיטקטורת V3 אושרה. מתחיל build ברגע שיפתח מעביר green light.' },
+  { id:'daniel',  color:'#7b3dd5', icon:'D', text:'<strong>Daniel:</strong> Daily Briefing ו-First Login Flow מוכנים לסקירה.' },
+];
+
+function initDailyBriefing() {
+  const isReturning = !!localStorage.getItem('hypeshow_returning_user');
+  const briefing = document.getElementById('dailyBriefing');
+  if (!briefing) return;
+
+  briefing.style.display = 'block';
+
+  // Date + sprint pill
+  const days = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+  const now = new Date();
+  const dayName = 'יום ' + days[now.getDay()];
+  const dd = String(now.getDate()).padStart(2,'0');
+  const mm = String(now.getMonth()+1).padStart(2,'0');
+  document.getElementById('dbDate').textContent = dayName + ' · ' + dd + '/' + mm + '/' + now.getFullYear();
+
+  const START = new Date('2026-03-31T00:00:00');
+  const sprintDay = Math.min(Math.max(Math.floor((now - START) / 86400000) + 1, 1), 14);
+  document.getElementById('dbSprintPill').textContent = 'Sprint Day ' + sprintDay + ' / 14';
+
+  if (isReturning) {
+    // DAILY LOGIN
+    document.getElementById('dbGreeting').textContent = 'שלום בחזרה, Nadav';
+    document.getElementById('dbCta').textContent = 'שאל את הצוות';
+    document.getElementById('dbCta').classList.add('db-cta-daily');
+
+    // Pull updates from localStorage first, fallback to static
+    const updates = buildUpdatesFromMemory();
+    const updateEl = document.getElementById('dbUpdates');
+    updateEl.innerHTML = updates.map(u =>
+      `<div class="db-update-row">
+        <div class="db-av" style="background:${u.color}">${u.icon}</div>
+        <div class="db-update-text">${u.text}</div>
+      </div>`
+    ).join('');
+  } else {
+    // FIRST LOGIN
+    document.getElementById('dbGreeting').textContent = 'ברוך הבא, Nadav';
+    document.getElementById('dbUpdates').innerHTML =
+      `<div class="db-update-row">
+        <div class="db-av" style="background:var(--coral)">S</div>
+        <div class="db-update-text"><strong>Steve:</strong> הצוות שלך מוכן. 9 קצינים, כל אחד בתחומו — לחץ על כרטיס כדי להתחיל שיחה.</div>
+      </div>`;
+    // Run first-login tour after 800ms
+    setTimeout(runFirstLoginTour, 800);
+  }
+}
+
+function buildUpdatesFromMemory() {
+  const keys = Object.keys(localStorage).filter(k => k.startsWith('hypeshow_memory_'));
+  const recent = {};
+  keys.forEach(k => {
+    try {
+      const d = JSON.parse(localStorage.getItem(k));
+      if (d && d.officerId && !recent[d.officerId]) recent[d.officerId] = d;
+    } catch(e) {}
+  });
+  const updates = [];
+  Object.entries(recent).slice(0, 3).forEach(([id, data]) => {
+    const o = officers[id];
+    if (!o) return;
+    const snippet = data.summary
+      ? data.summary.slice(0, 80) + (data.summary.length > 80 ? '…' : '')
+      : 'פעיל היום — לחץ לפתיחת השיחה';
+    updates.push({ color: o.hex, icon: o.name[0], text: `<strong>${o.name}:</strong> ${snippet}` });
+  });
+  if (!updates.length) return OFFICER_UPDATES;
+  return updates;
+}
+
+function handleDbCta() {
+  localStorage.setItem('hypeshow_returning_user', '1');
+  const isReturning = document.getElementById('dbCta').classList.contains('db-cta-daily');
+  if (isReturning) {
+    openPanel('steve');
+  } else {
+    localStorage.setItem('hypeshow_returning_user', '1');
+    runFirstLoginTour();
+  }
+}
+
+function runFirstLoginTour() {
+  localStorage.setItem('hypeshow_returning_user', '1');
+  // Refresh briefing to daily mode
+  const cta = document.getElementById('dbCta');
+  if (cta) { cta.textContent = 'שאל את הצוות'; cta.classList.add('db-cta-daily'); }
+  document.getElementById('dbGreeting').textContent = 'שלום בחזרה, Nadav';
+  // Pulse-highlight officer cards in sequence
+  const ids = ['steve','yaniv','oded','daniel','inbar','yarden','yiftach','ayelet','mia'];
+  ids.forEach((id, i) => {
+    setTimeout(() => {
+      const card = document.querySelector(`[onclick*="openPanel('${id}')"]`);
+      if (card) card.classList.add('tour-highlight');
+      setTimeout(() => { if (card) card.classList.remove('tour-highlight'); }, 1800);
+    }, i * 220);
+  });
+}
+
+/* ── OFFICER CARDS: ACTIVE STATE FROM LOCALSTORAGE ── */
+function markActiveOfficers() {
+  const keys = Object.keys(localStorage).filter(k => k.startsWith('hypeshow_memory_'));
+  const today = new Date().toISOString().split('T')[0];
+  const activeToday = new Set();
+  keys.forEach(k => {
+    if (k.includes(today)) {
+      try {
+        const d = JSON.parse(localStorage.getItem(k));
+        if (d && d.officerId) activeToday.add(d.officerId);
+      } catch(e) {}
+    }
+  });
+  activeToday.forEach(id => {
+    const card = document.querySelector(`[onclick*="openPanel('${id}')"]`);
+    if (!card) return;
+    card.classList.add('has-convo');
+    let tag = card.querySelector('.card-active-tag');
+    if (!tag) {
+      tag = document.createElement('div');
+      tag.className = 'card-active-tag';
+      const taskEl = card.querySelector('.card-task');
+      if (taskEl) taskEl.after(tag);
+    }
+    tag.textContent = 'פעיל היום';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initDailyBriefing();
+  markActiveOfficers();
+});
 </script>
 
 <!-- LEGAL FOOTER -->
