@@ -4,6 +4,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HypeSHow — The Hub (v3)</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <link href="./HypeSHowdashboard_files/css2" rel="stylesheet">
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -2173,6 +2174,46 @@ async function saveChatSummary() {
   }).catch(() => {});
 }
 
+/* ── AUTH ──────────────────────────────────────────────────────────────── */
+
+const _sbDash = (typeof supabase !== 'undefined')
+  ? supabase.createClient(
+      'https://afhgsrwzvnhtpyulohjn.supabase.co',
+      'sb_publishable_tnF6QkOcIzmuKlqBHPuNEw_t3Pw70Il'
+    )
+  : null;
+
+async function initAuth() {
+  if (!_sbDash) { setTimeout(syncPull, 2000); return; }
+
+  // Handle OAuth callback hash (#access_token=...)
+  const { data: { session } } = await _sbDash.auth.getSession();
+
+  if (session?.user) {
+    const uid = session.user.id;
+    localStorage.setItem('hypeshow_user_id', uid);
+    _updateUserDisplay(session.user);
+  }
+
+  // Pull cloud conversations after auth resolved
+  setTimeout(syncPull, 1500);
+}
+
+function _updateUserDisplay(user) {
+  const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Nadav';
+  const firstName = name.split(' ')[0];
+  // Update greeting name
+  const spans = document.querySelectorAll('.topbar-greeting span, #dbGreeting');
+  spans.forEach(el => {
+    if (el.id === 'dbGreeting') el.textContent = 'שלום, ' + firstName;
+    else el.textContent = firstName;
+  });
+}
+
+function signOut() {
+  if (_sbDash) _sbDash.auth.signOut().then(() => { window.location.href = '/'; });
+}
+
 /* ── SUPABASE SYNC ─────────────────────────────────────────────────────── */
 
 function getOrCreateUserId() {
@@ -3513,8 +3554,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDailyBriefing();
   markActiveOfficers();
   _initGreeting();
-  // Pull from Supabase on load (after 2s to not block UI)
-  setTimeout(syncPull, 2000);
+  initAuth();
 });
 
 /* ── DYNAMIC TIME-BASED GREETING ── */
