@@ -864,7 +864,7 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
   </div>
 
   <div class="sidebar-me" id="sidebarMe" onclick="toggleUserMenu(event)" title="פרופיל">N</div>
-  <div id="userMenu" style="display:none;position:fixed;bottom:72px;right:12px;background:#1c1c1e;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:6px;z-index:9000;min-width:140px;box-shadow:0 8px 32px rgba(0,0,0,.6)">
+  <div id="userMenu" style="display:none;position:fixed;bottom:72px;left:12px;background:#1c1c1e;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:6px;z-index:9000;min-width:140px;box-shadow:0 8px 32px rgba(0,0,0,.6)">
     <button onclick="signOut()" style="width:100%;background:none;border:none;color:#e8623a;font-size:13px;padding:8px 12px;cursor:pointer;border-radius:8px;text-align:right;direction:rtl" onmouseenter="this.style.background='rgba(232,98,58,.1)'" onmouseleave="this.style.background='none'">התנתק</button>
   </div>
 </nav>
@@ -2219,21 +2219,28 @@ function _updateUserDisplay(user) {
   const dbGreet = document.getElementById('dbGreeting');
   if (dbGreet) dbGreet.textContent = 'שלום, ' + firstName;
 
-  // Update sidebar avatar — photo if available, initial otherwise
+  // Update sidebar avatar — always show initial, replace with photo only on successful load
   const me = document.getElementById('sidebarMe');
   if (me) {
+    const initial = firstName[0].toUpperCase();
+    me.textContent = initial;
+    me.style.background = '';
+    me.style.padding = '';
+    me.style.overflow = '';
+
     if (avatarUrl) {
-      me.innerHTML = '';
-      me.style.background = 'none';
-      me.style.padding = '0';
-      me.style.overflow = 'hidden';
       const img = document.createElement('img');
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;display:none';
+      img.onload = () => {
+        me.innerHTML = '';
+        me.style.background = 'none';
+        me.style.padding = '0';
+        me.style.overflow = 'hidden';
+        img.style.display = 'block';
+        me.appendChild(img);
+      };
+      img.onerror = () => { me.textContent = initial; me.style.background = ''; };
       img.src = avatarUrl;
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%';
-      img.onerror = () => { me.innerHTML = firstName[0].toUpperCase(); me.style.background = ''; };
-      me.appendChild(img);
-    } else {
-      me.textContent = firstName[0].toUpperCase();
     }
   }
 }
