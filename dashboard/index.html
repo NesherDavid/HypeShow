@@ -536,6 +536,10 @@ body.dark .sprint-track { background:#2a2a30; }
 .officer-card.has-convo .card-active-tag { display:block; }
 .officer-card.has-convo .card-task { display:none; }
 
+/* ── CUSTOM MEETING: already-in state ── */
+.custom-officer-pick.already-in { opacity:.4; cursor:default; pointer-events:none; }
+.custom-officer-pick.already-in .cop-av { filter:grayscale(.4); }
+
 /* ── FIRST LOGIN TOUR ── */
 .tour-highlight { animation:tourPulse 1.8s ease-in-out 3; }
 @keyframes tourPulse { 0%,100%{box-shadow:0 0 0 0 rgba(232,98,58,0)} 50%{box-shadow:0 0 0 6px rgba(232,98,58,.35)} }
@@ -2178,12 +2182,22 @@ function setMode(mode) {
     if (inner) { inner.className = 'meeting-cta-inner'; inner.onclick = startMeeting; label.textContent = 'התחל ישיבה — הזמן את הצוות'; }
     renderMeeting();
   } else if (mode==='custom') {
-    if (cta)     cta.style.display = 'none';
-    if (endLink) endLink.style.display = 'none';
-    document.getElementById('meetingMsgs').innerHTML = '';
-    document.getElementById('meetingBar').innerHTML  = '';
-    selectedOfficers.clear();
-    renderCustomMeeting();
+    const meetingActive = meetingState === 'active';
+    if (meetingActive) {
+      // Meeting in progress — show add-participants picker, keep messages
+      if (cta) cta.style.display = 'none';
+      selectedOfficers.clear();
+      renderCustomMeeting(true);
+    } else {
+      // Fresh start
+      if (cta)     cta.style.display = 'none';
+      if (endLink) endLink.style.display = 'none';
+      document.getElementById('meetingMsgs').innerHTML = '';
+      document.getElementById('meetingBar').innerHTML  = '';
+      currentMeetingOfficers.clear();
+      selectedOfficers.clear();
+      renderCustomMeeting(false);
+    }
   } else if (mode==='chat') {
     renderChat();
   }
@@ -2354,6 +2368,7 @@ function renderMeeting() {
   </div>`;
   document.getElementById('meetingMsgs').innerHTML = '';
   meetingHistory = [];
+  currentMeetingOfficers = new Set(meetingParticipants);
 }
 
 function appendMeetingMsg(speakerId, text, isUser) {
@@ -2540,20 +2555,28 @@ async function endMeeting() {
 
 /* ── CUSTOM MEETING ── */
 let selectedOfficers = new Set();
-function renderCustomMeeting() {
+let currentMeetingOfficers = new Set();
+
+function renderCustomMeeting(addMode = false) {
   const grid = document.getElementById('customGrid');
   grid.innerHTML = '';
   Object.entries(officers).forEach(([id, o]) => {
+    const alreadyIn = currentMeetingOfficers.has(id);
     const div = document.createElement('div');
-    div.className = 'custom-officer-pick';
+    div.className = 'custom-officer-pick' + (alreadyIn ? ' already-in' : '');
     div.id = 'cop-' + id;
-    div.innerHTML = `<div class="cop-av" style="background:${o.hex}">${o.name[0]}</div><div class="cop-name">${o.name}</div>`;
-    div.onclick = () => toggleOfficerSelection(id);
+    div.innerHTML = `<div class="cop-av" style="background:${o.hex}">${o.name[0]}</div><div class="cop-name">${o.name}</div>${alreadyIn ? '<div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:2px">בפגישה</div>' : ''}`;
+    if (!alreadyIn) div.onclick = () => toggleOfficerSelection(id);
     grid.appendChild(div);
   });
-  document.getElementById('customInviteBtn').classList.remove('visible');
+  const btn = document.getElementById('customInviteBtn');
+  btn.classList.remove('visible');
+  btn.textContent = addMode ? 'הוסף למפגש' : 'התחל מפגש';
+  btn.setAttribute('data-addmode', addMode ? '1' : '0');
 }
+
 function toggleOfficerSelection(id) {
+  if (currentMeetingOfficers.has(id)) return;
   const card = document.getElementById('cop-' + id);
   if (selectedOfficers.has(id)) {
     selectedOfficers.delete(id);
@@ -2564,39 +2587,69 @@ function toggleOfficerSelection(id) {
   }
   const btn = document.getElementById('customInviteBtn');
   const n = selectedOfficers.size;
+  const addMode = btn.getAttribute('data-addmode') === '1';
   if (n > 0) {
     btn.classList.add('visible');
-    btn.textContent = 'הזמן ' + n + ' אנשי AI לישיבה';
+    btn.textContent = addMode ? `הוסף ${n} לישיבה` : `התחל מפגש עם ${n}`;
   } else {
     btn.classList.remove('visible');
   }
 }
+
 function startCustomMeeting() {
   if (selectedOfficers.size === 0) return;
-  // Switch to custom live chat mode
-  const msgs = document.getElementById('meetingMsgs');
+  const addMode = document.getElementById('customInviteBtn').getAttribute('data-addmode') === '1';
   const bar = document.getElementById('meetingBar');
-  msgs.innerHTML = '';
-  bar.innerHTML = '';
 
-  [...selectedOfficers].forEach(id => {
-    const o = officers[id];
-    bar.innerHTML += `<div class="meeting-participant" id="mp-${id}">
-      <div class="mp-av" style="background:${o.hex}">${o.name[0]}</div>
-      <div class="mp-name">${o.name}</div>
+  if (addMode) {
+    // ADD to existing meeting — no reset
+    const names = [...selectedOfficers].map(id => officers[id].name).join(', ');
+    [...selectedOfficers].forEach(id => {
+      currentMeetingOfficers.add(id);
+      const o = officers[id];
+      if (!document.getElementById('mp-' + id)) {
+        bar.innerHTML += `<div class="meeting-participant" id="mp-${id}">
+          <div class="mp-av" style="background:${o.hex}">${o.name[0]}</div>
+          <div class="mp-name">${o.name}</div>
+        </div>`;
+      }
+    });
+    // Inject "joined" message in chat
+    const msgs = document.getElementById('meetingMsgs');
+    msgs.innerHTML += `<div class="comic-time-divider">${names} הצטרפ${selectedOfficers.size > 1 ? 'ו' : ''} לישיבה</div>`;
+    meetingHistory.push({ role: 'assistant', content: `[${names} joined the meeting]` });
+    document.getElementById('meetingArea').scrollTop = 99999;
+  } else {
+    // Fresh custom meeting — reset
+    const msgs = document.getElementById('meetingMsgs');
+    msgs.innerHTML = '';
+    bar.innerHTML = '';
+    currentMeetingOfficers.clear();
+    [...selectedOfficers].forEach(id => {
+      currentMeetingOfficers.add(id);
+      const o = officers[id];
+      bar.innerHTML += `<div class="meeting-participant" id="mp-${id}">
+        <div class="mp-av" style="background:${o.hex}">${o.name[0]}</div>
+        <div class="mp-name">${o.name}</div>
+      </div>`;
+    });
+    bar.innerHTML += `<div class="meeting-participant" id="mp-nadav">
+      <div class="mp-av" style="background:${nadav.hex}">N</div>
+      <div class="mp-name">Nadav</div>
     </div>`;
-  });
-  bar.innerHTML += `<div class="meeting-participant" id="mp-nadav">
-    <div class="mp-av" style="background:${nadav.hex}">N</div>
-    <div class="mp-name">Nadav</div>
-  </div>`;
+  }
 
-  // Hide selection, show chat
+  // Hide picker, show meeting
   document.getElementById('customArea').style.display = 'none';
   document.getElementById('meetingArea').style.display = 'block';
   document.getElementById('meetingArea').style.flex = '1';
-  const cta = document.getElementById('meetingCTA');
-  if (cta) cta.style.display = 'none';
+  if (!addMode) {
+    const cta = document.getElementById('meetingCTA');
+    if (cta) cta.style.display = 'none';
+    meetingState = 'active';
+  }
+  currentMode = 'custom';
+  selectedOfficers.clear();
 }
 
 /* ── ARCHIVE ── */
