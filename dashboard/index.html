@@ -522,6 +522,15 @@ body.dark .sprint-track { background:#2a2a30; }
 .db-cta-daily { background:transparent; border:1.5px solid var(--coral); color:var(--coral); }
 .db-cta-daily:hover { background:var(--coral); color:#fff; }
 
+/* ── SEARCH RESULTS ── */
+.sr-section { padding:8px 16px 4px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); }
+.sr-item { display:flex; align-items:center; gap:12px; padding:10px 16px; cursor:pointer; transition:background .1s; border-radius:8px; margin:0 6px; }
+.sr-item:hover { background:var(--border); }
+.sr-av { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff; flex-shrink:0; }
+.sr-label { font-size:13px; color:var(--text); font-weight:500; }
+.sr-sub { font-size:11px; color:var(--muted); margin-top:1px; }
+.sr-empty { padding:24px 16px; text-align:center; color:var(--muted); font-size:13px; }
+
 /* ── OFFICER CARD ACTIVE STATE ── */
 .officer-card .card-active-tag { display:none; font-size:10px; color:var(--coral); font-weight:600; margin-top:4px; }
 .officer-card.has-convo .card-active-tag { display:block; }
@@ -936,9 +945,10 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
 <!-- SEARCH BAR -->
 <div class="search-bar" id="searchBar" bis_skin_checked="1">
   <svg width="17" height="17" viewBox="0 0 17 17" fill="none" style="flex-shrink:0;color:var(--muted)" aria-hidden="true"><circle cx="7.5" cy="7.5" r="5" stroke="currentColor" stroke-width="1.8"></circle><line x1="11.2" y1="11.2" x2="15.5" y2="15.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></line></svg>
-  <input class="search-input" id="searchInput" placeholder="Search conversations, decisions, sprints…" onkeydown="if(event.key===&#39;Escape&#39;)toggleSearch()">
-  <span class="search-close" onclick="toggleSearch()">✕ Close</span>
+  <input class="search-input" id="searchInput" placeholder="חפש שיחות, החלטות, קצינים…" onkeydown="if(event.key==='Escape')toggleSearch()" oninput="runSearch(this.value)">
+  <span class="search-close" onclick="toggleSearch()">✕ סגור</span>
 </div>
+<div id="searchResults" style="display:none;position:fixed;top:96px;left:50%;transform:translateX(-50%);width:min(640px,90vw);background:var(--card);border:1px solid var(--border);border-radius:16px;z-index:851;box-shadow:0 16px 48px rgba(0,0,0,.3);max-height:420px;overflow-y:auto"></div>
 
 <!-- ══════════════════════════════════════════
      TEAM ALBUM MODAL
@@ -2049,9 +2059,19 @@ function openPanel(id) {
   document.getElementById('pRole').textContent = o.role;
   document.getElementById('pName').textContent = o.name;
   document.getElementById('pTask').textContent = o.task;
+  // Close any open side panels
+  document.getElementById('sprintLogPanel').style.display = 'none';
+  document.getElementById('sprintLogOverlay').style.display = 'none';
+  document.getElementById('historyPanel').style.display = 'none';
+  document.getElementById('historyOverlay').style.display = 'none';
+  document.getElementById('activityPanel').style.display = 'none';
+  document.getElementById('activityOverlay').style.display = 'none';
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('officersBtn').classList.add('active');
   setMode('chat');
   document.getElementById('overlay').classList.add('open');
   document.getElementById('floatPanel').classList.add('open');
+  _loadHistoryIntoPanel(id);
 }
 function closePanel() {
   saveChatSummary();
@@ -2090,6 +2110,41 @@ async function saveChatSummary() {
       }
     }
   } catch {}
+}
+
+/* ── LOAD PREVIOUS CONVERSATION INTO PANEL ── */
+function _loadHistoryIntoPanel(officerId) {
+  const keys = Object.keys(localStorage)
+    .filter(k => k.startsWith('hypeshow_memory_' + officerId + '_'))
+    .sort().slice(-1);
+  if (!keys.length) return;
+  try {
+    const data = JSON.parse(localStorage.getItem(keys[0]));
+    if (!data || !data.history || data.history.length < 2) return;
+    const recent = data.history.slice(-6);
+    chatHistory = recent.slice();
+    // Render history messages with dimmed style after renderChat runs
+    setTimeout(() => {
+      const area = document.getElementById('chatArea');
+      const o = officers[officerId];
+      if (!area || !o) return;
+      const divider = `<div style="text-align:center;font-size:10px;color:var(--muted);padding:4px 0 8px;opacity:.6">— שיחה קודמת —</div>`;
+      let histHtml = divider;
+      recent.forEach(m => {
+        const isUser = m.role === 'user';
+        const col = isUser ? nadav.hex : o.hex;
+        const init = isUser ? 'N' : o.name[0];
+        const name = isUser ? 'Nadav' : o.name;
+        histHtml += `<div class="chat-msg${isUser?' user':''}" style="opacity:.55">
+          <div class="chat-av" style="background:${col}">${init}</div>
+          <div><div class="chat-name">${name}</div><div class="chat-bubble">${m.content}</div></div>
+        </div>`;
+      });
+      histHtml += `<div style="text-align:center;font-size:10px;color:var(--muted);padding:4px 0 8px;opacity:.6">— שיחה חדשה —</div>`;
+      area.innerHTML = histHtml;
+      area.scrollTop = area.scrollHeight;
+    }, 60);
+  } catch(e) {}
 }
 
 /* ── MODE SWITCH ── */
@@ -3158,6 +3213,104 @@ function markActiveOfficers() {
 document.addEventListener('DOMContentLoaded', () => {
   initDailyBriefing();
   markActiveOfficers();
+  _initGreeting();
+});
+
+/* ── DYNAMIC TIME-BASED GREETING ── */
+function _initGreeting() {
+  const h = new Date().getHours();
+  const greet = h < 12 ? 'בוקר טוב' : h < 17 ? 'צהריים טובים' : 'ערב טוב';
+  const el = document.querySelector('.topbar-greeting');
+  if (el) {
+    const span = el.querySelector('span');
+    const svg = el.querySelector('svg');
+    el.innerHTML = '';
+    el.appendChild(document.createTextNode(greet + ', '));
+    if (span) el.appendChild(span); else { const s = document.createElement('span'); s.textContent = 'Nadav'; el.appendChild(s); }
+    if (svg) el.appendChild(svg);
+  }
+}
+
+/* ── REAL SEARCH ── */
+let _searchTimer = null;
+function runSearch(q) {
+  clearTimeout(_searchTimer);
+  const results = document.getElementById('searchResults');
+  if (!q.trim()) { results.style.display = 'none'; return; }
+  _searchTimer = setTimeout(() => _doSearch(q.trim().toLowerCase()), 180);
+}
+
+function _doSearch(q) {
+  const results = document.getElementById('searchResults');
+  const hits = [];
+
+  // Officers
+  Object.entries(officers).forEach(([id, o]) => {
+    if ((o.name + o.role + o.task).toLowerCase().includes(q)) {
+      hits.push({ type:'officer', id, label: o.name, sub: o.role, color: o.hex, icon: o.name[0] });
+    }
+  });
+
+  // Saved conversations
+  Object.keys(localStorage).filter(k => k.startsWith('hypeshow_memory_')).forEach(k => {
+    try {
+      const d = JSON.parse(localStorage.getItem(k));
+      if (!d) return;
+      const text = (d.summary || '') + (d.history || []).map(m => m.content).join(' ');
+      if (text.toLowerCase().includes(q)) {
+        const o = officers[d.officerId];
+        if (o) hits.push({ type:'convo', id: d.officerId, label: 'שיחה עם ' + o.name, sub: d.date + ' · ' + (d.summary || '').slice(0,60), color: o.hex, icon: o.name[0] });
+      }
+    } catch(e) {}
+  });
+
+  // Learning history entries
+  document.querySelectorAll('.hx-q,.hx-a').forEach(el => {
+    if (el.textContent.toLowerCase().includes(q)) {
+      const entry = el.closest('.hx-entry');
+      const qEl = entry?.querySelector('.hx-q');
+      if (qEl && !hits.find(h => h.label === qEl.textContent)) {
+        hits.push({ type:'learn', label: qEl.textContent, sub: 'Learning History', color:'#6e6e73', icon:'?', action: () => { toggleSearch(); toggleHistory(); } });
+      }
+    }
+  });
+
+  results.style.display = 'block';
+  if (!hits.length) { results.innerHTML = `<div class="sr-empty">אין תוצאות עבור "${q}"</div>`; return; }
+
+  const groups = { officer: 'קצינים', convo: 'שיחות', learn: 'Learning History' };
+  let html = '';
+  ['officer','convo','learn'].forEach(type => {
+    const group = hits.filter(h => h.type === type);
+    if (!group.length) return;
+    html += `<div class="sr-section">${groups[type]}</div>`;
+    group.slice(0,4).forEach((h, i) => {
+      html += `<div class="sr-item" onclick="_srClick(${i + hits.indexOf(h)})">
+        <div class="sr-av" style="background:${h.color}">${h.icon}</div>
+        <div><div class="sr-label">${h.label}</div><div class="sr-sub">${h.sub}</div></div>
+      </div>`;
+    });
+  });
+  results.innerHTML = html;
+  results._hits = hits;
+}
+
+function _srClick(idx) {
+  const results = document.getElementById('searchResults');
+  const hit = results._hits?.[idx];
+  if (!hit) return;
+  results.style.display = 'none';
+  toggleSearch();
+  if (hit.action) { hit.action(); return; }
+  if (hit.type === 'officer' || hit.type === 'convo') openPanel(hit.id);
+}
+
+document.addEventListener('click', e => {
+  const results = document.getElementById('searchResults');
+  const bar = document.getElementById('searchBar');
+  if (results && results.style.display !== 'none' && !results.contains(e.target) && !bar?.contains(e.target)) {
+    results.style.display = 'none';
+  }
 });
 </script>
 
