@@ -863,7 +863,7 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
     </a>
   </div>
 
-  <div class="sidebar-me" bis_skin_checked="1">N</div>
+  <div class="sidebar-me" id="sidebarMe" onclick="signOut()" title="התנתק">N</div>
 </nav>
 
 <!-- TOPBAR -->
@@ -2202,12 +2202,30 @@ async function initAuth() {
 function _updateUserDisplay(user) {
   const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Nadav';
   const firstName = name.split(' ')[0];
+  const avatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture || null;
+
   // Update greeting name
-  const spans = document.querySelectorAll('.topbar-greeting span, #dbGreeting');
-  spans.forEach(el => {
-    if (el.id === 'dbGreeting') el.textContent = 'שלום, ' + firstName;
-    else el.textContent = firstName;
-  });
+  document.querySelectorAll('.topbar-greeting span').forEach(el => { el.textContent = firstName; });
+  const dbGreet = document.getElementById('dbGreeting');
+  if (dbGreet) dbGreet.textContent = 'שלום, ' + firstName;
+
+  // Update sidebar avatar — photo if available, initial otherwise
+  const me = document.getElementById('sidebarMe');
+  if (me) {
+    if (avatarUrl) {
+      me.innerHTML = '';
+      me.style.background = 'none';
+      me.style.padding = '0';
+      me.style.overflow = 'hidden';
+      const img = document.createElement('img');
+      img.src = avatarUrl;
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%';
+      img.onerror = () => { me.innerHTML = firstName[0].toUpperCase(); me.style.background = ''; };
+      me.appendChild(img);
+    } else {
+      me.textContent = firstName[0].toUpperCase();
+    }
+  }
 }
 
 function signOut() {
