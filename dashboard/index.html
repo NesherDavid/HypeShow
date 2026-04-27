@@ -487,6 +487,24 @@ body.dark .sprint-track { background:#2a2a30; }
 }
 .tb-icon-btn:hover::after { opacity:1; }
 
+/* ── NOTIFICATIONS PANEL ── */
+.notif-panel { position:fixed; top:54px; right:12px; width:320px; max-height:460px; background:#1c1c1e; border:1px solid rgba(255,255,255,.1); border-radius:16px; z-index:800; box-shadow:0 16px 48px rgba(0,0,0,.45); display:none; flex-direction:column; overflow:hidden; }
+.notif-panel.open { display:flex; }
+.notif-head { padding:14px 18px 10px; border-bottom:1px solid rgba(255,255,255,.08); display:flex; align-items:center; justify-content:space-between; }
+.notif-head-title { font-size:13px; font-weight:700; color:#f0eeea; }
+.notif-mark-all { font-size:11px; color:var(--coral); cursor:pointer; font-weight:600; }
+.notif-list { overflow-y:auto; padding:4px 0; }
+.notif-item { display:flex; align-items:flex-start; gap:10px; padding:11px 16px; cursor:pointer; transition:background .12s; border-bottom:1px solid rgba(255,255,255,.04); position:relative; }
+.notif-item:hover { background:rgba(255,255,255,.04); }
+.notif-item.notif-read { opacity:.55; }
+.notif-av { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#fff; flex-shrink:0; }
+.notif-content { flex:1; min-width:0; }
+.notif-title { font-size:12px; font-weight:600; color:#f0eeea; margin-bottom:3px; }
+.notif-body { font-size:11px; color:rgba(255,255,255,.5); line-height:1.45; }
+.notif-time { font-size:10px; color:rgba(255,255,255,.3); margin-top:4px; }
+.notif-dot { width:7px; height:7px; border-radius:50%; background:var(--coral); flex-shrink:0; margin-top:4px; }
+.notif-empty { padding:28px 16px; text-align:center; color:rgba(255,255,255,.3); font-size:12px; }
+
 /* Language button in topbar */
 .tb-lang-btn {
   display:flex; align-items:center; gap:5px;
@@ -866,12 +884,12 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
       </svg>
     </button>
     <!-- Notifications -->
-    <button class="tb-icon-btn" data-tip="התראות">
+    <button class="tb-icon-btn" id="notifBtn" onclick="toggleNotifications()" data-tip="התראות">
       <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
         <path d="M7 1C4.8 1 3 2.8 3 5v4L1.5 11h11L11 9V5c0-2.2-1.8-4-4-4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
         <path d="M5.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
       </svg>
-      <div class="notif-badge" bis_skin_checked="1">3</div>
+      <div class="notif-badge" id="notifBadge">3</div>
     </button>
     <!-- Lab -->
     <button class="tb-lang-btn" id="topbarLangBtn" onclick="openSettingsToLang()" data-tip="Change language" style="display:none">
@@ -899,6 +917,15 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
 <!-- ══════════════════════════════════════════
      TEAM ALBUM MODAL
 ══════════════════════════════════════════ -->
+<!-- NOTIFICATIONS PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-head">
+    <div class="notif-head-title">התראות</div>
+    <div class="notif-mark-all" onclick="markAllRead()">סמן הכל כנקרא</div>
+  </div>
+  <div class="notif-list" id="notifList"></div>
+</div>
+
 <div id="albumModal" style="display:none" onclick="if(event.target===this)toggleAlbum()" bis_skin_checked="1">
   <div class="album-modal-inner" bis_skin_checked="1">
     <div class="album-modal-header" bis_skin_checked="1">
@@ -906,10 +933,22 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
       <button class="album-modal-close" onclick="toggleAlbum()">✕</button>
     </div>
     <div class="album-single" bis_skin_checked="1">
-      <img src="http://localhost:3456/assets/team-nine.png" alt="Your Executive Team">
+      <svg width="100%" viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" style="border-radius:12px;display:block">
+        <rect width="480" height="200" fill="#1c1c1e"/>
+        <text x="240" y="36" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" font-weight="600" fill="rgba(255,255,255,.35)">Your Executive Team</text>
+        <circle cx="52" cy="110" r="28" fill="#e8623a"/><text x="52" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">S</text><text x="52" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CEO</text>
+        <circle cx="104" cy="110" r="28" fill="#3a7bd5"/><text x="104" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">Y</text><text x="104" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">COO</text>
+        <circle cx="156" cy="110" r="28" fill="#2a2a2a" stroke="rgba(255,255,255,.15)" stroke-width="1"/><text x="156" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">O</text><text x="156" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CTO</text>
+        <circle cx="208" cy="110" r="28" fill="#7b3dd5"/><text x="208" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">D</text><text x="208" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CPO</text>
+        <circle cx="260" cy="110" r="28" fill="#c9534a"/><text x="260" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">I</text><text x="260" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CMO</text>
+        <circle cx="312" cy="110" r="28" fill="#7a7a8a"/><text x="312" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">Y</text><text x="312" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CFO</text>
+        <circle cx="364" cy="110" r="28" fill="#9a7a10"/><text x="364" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">I</text><text x="364" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CISO</text>
+        <circle cx="416" cy="110" r="28" fill="#4a9e6b"/><text x="416" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">A</text><text x="416" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">QA</text>
+        <circle cx="468" cy="110" r="28" fill="#d4728a"/><text x="468" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">M</text><text x="468" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CPsyO</text>
+      </svg>
     </div>
     <div class="album-coming-label" bis_skin_checked="1">
-      📸 תמונות חדשות של הצוות שלך יתווספו לאלבום אוטומטית
+      תמונות אישיות של הצוות יתווספו לאלבום אוטומטית לאחר כל ספרינט
     </div>
   </div>
 </div>
@@ -2672,6 +2711,93 @@ function randomToggle() {
 setTimeout(randomToggle, 10000);
 
 /* ── SPRINT LOG → OPEN OFFICER CHAT ── */
+/* ── NOTIFICATIONS ── */
+const _notifications = [
+  { id:'n1', officerId:'oded',   color:'#2a2a2a', icon:'O', title:'ארכיטקטורת V3 אושרה', body:'ממתין לאישור Iftach לפני שמתחיל את ה-build. ETA: 3 ימים אם ה-green light מגיע מחר.', time:'לפני שעתיים', read:false },
+  { id:'n2', officerId:'daniel', color:'#7b3dd5', icon:'D', title:'Spec הדשבורד מוכן', body:'Design handoff & dev-ready spec מוכן לסקירה. פתח את פאנל Daniel לפרטים.', time:'לפני 4 שעות', read:false },
+  { id:'n3', officerId:'steve',  color:'#e8623a', icon:'S', title:'Sprint Day 14 — סיכום נדרש', body:'הספרינט הסתיים. מומלץ לפתוח ספרינט חדש ולהגדיר יעדים ל-Sprint 2.', time:'היום', read:false },
+];
+function toggleNotifications() {
+  const panel = document.getElementById('notifPanel');
+  const isOpen = panel.classList.contains('open');
+  // Close other dropdowns
+  document.getElementById('settingsPanel').classList.remove('open');
+  panel.classList.toggle('open', !isOpen);
+  if (!isOpen) _renderNotifs();
+}
+function _renderNotifs() {
+  const list = document.getElementById('notifList');
+  if (!_notifications.length) { list.innerHTML = '<div class="notif-empty">אין התראות חדשות</div>'; return; }
+  list.innerHTML = _notifications.map(n => `
+    <div class="notif-item${n.read?' notif-read':''}" onclick="_readNotif('${n.id}')">
+      <div class="notif-av" style="background:${n.color}">${n.icon}</div>
+      <div class="notif-content">
+        <div class="notif-title">${n.title}</div>
+        <div class="notif-body">${n.body}</div>
+        <div class="notif-time">${n.time}</div>
+      </div>
+      ${n.read?'':'<div class="notif-dot"></div>'}
+    </div>`).join('');
+}
+function _readNotif(id) {
+  const n = _notifications.find(x => x.id === id);
+  if (n) { n.read = true; _updateNotifBadge(); }
+  document.getElementById('notifPanel').classList.remove('open');
+  if (n) openPanel(n.officerId);
+}
+function markAllRead() {
+  _notifications.forEach(n => n.read = true);
+  _renderNotifs(); _updateNotifBadge();
+}
+function _updateNotifBadge() {
+  const unread = _notifications.filter(n => !n.read).length;
+  const badge = document.getElementById('notifBadge');
+  if (badge) { badge.textContent = unread || ''; badge.style.display = unread ? 'flex' : 'none'; }
+}
+document.addEventListener('click', e => {
+  const panel = document.getElementById('notifPanel');
+  const btn = document.getElementById('notifBtn');
+  if (panel && panel.classList.contains('open') && !panel.contains(e.target) && btn && !btn.contains(e.target)) {
+    panel.classList.remove('open');
+  }
+});
+
+/* ── SPRINT LOG: LOAD AI CONVERSATIONS ── */
+function loadDiscussionsFromMemory() {
+  const container = document.getElementById('sl-section-discussions');
+  if (!container) return;
+  const keys = Object.keys(localStorage).filter(k => k.startsWith('hypeshow_memory_'));
+  if (!keys.length) return;
+  const recent = keys.sort().slice(-6).reverse();
+  let extraHtml = '';
+  recent.forEach(key => {
+    try {
+      const data = JSON.parse(localStorage.getItem(key));
+      if (!data || !data.officerId) return;
+      const o = officers[data.officerId];
+      if (!o) return;
+      const snippet = data.summary || (data.history?.[data.history.length-1]?.content?.slice(0,80) + '…') || '';
+      const date = key.split('_')[3] || '';
+      extraHtml += `
+        <div class="sl-card sl-progress" style="cursor:pointer" onclick="openPanel('${data.officerId}')">
+          <div class="sl-card-top">
+            <div class="sl-officer-dot" style="background:${o.hex}">${o.name[0]}</div>
+            <div class="sl-card-info">
+              <div class="sl-task-name">${o.name} — שיחה שמורה</div>
+              <div class="sl-officer-role">${o.role} · ${date}</div>
+            </div>
+            <div class="sl-badge sl-badge-progress">New</div>
+          </div>
+          ${snippet ? `<div class="sl-note">${snippet}</div>` : ''}
+        </div>`;
+    } catch(e) {}
+  });
+  if (extraHtml) {
+    const label = container.querySelector('.sl-section-label');
+    if (label) label.insertAdjacentHTML('afterend', extraHtml);
+  }
+}
+
 function openOfficer(id) {
   openPanel(id);
 }
@@ -2806,6 +2932,7 @@ function toggleSprintLog() {
   document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
   if (!isOpen) {
     btn.classList.add('active');
+    loadDiscussionsFromMemory();
   } else {
     document.getElementById('officersBtn').classList.add('active');
   }
