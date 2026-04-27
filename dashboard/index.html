@@ -2491,9 +2491,21 @@ function resolveConflict(choice) {
 }
 
 function _applyLocalWins() {
-  // local already has priority — nothing to overwrite, just dismiss
+  // local already has priority — push local version to cloud
   const overlay = document.getElementById('conflictModalOverlay');
   if (overlay) overlay.classList.remove('show');
+
+  // Push all local conversations to Supabase
+  const keys = Object.keys(localStorage).filter(k => k.startsWith('hypeshow_memory_'));
+  keys.forEach(key => {
+    const data = localStorage.getItem(key);
+    if (data) {
+      try {
+        const conv = JSON.parse(data);
+        syncPush(conv);
+      } catch {}
+    }
+  });
 }
 
 function _showOfficerPIIWelcome(officerId) {
@@ -2537,11 +2549,14 @@ function _checkPIIRealtime(val) {
 
 function _applyCloudWins(conflicts) {
   conflicts.forEach(({ cloud, localKey }) => {
-    localStorage.setItem(localKey, JSON.stringify({
+    const resolved = {
       date: cloud.date, officer: cloud.officer_name, role: cloud.officer_role,
       mode: cloud.mode, history: cloud.history || [], summary: cloud.summary,
       updated_at: cloud.updated_at
-    }));
+    };
+    localStorage.setItem(localKey, JSON.stringify(resolved));
+    // Push resolved version back to cloud
+    syncPush(resolved);
   });
   const overlay = document.getElementById('conflictModalOverlay');
   if (overlay) overlay.classList.remove('show');
