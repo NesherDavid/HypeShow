@@ -2502,7 +2502,19 @@ function _applyLocalWins() {
     if (data) {
       try {
         const conv = JSON.parse(data);
-        syncPush(conv);
+        // Extract officerId from key format: hypeshow_memory_${officerId}_...
+        const parts = key.split('_');
+        const officerId = parts[2]; // hypeshow_memory_{officerId}_...
+        syncPush({
+          officer_id: officerId,
+          local_key: key,
+          date: conv.date,
+          mode: conv.mode,
+          officer_name: conv.officer,
+          officer_role: conv.role,
+          history: conv.history || [],
+          summary: conv.summary || null,
+        });
       } catch {}
     }
   });
@@ -2556,7 +2568,19 @@ function _applyCloudWins(conflicts) {
     };
     localStorage.setItem(localKey, JSON.stringify(resolved));
     // Push resolved version back to cloud
-    syncPush(resolved);
+    // Extract officerId from key format: hypeshow_memory_${officerId}_...
+    const parts = localKey.split('_');
+    const officerId = parts[2]; // hypeshow_memory_{officerId}_...
+    syncPush({
+      officer_id: officerId,
+      local_key: localKey,
+      date: cloud.date,
+      mode: cloud.mode,
+      officer_name: cloud.officer_name,
+      officer_role: cloud.officer_role,
+      history: cloud.history || [],
+      summary: cloud.summary || null,
+    });
   });
   const overlay = document.getElementById('conflictModalOverlay');
   if (overlay) overlay.classList.remove('show');
