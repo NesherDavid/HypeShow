@@ -522,6 +522,11 @@ body.dark .sprint-track { background:#2a2a30; }
 .db-cta:hover { background:var(--coral-mid); transform:translateY(-1px); }
 .db-cta-daily { background:transparent; border:1.5px solid var(--coral); color:var(--coral); }
 .db-cta-daily:hover { background:var(--coral); color:#fff; }
+.db-collapse-btn { width:28px; height:28px; border:none; background:rgba(232,98,58,.1); border-radius:6px; cursor:pointer; color:var(--coral); font-size:11px; display:flex; align-items:center; justify-content:center; transition:all .2s; flex-shrink:0; }
+.db-collapse-btn:hover { background:rgba(232,98,58,.2); transform:scale(1.05); }
+.daily-briefing.collapsed .db-updates { display:none; }
+.daily-briefing.collapsed .db-cta { display:none; }
+.daily-briefing.collapsed .db-collapse-btn { transform:rotate(180deg); }
 
 /* ── SEARCH RESULTS ── */
 .sr-section { padding:8px 16px 4px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); }
@@ -1809,7 +1814,10 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
         <div class="db-greeting" id="dbGreeting">שלום, Nadav</div>
         <div class="db-date" id="dbDate"></div>
       </div>
-      <div class="db-sprint-pill" id="dbSprintPill">Sprint Day —</div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="db-sprint-pill" id="dbSprintPill">Sprint Day —</div>
+        <button class="db-collapse-btn" id="dbCollapseBtn" onclick="toggleDailyBriefing()" title="Collapse briefing">▼</button>
+      </div>
     </div>
     <div class="db-updates" id="dbUpdates"></div>
     <button class="db-cta" id="dbCta" onclick="handleDbCta()">הכר את הצוות שלך</button>
@@ -3768,6 +3776,35 @@ function handleDbCta() {
   }
 }
 
+function toggleDailyBriefing() {
+  const db = document.getElementById('dailyBriefing');
+  const today = new Date().toISOString().split('T')[0];
+  const key = 'dbCollapsed-' + today;
+
+  if (db.classList.contains('collapsed')) {
+    db.classList.remove('collapsed');
+    localStorage.removeItem(key);
+  } else {
+    db.classList.add('collapsed');
+    localStorage.setItem(key, '1');
+  }
+}
+
+function loadDailyBriefingState() {
+  const db = document.getElementById('dailyBriefing');
+  if (!db) return;
+
+  const today = new Date().toISOString().split('T')[0];
+  const key = 'dbCollapsed-' + today;
+  const isCollapsed = localStorage.getItem(key);
+
+  if (isCollapsed) {
+    db.classList.add('collapsed');
+  } else {
+    db.classList.remove('collapsed');
+  }
+}
+
 function runFirstLoginTour() {
   localStorage.setItem('hypeshow_returning_user', '1');
   // Refresh briefing to daily mode
@@ -3815,6 +3852,7 @@ function markActiveOfficers() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initDailyBriefing();
+  loadDailyBriefingState();
   markActiveOfficers();
   _initGreeting();
   initAuth();
