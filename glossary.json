@@ -1,0 +1,172 @@
+{
+  "glossary": [
+    {
+      "id": "handoff",
+      "term": "Handoff",
+      "definition": "The moment when a prototype or specification is passed from product/design to development. Critical decision point: fidelity (pixel-perfect build) or specification-only (developer interprets). Must be aligned before engineering starts.",
+      "category": "product",
+      "source": "CEO",
+      "dateAdded": "2026-04-05"
+    },
+    {
+      "id": "seniority-score",
+      "term": "Seniority Score",
+      "definition": "A visual metric showing an entrepreneur's experience level. Displayed as 3 ascending buildings (Junior: 0-15 projects, Senior: 16-50 projects, Partner: 50+ projects). Helps contextualize advice from AI agents.",
+      "category": "product",
+      "source": "CEO",
+      "dateAdded": "2026-04-05"
+    },
+    {
+      "id": "moat",
+      "term": "MOAT",
+      "definition": "Defensible advantage — the unique structural barrier a startup builds that competitors cannot easily replicate. MOAT = Moat Of Architecture. Example: proprietary data, network effects, brand lock-in, switching costs.",
+      "category": "strategy",
+      "source": "CEO",
+      "dateAdded": "2026-04-05"
+    },
+    {
+      "id": "backend-ux-separation",
+      "term": "Backend ≠ UX",
+      "definition": "Backend architecture decisions (Python vs Node.js, microservices vs monolith) do NOT determine user experience. UX is frontend-driven. Backend choice should serve speed, scalability, and team skill — not UX requirements.",
+      "category": "engineering",
+      "source": "CTO",
+      "dateAdded": "2026-04-05"
+    },
+    {
+      "id": "nodejs-vs-python",
+      "term": "Node.js vs Python for Backend",
+      "definition": "Node.js: JavaScript runtime, async-first, great for I/O-heavy apps, rapid MVP. Python: mature ecosystem, ML/data science strength, cleaner syntax. Choice depends on team skill, project type, and scaling needs — not a binary choice.",
+      "category": "engineering",
+      "source": "CTO",
+      "dateAdded": "2026-04-05"
+    },
+    {
+      "id": "nps",
+      "term": "NPS (Net Promoter Score)",
+      "definition": "Customer loyalty metric (0-100 scale). Score 9-10 = Promoter, 7-8 = Passive, 0-6 = Detractor. Formula: (Promoters - Detractors) / Total × 100. High NPS indicates product-market fit and customer satisfaction.",
+      "category": "metrics",
+      "source": "CEO",
+      "dateAdded": "2026-04-05"
+    },
+    {
+      "id": "cta-first-login",
+      "term": "CTA: First Login",
+      "definition": "Call-to-action on first login = 'Meet your team'. Emotional, not transactional. Goal: establish psychological safety and team introduction before any task.",
+      "category": "product",
+      "source": "CPO",
+      "dateAdded": "2026-04-06"
+    },
+    {
+      "id": "cta-daily-login",
+      "term": "CTA: Daily Login",
+      "definition": "Call-to-action on returning users = 'Ask your team'. Operational, back-to-work framing. Goal: drive engagement with AI agents for daily decision-making.",
+      "category": "product",
+      "source": "CPO",
+      "dateAdded": "2026-04-06"
+    },
+    {
+      "id": "context-bloat",
+      "term": "Context Bloat",
+      "definition": "When a conversation grows too long, the message history becomes a heavy load. System gets slow and wastes many tokens. Solution: start a new thread to reset context and maintain efficiency.",
+      "category": "system",
+      "source": "CEO",
+      "dateAdded": "2026-04-22"
+    },
+    {
+      "id": "debounced-auto-save",
+      "term": "Debounced Auto-save",
+      "definition": "System waits a few seconds after you stop typing before saving. Does not save on every keystroke — prevents performance overload and saves compute costs. User feels natural flow; system stays efficient.",
+      "category": "system",
+      "source": "CTO",
+      "dateAdded": "2026-04-22"
+    },
+    {
+      "id": "thread",
+      "term": "Thread",
+      "definition": "An independent, persistent conversation with continuous history. Threads don't mix — each topic gets its own thread. Easy to find past conversations, easy to hand off between AI agents without losing context.",
+      "category": "product",
+      "source": "CPO",
+      "dateAdded": "2026-04-22"
+    },
+    {
+      "id": "sprint",
+      "term": "Sprint",
+      "definition": "A fixed time-boxed cycle (typically 1-2 weeks) where a team commits to a set of tasks and goals. At HypeShow: structured cycles where entrepreneurs work with AI agents toward defined outcomes. Tracked visually with progress bar and task count.",
+      "category": "product",
+      "source": "CEO",
+      "dateAdded": "2026-04-22"
+    },
+    {
+      "id": "css-overflow-hidden",
+      "term": "CSS overflow:hidden",
+      "definition": "CSS property that clips content outside a container's boundaries. Used for SVG clipPath to hide portions of shapes. Prevents overflow and maintains clean layout when containing dynamic or oversized elements.",
+      "category": "engineering",
+      "source": "CPO",
+      "dateAdded": "2026-04-06"
+    },
+    {
+      "id": "hypeshow-color-palette",
+      "term": "HypeShow Color Palette",
+      "definition": "Brand colors: Coral (#e8623a, primary action), Dark (#1c1c1e, backgrounds), Gray (#6e6e73, secondary text), Purple (#7b3dd5, CPO/creative). Officer colors: Teal (Senior), Blue (Junior), Coral (Partner). Consistent across all interfaces and states (hover, active, error, empty).",
+      "category": "design",
+      "source": "CPO",
+      "dateAdded": "2026-04-06"
+    },
+    {
+      "id": "model-routing",
+      "term": "Model Routing",
+      "definition": "Intelligent selection of which Claude model handles each task. Example: Haiku for lightweight decisions (7d), Sonnet for complex reasoning. Routes to save cost and latency. Improves efficiency ~60%.",
+      "category": "engineering",
+      "source": "CTO+CEO",
+      "dateAdded": "2026-04-06"
+    },
+    {
+      "id": "prompt-caching",
+      "term": "Prompt Caching",
+      "definition": "System prompt caching with Anthropic API (2,500+ tokens). Saves 10% compute and speeds up context lookup. Cache hit flag = 90% cache efficiency. Reduces API latency and costs significantly.",
+      "category": "engineering",
+      "source": "CTO",
+      "dateAdded": "2026-04-06"
+    },
+    {
+      "id": "context-management",
+      "term": "Context Management / Sliding Window",
+      "definition": "AI manages conversation history by monitoring recent message tokens. When limit reached, sliding window drops oldest messages and keeps only relevant recent context. Prevents context bloat and memory overflow.",
+      "category": "system",
+      "source": "CEO",
+      "dateAdded": "2026-04-06"
+    },
+    {
+      "id": "soft-throttling",
+      "term": "Soft Throttling vs Hard Block",
+      "definition": "Soft throttling: gradual slowdown at thresholds (12→70%, 30→90%, 60→100%, 110%+→exit). User sees 'you're approaching limit' but can continue. Hard block: instant stop. Soft throttling is preferred for UX — gives users agency vs sudden cutoff.",
+      "category": "product",
+      "source": "CFO+CISO",
+      "dateAdded": "2026-04-06"
+    },
+    {
+      "id": "supabase-vs-vercel-postgres",
+      "term": "Why Supabase (not Vercel Postgres)",
+      "definition": "Supabase = PostgreSQL + Auth + Row-Level Security (RLS) + Connection Pooling. Free tier supports ~20 concurrent users + real-time. Vercel Postgres = simpler but limited on security/scaling. Supabase chosen for RLS + multi-user concurrency.",
+      "category": "engineering",
+      "source": "CTO+CISO",
+      "dateAdded": "2026-04-06"
+    },
+    {
+      "id": "design-handoff",
+      "term": "Design Handoff",
+      "definition": "Detailed spec of every UI element: colors, states, typography, spacing. No pixel-perfect 'quote' approach — engineers implement design language. Includes all states: default, hover, active, error, empty. Design system, not design files.",
+      "category": "product",
+      "source": "CEO",
+      "dateAdded": "2026-04-06"
+    },
+    {
+      "id": "dev-ready-spec",
+      "term": "Dev-Ready Spec",
+      "definition": "Specification that answers all engineering questions upfront: API endpoints, empty states, mobile behavior, routing logic, edge cases. Before Spec → handoff: Confirm: 'What do I build — fidelity or logic?' Clarity = velocity.",
+      "category": "product",
+      "source": "CEO",
+      "dateAdded": "2026-04-06"
+    }
+  ]
+}
