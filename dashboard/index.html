@@ -921,22 +921,33 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
   /* Officer cards full width */
   .officer-card { width:100%; }
 
-  /* Sprint bar responsive */
-  .sprint-bar { flex-direction:column; gap:12px; align-items:flex-start; }
-  .sprint-track { width:100%; }
+  /* Hide sprint bar on mobile */
+  .sprint-bar { display:none; }
 
   /* Float panel fullscreen on mobile */
   .float-panel {
-    position:fixed; inset:0; width:100% !important; height:100%;
-    max-width:none; border-radius:0; top:0; left:0; z-index:1000;
+    position:fixed !important; inset:0 !important;
+    width:100% !important; height:100% !important;
+    max-width:none !important; border-radius:0 !important;
+    top:0 !important; left:0 !important; right:0 !important; bottom:0 !important;
+    z-index:1000 !important;
   }
   .float-panel.open { display:flex !important; }
+
+  /* Settings panel — slide up from bottom on mobile */
+  .settings-panel {
+    left:0 !important; right:0 !important; bottom:0 !important;
+    top:auto !important; width:100% !important;
+    border-radius:16px 16px 0 0 !important;
+    max-height:70vh !important;
+  }
 
   /* Hide overlay */
   .overlay { display:none !important; }
 
-  /* Adjust topbar search width */
-  .topbar-search { width:100%; max-width:none; }
+  /* Header icons — fit all 3 */
+  .mobile-icons { gap:6px; }
+  .mobile-icon-btn { width:32px; height:32px; }
 
   /* Toast/modal adjustments */
   .album-modal-inner { width:calc(100vw - 32px); max-height:90vh; }
