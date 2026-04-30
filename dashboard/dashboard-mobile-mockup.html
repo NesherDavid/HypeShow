@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HypeShow Dashboard — Mobile</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --coral: #e8623a;
+      --dark: #1c1c1e;
+      --bg: #faf8f5;
+      --card: #ffffff;
+      --text: #1c1c1e;
+      --muted: #999;
+      --border: rgba(0,0,0,0.07);
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    /* Mobile Header */
+    .mobile-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: rgba(250,248,245,0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 100;
+      direction: ltr;
+    }
+    .mobile-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .mobile-logo svg {
+      width: 28px;
+      height: 22px;
+    }
+    .mobile-icons {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .mobile-icon-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid var(--coral);
+      color: var(--coral);
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.18s;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .mobile-icon-btn:active {
+      background: var(--coral);
+      color: #fff;
+    }
+    /* Main Content */
+    .main {
+      margin-top: 70px;
+      padding: 0 16px 40px;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .card:active {
+      transform: scale(0.98);
+      background: #f5f4f2;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-direction: row-reverse;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .avatar.steve { background: linear-gradient(135deg, #e8623a, #f0855e); }
+    .avatar.yaniv { background: linear-gradient(135deg, #3a7bd5, #5a9cf5); }
+    .avatar.oded { background: linear-gradient(135deg, #1a1a1a, #3a3a3a); }
+    .avatar.daniel { background: linear-gradient(135deg, #7b3dd5, #a05cf5); }
+    .avatar.inbar { background: linear-gradient(135deg, #c9534a, #e8756c); }
+    .card-info {
+      flex: 1;
+      text-align: right;
+    }
+    .card-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .card-role {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .card-status {
+      font-size: 12px;
+      color: #2d9b61;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: flex-end;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #2d9b61;
+    }
+    .card-task {
+      font-size: 13px;
+      color: var(--text);
+      margin-top: 8px;
+      line-height: 1.4;
+      text-align: right;
+    }
+    .divider {
+      height: 12px;
+    }
+
+    /* ── FULLSCREEN CHAT PANEL ── */
+    .chat-panel {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+    }
+    .chat-panel.open {
+      transform: translateX(0);
+    }
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      direction: ltr;
+    }
+    .chat-back {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid var(--coral);
+      color: var(--coral);
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 18px; flex-shrink: 0;
+      transition: all .18s;
+    }
+    .chat-back:active { background: var(--coral); color: #fff; }
+    .chat-officer-av {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .chat-officer-info { flex: 1; text-align: left; }
+    .chat-officer-name { font-size: 14px; font-weight: 600; }
+    .chat-officer-role { font-size: 12px; color: var(--muted); }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .msg-wrap { display: flex; gap: 8px; align-items: flex-end; }
+    .msg-wrap.user { flex-direction: row-reverse; }
+    .msg-av {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .msg-bubble {
+      max-width: 74%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 13.5px;
+      line-height: 1.45;
+    }
+    .msg-wrap:not(.user) .msg-bubble {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
+      color: var(--text);
+    }
+    .msg-wrap.user .msg-bubble {
+      background: var(--coral);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+    .chat-input-wrap {
+      padding: 12px 16px 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      background: var(--card);
+    }
+    .chat-input {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      color: var(--text);
+      direction: auto;
+    }
+    .chat-send {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--coral); border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px; color: #fff;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- MOBILE HEADER -->
+<div class="mobile-header">
+  <div class="mobile-logo">
+    <!-- HypeShow Logo -->
+    <svg viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="16" width="8" height="8" rx="1.2" fill="#e8623a" opacity="0.8"></rect>
+      <rect x="10" y="9" width="10" height="15" rx="1.2" fill="#e8623a" opacity="0.9"></rect>
+      <rect x="22" y="0" width="14" height="24" rx="1.2" fill="#e8623a"></rect>
+    </svg>
+    <span style="color: var(--text); margin-left: 4px;">HypeShow</span>
+  </div>
+  <div class="mobile-icons">
+    <div class="mobile-icon-btn" title="Meetings">
+      <svg width="17" height="14" viewBox="0 0 17 14" fill="none">
+        <circle cx="6" cy="4.5" r="2.8" stroke="currentColor" stroke-width="1.5"></circle>
+        <path d="M1 13c0-2.8 2.2-5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+        <circle cx="11.5" cy="4.5" r="2.2" stroke="currentColor" stroke-width="1.4"></circle>
+        <path d="M11.5 8.5c2.5 0 4.5 1.8 4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+        <path d="M6 8.5c1 .4 1.8 1.2 2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+      </svg>
+    </div>
+    <div class="mobile-icon-btn" title="Notifications">
+      <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
+        <path d="M7 1C4.8 1 3 2.8 3 5v4L1.5 11h11L11 9V5c0-2.2-1.8-4-4-4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
+        <path d="M5.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
+      </svg>
+    </div>
+    <div class="mobile-icon-btn" title="Settings">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="main">
+  <!-- Officer Card 1 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="avatar steve">S</div>
+      <div class="card-info">
+        <div class="card-name">Steve</div>
+        <div class="card-role">CEO</div>
+      </div>
+    </div>
+    <div class="card-status">
+      <span class="status-dot"></span>
+      <span>Online</span>
+    </div>
+    <div class="card-task">Strategy & routing — sprint oversight</div>
+  </div>
+
+  <!-- Officer Card 2 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="avatar oded">O</div>
+      <div class="card-info">
+        <div class="card-name">Oded</div>
+        <div class="card-role">CTO</div>
+      </div>
+    </div>
+    <div class="card-status">
+      <span class="status-dot"></span>
+      <span>Online</span>
+    </div>
+    <div class="card-task">Supabase setup — starting today</div>
+  </div>
+
+  <!-- Officer Card 3 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="avatar daniel">D</div>
+      <div class="card-info">
+        <div class="card-name">Daniel</div>
+        <div class="card-role">CPO</div>
+      </div>
+    </div>
+    <div class="card-status">
+      <span class="status-dot"></span>
+      <span>Online</span>
+    </div>
+    <div class="card-task">Design Handoff & Dev-Ready Spec — in progress</div>
+  </div>
+
+  <!-- Officer Card 4 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="avatar yaniv">Y</div>
+      <div class="card-info">
+        <div class="card-name">Yaniv</div>
+        <div class="card-role">COO</div>
+      </div>
+    </div>
+    <div class="card-status">
+      <span class="status-dot"></span>
+      <span>Online</span>
+    </div>
+    <div class="card-task">Operations & sprint timeline</div>
+  </div>
+
+  <!-- Officer Card 5 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="avatar inbar">I</div>
+      <div class="card-info">
+        <div class="card-name">Inbar</div>
+        <div class="card-role">CMO</div>
+      </div>
+    </div>
+    <div class="card-status">
+      <span class="status-dot"></span>
+      <span>Offline</span>
+    </div>
+    <div class="card-task">Brand strategy — standing by</div>
+  </div>
+
+</div>
+
+<!-- FULLSCREEN CHAT PANEL -->
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-header">
+    <button class="chat-back" onclick="closeChat()">←</button>
+    <div class="chat-officer-av" id="chatAv"></div>
+    <div class="chat-officer-info">
+      <div class="chat-officer-name" id="chatName"></div>
+      <div class="chat-officer-role" id="chatRole"></div>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-input-wrap">
+    <input class="chat-input" id="chatInput" placeholder="שאל…" dir="auto" onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="chat-send" onclick="sendMsg()">↑</button>
+  </div>
+</div>
+
+<script>
+const officers = {
+  steve:  { name:'Steve', role:'CEO', color:'linear-gradient(135deg,#e8623a,#f0855e)', hex:'#e8623a', initial:'S',
+    msgs: [{f:'Steve', t:'בוקר טוב. Sprint Day 12 — on track.'}, {f:'Nadav', t:'מה אני צריך להחליט היום?'}, {f:'Steve', t:'שאלה אחת: להוציא Inbar לעבוד על הברנד עכשיו, או לחכות לארכיטקטורה של עודד?'}] },
+  oded:   { name:'Oded', role:'CTO', color:'linear-gradient(135deg,#1a1a1a,#3a3a3a)', hex:'#2a2a2a', initial:'O',
+    msgs: [{f:'Oded', t:'Stack locked: Node.js + Supabase + Vercel. מתחיל היום.'}, {f:'Nadav', t:'כמה זמן עד demo?'}, {f:'Oded', t:'Supabase setup היום, Prompt Caching מחר — on track.'}] },
+  daniel: { name:'Daniel', role:'CPO', color:'linear-gradient(135deg,#7b3dd5,#a05cf5)', hex:'#7b3dd5', initial:'D',
+    msgs: [{f:'Daniel', t:'שאלה: האונבורדינג מתחיל עם "Meet your team" או ישר לספרינט הראשון?'}, {f:'Nadav', t:'בהחלט meet your team קודם.'}, {f:'Daniel', t:'מעולה — זה הרגע המאגי. אני אעצב את כל האונבורדינג סביב זה.'}] },
+  yaniv:  { name:'Yaniv', role:'COO', color:'linear-gradient(135deg,#3a7bd5,#5a9cf5)', hex:'#3a7bd5', initial:'Y',
+    msgs: [{f:'Yaniv', t:'Sprint report: 2 done ✓, 2 in progress, 7 pending. On schedule.'}, {f:'Nadav', t:'יופי. תעדכן אותי.'}, {f:'Yaniv', t:'Will do.'}] },
+  inbar:  { name:'Inbar', role:'CMO', color:'linear-gradient(135deg,#c9534a,#e8756c)', hex:'#c9534a', initial:'I',
+    msgs: [{f:'Inbar', t:'"Ambitious but human" לקול המותג. WeWork meets a really good mentor.'}, {f:'Nadav', t:'אוהב את הכיוון.'}, {f:'Inbar', t:'מעולה. אביא טיוטת Brand Manifesto בפגישה הבאה.'}] },
+};
+
+function openChat(id) {
+  currentOfficer = id;
+  const o = officers[id];
+  const av = document.getElementById('chatAv');
+  av.style.background = o.color;
+  av.textContent = o.initial;
+  document.getElementById('chatName').textContent = o.name;
+  document.getElementById('chatRole').textContent = o.role;
+  const msgs = document.getElementById('chatMessages');
+  msgs.innerHTML = o.msgs.map(m => {
+    const isUser = m.f === 'Nadav';
+    const bubbleStyle = isUser
+      ? ''
+      : `style="background:${o.hex}22;color:var(--text);border-color:${o.hex}44;"`;
+    return `<div class="msg-wrap${isUser?' user':''}">
+      <div class="msg-av" style="background:${isUser?'#e8623a':o.hex}">${isUser?'N':o.initial}</div>
+      <div class="msg-bubble" ${bubbleStyle}>${m.t}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('chatPanel').classList.add('open');
+}
+
+function closeChat() {
+  document.getElementById('chatPanel').classList.remove('open');
+}
+
+let currentOfficer = null;
+const mockReplies = {
+  steve:  ["נשמע, אני על זה.", "נכון. זו ההחלטה הנכונה.", "תן לי לדבר עם Yaniv ואחזור אליך."],
+  oded:   ["מסכים. אני אבדוק את זה מחר.", "זה אפשרי — 2 ימים מהרגע שהספק מאושר.", "יש dependency אחד לפני שאני מתחיל — אני ממתין ל-Yiftach."],
+  daniel: ["רגע המאגי. בדיוק מה שאמרתי.", "מצוין — זה פותר את הבעיה ב-Day 1 flow.", "אני אעדכן את ה-spec ואשלח לעודד היום."],
+  yaniv:  ["מסונכרן. מעדכן את ה-log.", "Sprint on track. אין חריגות.", "אני יתזמן check-point שבועי מיום שני."],
+  inbar:  ["אוהבת את זה. זה בדיוק הקול שלנו.", "נעבוד על זה ביחד. אשלח טיוטה.", "Brand manifesto בדרך."],
+};
+
+function sendMsg() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const msgs = document.getElementById('chatMessages');
+
+  msgs.innerHTML += `<div class="msg-wrap user">
+    <div class="msg-av" style="background:#e8623a">N</div>
+    <div class="msg-bubble">${text}</div>
+  </div>`;
+  input.value = '';
+  msgs.scrollTop = msgs.scrollHeight;
+
+  const o = officers[currentOfficer];
+  const typingId = 'typing_' + Date.now();
+  msgs.innerHTML += `<div class="msg-wrap" id="${typingId}">
+    <div class="msg-av" style="background:${o.hex}">${o.initial}</div>
+    <div class="msg-bubble" style="background:${o.hex}22;color:var(--muted);border-color:${o.hex}33;font-style:italic">מקליד…</div>
+  </div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+
+  setTimeout(() => {
+    const typing = document.getElementById(typingId);
+    if (typing) typing.remove();
+    const replies = mockReplies[currentOfficer];
+    const reply = replies[Math.floor(Math.random() * replies.length)];
+    msgs.innerHTML += `<div class="msg-wrap">
+      <div class="msg-av" style="background:${o.hex}">${o.initial}</div>
+      <div class="msg-bubble" style="background:${o.hex}22;color:var(--text);border-color:${o.hex}44;">${reply}</div>
+    </div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 1200);
+}
+
+document.querySelectorAll('.card').forEach((card, i) => {
+  const ids = ['steve','oded','daniel','yaniv','inbar'];
+  card.onclick = () => openChat(ids[i]);
+});
+</script>
+
+</body>
+</html>
