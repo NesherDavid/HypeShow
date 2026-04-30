@@ -2452,6 +2452,18 @@ async function initAuth() {
   const { data: { session } } = await _sbDash.auth.getSession();
 
   if (session?.user) {
+    const ALLOWED = ['nadav.dafni@gmail.com'];
+    if (!ALLOWED.includes(session.user.email)) {
+      await _sbDash.auth.signOut();
+      document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;text-align:center;padding:24px;">
+        <div>
+          <div style="font-size:32px;margin-bottom:16px;">🔒</div>
+          <div style="font-size:18px;font-weight:600;margin-bottom:8px;">גישה מוגבלת</div>
+          <div style="font-size:14px;color:#999;">Dashboard זמין בבטא פרטית בלבד.<br>נא לפנות ל-nadav.dafni@gmail.com לגישה.</div>
+        </div>
+      </div>`;
+      return;
+    }
     const uid = session.user.id;
     localStorage.setItem('hypeshow_user_id', uid);
     _updateUserDisplay(session.user);
