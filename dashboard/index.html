@@ -941,13 +941,22 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
     transform:none !important;
   }
 
-  /* Settings panel — slide up from bottom on mobile */
+  /* Settings panel — drop down from top on mobile (below header, like notifPanel) */
   .settings-panel {
-    left:0 !important; right:0 !important; bottom:0 !important;
-    top:auto !important; width:100% !important;
-    border-radius:16px 16px 0 0 !important;
+    left:12px !important; right:12px !important;
+    top:60px !important; bottom:auto !important;
+    width:auto !important;
+    border-radius:0 0 16px 16px !important;
     max-height:70vh !important;
   }
+  /* Hide Sprint Alerts + Sidekicks section on mobile */
+  #settingsSprintAlertsItem,
+  #settingsSidekicksDiv,
+  #settingsSidekicksHeader,
+  #settingsMusicItem,
+  #musicOpts,
+  #settingsFoodItem,
+  #foodOpts { display:none !important; }
 
   /* Hide overlay */
   .overlay { display:none !important; }
@@ -1909,7 +1918,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
   </div>
   <div class="settings-divider" bis_skin_checked="1"></div>
   <div class="settings-section" bis_skin_checked="1">Notifications</div>
-  <div class="settings-item" onclick="this.querySelector(&#39;.toggle&#39;).classList.toggle(&#39;on&#39;)" bis_skin_checked="1">
+  <div class="settings-item" id="settingsSprintAlertsItem" onclick="this.querySelector(&#39;.toggle&#39;).classList.toggle(&#39;on&#39;)" bis_skin_checked="1">
     <div class="settings-item-left" bis_skin_checked="1"><span class="settings-icon">🔔</span>Sprint Alerts</div>
     <div class="toggle on" bis_skin_checked="1"></div>
   </div>
@@ -1946,9 +1955,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
   END LANGUAGE SECTION -->
 
   <!-- SECONDARY SETTINGS -->
-  <div class="settings-divider" style="margin-top:6px" bis_skin_checked="1"></div>
-  <div class="settings-section" style="opacity:.5;font-size:9px" bis_skin_checked="1">Sidekicks</div>
-  <div class="settings-item" onclick="toggleMusicOpts()" bis_skin_checked="1">
+  <div class="settings-divider" id="settingsSidekicksDiv" style="margin-top:6px" bis_skin_checked="1"></div>
+  <div class="settings-section" id="settingsSidekicksHeader" style="opacity:.5;font-size:9px" bis_skin_checked="1">Sidekicks</div>
+  <div class="settings-item" id="settingsMusicItem" onclick="toggleMusicOpts()" bis_skin_checked="1">
     <div class="settings-item-left" bis_skin_checked="1"><span class="settings-icon">🎵</span>Music</div>
     <span style="font-size:11px;color:rgba(255,255,255,.4)" id="musicLabel">Spotify</span>
   </div>
@@ -1957,7 +1966,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
     <button class="music-opt" onclick="setMusic(&#39;YouTube&#39;,this)">YouTube</button>
     <button class="music-opt" onclick="setMusic(&#39;Apple Music&#39;,this)">Apple Music</button>
   </div>
-  <div class="settings-item" onclick="toggleFoodOpts()" bis_skin_checked="1">
+  <div class="settings-item" id="settingsFoodItem" onclick="toggleFoodOpts()" bis_skin_checked="1">
     <div class="settings-item-left" bis_skin_checked="1"><span class="settings-icon">🛵</span>Food</div>
     <span style="font-size:11px;color:rgba(255,255,255,.4)" id="foodLabel">Wolt</span>
   </div>
@@ -2385,7 +2394,7 @@ const meetingScript = [
   {speaker:'steve',  text:"Here's my call: commit to Q3. Ship onboarding + 3 officers + billing. Everything else is v1.1. Yaniv — get Oded unblocked today. Iftach — green light by 9am tomorrow. Daniel — you have 2 sprints. Let's go.", gap:'long'},
   {speaker:'nadav',  text:"מעולה. זה מה שרציתי לשמוע. יניב — תזמן צ׳ק-פוינט שבועי מיום שני. נוזנוז, נתחיל.", gap:'quick'},
 ];
-const meetingParticipants = ['steve','daniel','yaniv','oded','yiftach','mia','inbar','yarden','ayelet'];
+const meetingParticipants = Object.keys(officers); // same order as Custom tab
 const nadav = {name:'Nadav',hex:'#e8623a'};
 
 let currentOfficer = null;
@@ -2932,7 +2941,7 @@ async function sendMsg() {
         <span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>
       </div></div>
     </div>`;
-    area.scrollTop = area.scrollHeight;
+    setTimeout(() => { area.scrollTop = area.scrollHeight; }, 80);
 
     chatHistory.push({ role: 'user', content: val });
 
@@ -2965,7 +2974,7 @@ async function sendMsg() {
         <div><div class="chat-name">${o.name}</div><div class="chat-bubble">${reply}</div></div>
       </div>`;
     }
-    area.scrollTop = area.scrollHeight;
+    setTimeout(() => { area.scrollTop = area.scrollHeight; }, 80);
 
   } else if (currentMode === 'meeting' || currentMode === 'custom') {
     appendMeetingMsg('nadav', val, true);
@@ -3476,10 +3485,10 @@ function toggleSettings() {
   if (!isOpen) {
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {
-      // Mobile: slide up from bottom
-      panel.style.top = 'auto';
-      panel.style.bottom = '0';
-      panel.style.maxHeight = '80vh';
+      // Mobile: drop down from top (CSS handles position; just clear inline overrides)
+      panel.style.top = '';
+      panel.style.bottom = '';
+      panel.style.maxHeight = '';
     } else {
       // Desktop: position relative to settings button
       const rect = btn.getBoundingClientRect();
