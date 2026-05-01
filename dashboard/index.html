@@ -3744,13 +3744,14 @@ function toggleProfile() {
   if (!isOpen) _loadProfileIntoPanel();
 }
 async function _loadProfileIntoPanel() {
-  const { data: { user } } = await supabase.auth.getUser();
+  if (!_sbDash) return;
+  const { data: { user } } = await _sbDash.auth.getUser();
   if (!user) return;
 
-  const name = user.user_metadata?.name || user.email?.split('@')[0] || 'User';
+  const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
   const email = user.email || 'user@example.com';
-  const avatar = user.user_metadata?.avatar_url;
-  const initial = name.charAt(0).toUpperCase();
+  const avatar = user.user_metadata?.avatar_url || user.user_metadata?.picture;
+  const initial = name.split(' ')[0].charAt(0).toUpperCase();
 
   document.getElementById('profilePanelName').textContent = name;
   document.getElementById('profilePanelEmail').textContent = email;
@@ -3758,7 +3759,7 @@ async function _loadProfileIntoPanel() {
 
   const av = document.getElementById('profilePanelAv');
   if (avatar) {
-    av.innerHTML = `<img src="${avatar}" alt="avatar">`;
+    av.innerHTML = `<img src="${avatar}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
     av.style.background = 'transparent';
   } else {
     av.textContent = initial;
@@ -3766,9 +3767,13 @@ async function _loadProfileIntoPanel() {
   }
 }
 function doLogout() {
-  supabase.auth.signOut().then(() => {
+  if (_sbDash) {
+    _sbDash.auth.signOut().then(() => {
+      window.location.href = '../index.html';
+    });
+  } else {
     window.location.href = '../index.html';
-  });
+  }
 }
 document.addEventListener('click', e => {
   const panel = document.getElementById('profilePanel');
