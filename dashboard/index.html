@@ -4243,14 +4243,17 @@ function markActiveOfficers() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   initDailyBriefing();
   loadDailyBriefingState();
   markActiveOfficers();
   _initGreeting();
   initAuth();
-  _loadProfileIntoPanel(); // Init mobile profile panel on load
-  _loadDesktopProfileData(); // Init desktop profile menu on load
+  // Wait for auth to complete before loading profile data
+  setTimeout(async () => {
+    await _loadProfileIntoPanel(); // Init mobile profile panel on load
+    await _loadDesktopProfileData(); // Init desktop profile menu on load
+  }, 500);
 });
 
 /* ── DYNAMIC TIME-BASED GREETING ── */
