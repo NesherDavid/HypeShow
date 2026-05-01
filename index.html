@@ -383,12 +383,18 @@
     <a href="#waitlist" onclick="closeDrawer()" style="color:var(--coral);font-weight:700;" data-i18n="nav.joinBeta"></a>
   </div>
   <div style="padding:16px 8px 8px;">
-    <button onclick="closeDrawer();signInWithGoogle()" style="
+    <button id="drawerAuthBtn" onclick="closeDrawer();signInWithGoogle()" style="
       width:100%;padding:13px 0;border-radius:100px;
       background:var(--coral);color:#fff;border:none;
       font-size:15px;font-weight:600;font-family:inherit;
       cursor:pointer;transition:background .2s;
     ">Sign in with Google</button>
+    <button id="drawerDashboardBtn" onclick="window.location.href='dashboard/index.html'" style="
+      display:none; width:100%;padding:13px 0;border-radius:100px;
+      background:var(--coral);color:#fff;border:none;
+      font-size:15px;font-weight:600;font-family:inherit;
+      cursor:pointer;transition:background .2s; margin-bottom:8px;
+    ">Back to Dashboard</button>
   </div>
 
   <div>
@@ -997,9 +1003,13 @@ async function signInWithGoogle() {
   });
 }
 
-// If already logged in → send to dashboard
+// Check if already logged in
 _sb.auth.getSession().then(({ data }) => {
-  if (data?.session) window.location.href = '/dashboard';
+  if (data?.session) {
+    // User is logged in — show dashboard button instead of sign-in
+    document.getElementById('drawerAuthBtn').style.display = 'none';
+    document.getElementById('drawerDashboardBtn').style.display = 'block';
+  }
 });
 </script>
 

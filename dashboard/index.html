@@ -901,6 +901,51 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
   background:transparent; display:flex; align-items:center; justify-content:center;
   cursor:pointer; transition:all .18s; position:relative; flex-shrink:0; }
 .mobile-icon-btn:active { background:var(--coral); color:#fff; }
+.mobile-profile-av {
+  width:24px; height:24px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:700; color:#fff;
+  background:linear-gradient(135deg,#e8623a,#f0855e);
+}
+/* Profile panel — dark dropdown below header */
+.profile-panel {
+  position:fixed; top:54px; right:12px;
+  width:280px; background:#1c1c1e; border:1px solid rgba(255,255,255,.1);
+  border-radius:16px; z-index:800; box-shadow:0 16px 48px rgba(0,0,0,.45);
+  display:none; flex-direction:column; overflow:hidden;
+}
+.profile-panel.open { display:flex; }
+.profile-panel-header {
+  padding:16px; display:flex; gap:12px; align-items:center;
+}
+.profile-panel-av {
+  width:44px; height:44px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:700; color:#fff;
+  background:linear-gradient(135deg,#e8623a,#f0855e);
+  flex-shrink:0;
+}
+.profile-panel-av img {
+  width:100%; height:100%; border-radius:50%; object-fit:cover;
+}
+.profile-panel-name {
+  font-size:13px; font-weight:600; color:#f0eeea;
+}
+.profile-panel-email {
+  font-size:11px; color:rgba(255,255,255,.5);
+}
+.profile-panel-divider {
+  height:1px; background:rgba(255,255,255,.1);
+}
+.profile-panel-item {
+  padding:12px 16px; text-align:left; border:none;
+  background:transparent; color:#f0eeea; font-size:13px;
+  cursor:pointer; transition:background .15s; width:100%;
+}
+.profile-panel-item:hover { background:rgba(255,255,255,.07); }
+.profile-logout-btn {
+  color:#ff6b6b; font-weight:500;
+}
 
 /* ── RESPONSIVE LAYOUT ── */
 @media (max-width:767px) {
@@ -1006,7 +1051,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
 
 <!-- MOBILE HEADER -->
 <div class="mobile-header show">
-  <div class="mobile-logo">
+  <div class="mobile-logo" onclick="window.location.href='../index.html'">
     <svg width="28" height="19" viewBox="0 0 36 24" fill="none">
       <rect x="0" y="16" width="8" height="8" rx="1.2" fill="#e8623a" opacity=".8"></rect>
       <rect x="10" y="9" width="10" height="15" rx="1.2" fill="#e8623a" opacity=".9"></rect>
@@ -1036,7 +1081,23 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
       </svg>
     </div>
+    <div class="mobile-icon-btn" id="mobileProfileBtn" onclick="toggleProfile()" title="Profile">
+      <div id="mobileProfileAv" class="mobile-profile-av">N</div>
+    </div>
   </div>
+</div>
+
+<!-- PROFILE DROPDOWN PANEL -->
+<div class="profile-panel" id="profilePanel">
+  <div class="profile-panel-header">
+    <div id="profilePanelAv" class="profile-panel-av">N</div>
+    <div style="flex:1">
+      <div class="profile-panel-name" id="profilePanelName">User</div>
+      <div class="profile-panel-email" id="profilePanelEmail">user@example.com</div>
+    </div>
+  </div>
+  <div class="profile-panel-divider"></div>
+  <button class="profile-panel-item profile-logout-btn" onclick="doLogout()">Log Out</button>
 </div>
 
 <!-- SIDEBAR -->
@@ -3671,6 +3732,51 @@ document.addEventListener('click', e => {
   }
 });
 
+/* ── PROFILE DROPDOWN ── */
+function toggleProfile() {
+  const panel = document.getElementById('profilePanel');
+  const isOpen = panel.classList.contains('open');
+  // Close other dropdowns
+  document.getElementById('settingsPanel').classList.remove('open');
+  document.getElementById('notifPanel').classList.remove('open');
+  panel.classList.toggle('open', !isOpen);
+  if (!isOpen) _loadProfileIntoPanel();
+}
+function _loadProfileIntoPanel() {
+  const user = supabase.auth.getUser().then(({ data: { user } }) => {
+    if (!user) return;
+    const name = user.user_metadata?.name || user.email?.split('@')[0] || 'User';
+    const email = user.email || 'user@example.com';
+    const avatar = user.user_metadata?.avatar_url;
+    const initial = name.charAt(0).toUpperCase();
+
+    document.getElementById('profilePanelName').textContent = name;
+    document.getElementById('profilePanelEmail').textContent = email;
+    document.getElementById('mobileProfileAv').textContent = initial;
+
+    const av = document.getElementById('profilePanelAv');
+    if (avatar) {
+      av.innerHTML = `<img src="${avatar}" alt="avatar">`;
+      av.style.background = 'transparent';
+    } else {
+      av.textContent = initial;
+      av.style.background = 'linear-gradient(135deg,#e8623a,#f0855e)';
+    }
+  });
+}
+function doLogout() {
+  supabase.auth.signOut().then(() => {
+    window.location.href = '../index.html';
+  });
+}
+document.addEventListener('click', e => {
+  const panel = document.getElementById('profilePanel');
+  const btn = document.getElementById('mobileProfileBtn');
+  if (panel && panel.classList.contains('open') && !panel.contains(e.target) && !btn.contains(e.target)) {
+    panel.classList.remove('open');
+  }
+});
+
 /* ── SPRINT LOG: LOAD AI CONVERSATIONS ── */
 function loadDiscussionsFromMemory() {
   const container = document.getElementById('sl-section-discussions');
@@ -4106,6 +4212,7 @@ document.addEventListener('DOMContentLoaded', () => {
   markActiveOfficers();
   _initGreeting();
   initAuth();
+  _loadProfileIntoPanel(); // Init profile panel on load
 });
 
 /* ── DYNAMIC TIME-BASED GREETING ── */
