@@ -2914,6 +2914,7 @@ function setMode(mode) {
   if (mode==='meeting') {
     _meetingTimers.forEach(t => clearTimeout(t)); _meetingTimers = [];
     meetingState = 'idle'; _meetingFilter = null;
+    selectedOfficers.clear();
     if (cta)     { cta.style.display = ''; }
     if (endLink) { endLink.style.display = ''; endLink.classList.remove('visible'); }
     const inner = document.getElementById('meetingCtaInner');
@@ -3742,27 +3743,27 @@ function toggleProfile() {
   panel.classList.toggle('open', !isOpen);
   if (!isOpen) _loadProfileIntoPanel();
 }
-function _loadProfileIntoPanel() {
-  const user = supabase.auth.getUser().then(({ data: { user } }) => {
-    if (!user) return;
-    const name = user.user_metadata?.name || user.email?.split('@')[0] || 'User';
-    const email = user.email || 'user@example.com';
-    const avatar = user.user_metadata?.avatar_url;
-    const initial = name.charAt(0).toUpperCase();
+async function _loadProfileIntoPanel() {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
 
-    document.getElementById('profilePanelName').textContent = name;
-    document.getElementById('profilePanelEmail').textContent = email;
-    document.getElementById('mobileProfileAv').textContent = initial;
+  const name = user.user_metadata?.name || user.email?.split('@')[0] || 'User';
+  const email = user.email || 'user@example.com';
+  const avatar = user.user_metadata?.avatar_url;
+  const initial = name.charAt(0).toUpperCase();
 
-    const av = document.getElementById('profilePanelAv');
-    if (avatar) {
-      av.innerHTML = `<img src="${avatar}" alt="avatar">`;
-      av.style.background = 'transparent';
-    } else {
-      av.textContent = initial;
-      av.style.background = 'linear-gradient(135deg,#e8623a,#f0855e)';
-    }
-  });
+  document.getElementById('profilePanelName').textContent = name;
+  document.getElementById('profilePanelEmail').textContent = email;
+  document.getElementById('mobileProfileAv').textContent = initial;
+
+  const av = document.getElementById('profilePanelAv');
+  if (avatar) {
+    av.innerHTML = `<img src="${avatar}" alt="avatar">`;
+    av.style.background = 'transparent';
+  } else {
+    av.textContent = initial;
+    av.style.background = 'linear-gradient(135deg,#e8623a,#f0855e)';
+  }
 }
 function doLogout() {
   supabase.auth.signOut().then(() => {
