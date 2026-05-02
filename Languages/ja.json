@@ -99,53 +99,53 @@
         "p": "HypeShowのすべてのエグゼクティブは、初期段階のスタートアップの特定の課題に合わせて目的に沿って訓練されています。彼らはスプリント、ピボット、資金調達、MVP、ゼロから構築する際の感情的な現実を理解しています。あなたの仕事、アイデア、会話は厳秘であり、共有されたりプロジェクト外で使用されたりすることはありません。"
       },
       "tags": {
-        "startupTrained": "スタートアップ訓練済み",
+        "startupTrained": "スタートアップ向け",
         "proactive": "プロアクティブ",
-        "honest": "誠実",
-        "detailOriented": "細部へのこだわり",
-        "alwaysAvailable": "いつでも利用可能",
+        "honest": "正直",
+        "detailOriented": "細部志向",
+        "alwaysAvailable": "常に利用可能",
         "zeroEgo": "エゴなし",
-        "confidential": "完全機密",
-        "growsWith": "共に成長する"
+        "confidential": "機密",
+        "growsWith": "あなたと成長"
       }
     },
     "why": {
       "label": "HypeShowが選ばれる理由",
       "h2": "これまで<br>手が出せなかった経営陣。",
       "table": {
-        "headerHs": "✦ HypeShow",
-        "headerAlt": "代替手段",
+        "headerHs": "HypeShow",
+        "headerAlt": "Hiring Full-Time Team",
         "r1": {
-          "hs": "スタートアップ向けに訓練された専門役員 - あなたが主導",
-          "alt": "特定の専門領域を持たない一般的なAIツール"
+          "hs": "Available 24/7",
+          "alt": "Business hours only"
         },
         "r2": {
-          "hs": "構築、コーディング、管理、メンタリングをすべて同時に",
-          "alt": "孤立した問題に対するポイントソリューション"
+          "hs": "9 executives immediately",
+          "alt": "Hiring takes months"
         },
         "r3": {
-          "hs": "本当の人間チームを率いるための準備をします",
-          "alt": "あなたのチームを永久に置き換えようとします"
+          "hs": "$29-139/month",
+          "alt": "$150K+/year per person"
         },
         "r4": {
-          "hs": "プラットフォーム上のすべてのプロジェクトでさらに賢くなります",
-          "alt": "新しいセッションのたびにゼロから始まります"
+          "hs": "9 domains of expertise",
+          "alt": "One person, one domain"
         },
         "r5": {
-          "hs": "あなたのプロジェクトは常に完全に機密です",
-          "alt": "不明確なデータポリシーとIP所有権"
+          "hs": "Day One operational",
+          "alt": "Weeks to onboard"
         },
         "r6": {
-          "hs": "24時間365日利用可能、エゴなし、決して燃え尽きない",
-          "alt": "スケジュール、機嫌、株式の要求がある共同創業者"
+          "hs": "Grows with your company",
+          "alt": "Fixed commitment"
         },
         "r7": {
-          "hs": "明確なロードマップ：アイデアから会社へ",
-          "alt": "方向性なし、マイルストーンなし、進歩の感覚なし"
+          "hs": "Zero onboarding overhead",
+          "alt": "Training and management required"
         },
         "r8": {
-          "hs": "野心、生活、ウェルビーイングのバランスを取るよう導きます",
-          "alt": "スタートアップの背後にある人間を無視したハッスル文化"
+          "hs": "Everything stays confidential",
+          "alt": "Team members talk"
         }
       },
       "moat": {

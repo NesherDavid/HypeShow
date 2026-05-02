@@ -97,6 +97,16 @@
       "quality": {
         "h3": "Trained for startups.<br>Not for corporate bureaucracy.",
         "p": "Every HypeShow executive is purpose-trained for the specific challenges of early-stage startups. They understand sprints, pivots, fundraising, MVPs, and the emotional reality of building from scratch. Your work, your ideas, and your conversations are strictly confidential - never shared, never used outside your project."
+      },
+      "tags": {
+        "startupTrained": "Startup Trained",
+        "proactive": "Proactive",
+        "honest": "Honest",
+        "detailOriented": "Detail-Oriented",
+        "alwaysAvailable": "Always Available",
+        "zeroEgo": "Zero Ego",
+        "confidential": "Confidential",
+        "growsWith": "Grows With You"
       }
     },
     "why": {
@@ -106,6 +116,42 @@
         "h3": "The Collective Wisdom Engine",
         "p": "Every entrepreneur who works with HypeShow doesn't just receive value - they create it. Every decision, every sprint, every lesson learned makes our executives more capable for your next day, your next sprint - and more adaptable for you and for the whole community.",
         "quote": "\"A competitor can copy our prompt. They cannot copy the accumulated experience of thousands of real startup decisions.\""
+      },
+      "table": {
+        "headerHs": "HypeShow",
+        "headerAlt": "Hiring Full-Time Team",
+        "r1": {
+          "hs": "Available 24/7",
+          "alt": "Business hours only"
+        },
+        "r2": {
+          "hs": "9 executives immediately",
+          "alt": "Hiring takes months"
+        },
+        "r3": {
+          "hs": "$29-139/month",
+          "alt": "$150K+/year per person"
+        },
+        "r4": {
+          "hs": "9 domains of expertise",
+          "alt": "One person, one domain"
+        },
+        "r5": {
+          "hs": "Day One operational",
+          "alt": "Weeks to onboard"
+        },
+        "r6": {
+          "hs": "Grows with your company",
+          "alt": "Fixed commitment"
+        },
+        "r7": {
+          "hs": "Zero onboarding overhead",
+          "alt": "Training and management required"
+        },
+        "r8": {
+          "hs": "Everything stays confidential",
+          "alt": "Team members talk"
+        }
       }
     },
     "journey": {

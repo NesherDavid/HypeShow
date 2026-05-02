@@ -99,53 +99,53 @@
         "p": "모든 HypeShow 임원은 초기 스타트업의 특정 과제에 맞게 목적에 따라 훈련되었습니다. 이들은 스프린트, 피벗, 자금 조달, MVP, 바닥부터 구축할 때의 감정적 현실을 이해합니다. 귀하의 업무, 아이디어, 대화는 엄격하게 기밀로 유지되며 공유되거나 귀하의 프로젝트 외부에서 사용되지 않습니다."
       },
       "tags": {
-        "startupTrained": "스타트업 훈련됨",
-        "proactive": "주도적인",
+        "startupTrained": "스타트업 교육",
+        "proactive": "선제적",
         "honest": "정직한",
-        "detailOriented": "세부 사항 지향적인",
-        "alwaysAvailable": "항상 이용 가능한",
-        "zeroEgo": "에고(Ego) 제로",
-        "confidential": "기밀 유지",
-        "growsWith": "당신과 함께 성장함"
+        "detailOriented": "세부 지향",
+        "alwaysAvailable": "항상 이용 가능",
+        "zeroEgo": "무아지기",
+        "confidential": "기밀",
+        "growsWith": "함께 성장"
       }
     },
     "why": {
       "label": "HypeShow의 장점",
       "h2": "지금까지는 감당할 수 없었던<br>최고의 경영진.",
       "table": {
-        "headerHs": "✦ HypeShow",
-        "headerAlt": "대안들",
+        "headerHs": "HypeShow",
+        "headerAlt": "Hiring Full-Time Team",
         "r1": {
-          "hs": "스타트업을 위해 훈련된 전문가 임원 - 당신이 주도합니다",
-          "alt": "특정 도메인에 집중하지 않는 일반적인 AI 도구"
+          "hs": "Available 24/7",
+          "alt": "Business hours only"
         },
         "r2": {
-          "hs": "구축, 코딩, 관리, 멘토링 - 모두 한 번에",
-          "alt": "고립된 문제를 위한 단편적인 솔루션"
+          "hs": "9 executives immediately",
+          "alt": "Hiring takes months"
         },
         "r3": {
-          "hs": "실제 인간 팀을 이끌 수 있도록 당신을 준비시킵니다",
-          "alt": "당신의 팀을 영구적으로 대체하려고 시도합니다"
+          "hs": "$29-139/month",
+          "alt": "$150K+/year per person"
         },
         "r4": {
-          "hs": "플랫폼의 모든 프로젝트를 통해 더욱 똑똑해집니다",
-          "alt": "새로운 세션마다 제로에서 시작합니다"
+          "hs": "9 domains of expertise",
+          "alt": "One person, one domain"
         },
         "r5": {
-          "hs": "귀하의 프로젝트는 완전히 기밀로 유지됩니다 - 항상",
-          "alt": "불분명한 데이터 정책 및 IP 소유권"
+          "hs": "Day One operational",
+          "alt": "Weeks to onboard"
         },
         "r6": {
-          "hs": "연중무휴 이용 가능, 자아(Ego) 제로, 절대 번아웃되지 않음",
-          "alt": "일정, 기분, 지분 요구 사항이 있는 공동 창업자"
+          "hs": "Grows with your company",
+          "alt": "Fixed commitment"
         },
         "r7": {
-          "hs": "명확한 로드맵: 아이디어에서 회사까지",
-          "alt": "방향성 없음, 마일스톤 없음, 진척에 대한 감각 없음"
+          "hs": "Zero onboarding overhead",
+          "alt": "Training and management required"
         },
         "r8": {
-          "hs": "야망, 삶, 웰빙의 균형을 맞추도록 안내합니다",
-          "alt": "스타트업 뒤에 있는 인간을 무시하는 허슬 문화(Hustle culture)"
+          "hs": "Everything stays confidential",
+          "alt": "Team members talk"
         }
       },
       "moat": {

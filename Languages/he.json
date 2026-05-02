@@ -99,53 +99,53 @@
         "p": "כל מנהל ב-HypeShow מאומן במיוחד להתמודד עם האתגרים הספציפיים של סטארט-אפים בשלבים מוקדמים. הם מבינים מהם ספרינטים, פיבוטים (Pivots), גיוס כספים, MVP ואת המציאות הרגשית של בנייה מאפס. העבודה שלך, הרעיונות שלך והשיחות שלך חסויים לחלוטין - לעולם אינם משותפים, ולעולם אינם משמשים מחוץ לפרויקט שלך."
       },
       "tags": {
-        "startupTrained": "אומן לסטארט-אפים",
-        "proactive": "יוזם ופרואקטיבי",
+        "startupTrained": "מאומן לסטארטאפ",
+        "proactive": "יזום",
         "honest": "כנה",
-        "detailOriented": "יורד לפרטים",
+        "detailOriented": "מדוקדק",
         "alwaysAvailable": "זמין תמיד",
-        "zeroEgo": "אפס אגו",
-        "confidential": "חסוי לחלוטין",
-        "growsWith": "צומח יחד איתך"
+        "zeroEgo": "אלתר אגו",
+        "confidential": "סודי",
+        "growsWith": "גדל איתך"
       }
     },
     "why": {
       "label": "למה HypeShow",
       "h2": "צוות ההנהלה שלא<br>יכולת להרשות לעצמך. עד עכשיו.",
       "table": {
-        "headerHs": "✦ HypeShow",
-        "headerAlt": "האלטרנטיבות",
+        "headerHs": "HypeShow",
+        "headerAlt": "Hiring Full-Time Team",
         "r1": {
-          "hs": "מנהלים מומחים שאומנו עבור סטארט-אפים - בהובלתך",
-          "alt": "כלי AI גנריים ללא התמקדות בתחום"
+          "hs": "Available 24/7",
+          "alt": "Business hours only"
         },
         "r2": {
-          "hs": "בונה, כותב קוד, מנהל, חונך - הכל בו-זמנית",
-          "alt": "פתרונות נקודתיים לבעיות מבודדות"
+          "hs": "9 executives immediately",
+          "alt": "Hiring takes months"
         },
         "r3": {
-          "hs": "מכין אותך להוביל צוות אנושי אמיתי",
-          "alt": "מנסה להחליף את הצוות שלך לצמיתות"
+          "hs": "$29-139/month",
+          "alt": "$150K+/year per person"
         },
         "r4": {
-          "hs": "הופך לחכם יותר עם כל פרויקט בפלטפורמה",
-          "alt": "מתחיל מאפס בכל שיחה חדשה"
+          "hs": "9 domains of expertise",
+          "alt": "One person, one domain"
         },
         "r5": {
-          "hs": "הפרויקט שלך חסוי לחלוטין - תמיד",
-          "alt": "מדיניות נתונים ובעלות על קניין רוחני (IP) לא ברורות"
+          "hs": "Day One operational",
+          "alt": "Weeks to onboard"
         },
         "r6": {
-          "hs": "זמין 24/7, אפס אגו, אף פעם לא נשחק",
-          "alt": "שותפים מייסדים עם אילוצי לו\"ז, מצבי רוח ודרישות אקוויטי"
+          "hs": "Grows with your company",
+          "alt": "Fixed commitment"
         },
         "r7": {
-          "hs": "מפת דרכים ברורה: מרעיון לחברה",
-          "alt": "ללא כיוון, ללא אבני דרך, ללא תחושת התקדמות"
+          "hs": "Zero onboarding overhead",
+          "alt": "Training and management required"
         },
         "r8": {
-          "hs": "מנחה אותך לאזן בין שאיפות, חיים ורווחה אישית",
-          "alt": "תרבות האסל (Hustle) ללא התחשבות באדם שמאחורי הסטארט-אפ"
+          "hs": "Everything stays confidential",
+          "alt": "Team members talk"
         }
       },
       "moat": {

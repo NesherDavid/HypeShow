@@ -99,53 +99,53 @@
         "p": "Hver HypeShow-leder er spesialtrent for de spesifikke utfordringene i tidligfase-oppstartsbedrifter. De forstår sprinter, pivots, pengeinnsamling, MVP-er og den emosjonelle virkeligheten ved å bygge fra bunnen av. Arbeidet ditt, ideene dine og samtalene dine er strengt konfidensielle - deles aldri, brukes aldri utenfor prosjektet ditt."
       },
       "tags": {
-        "startupTrained": "Oppstartstrent",
+        "startupTrained": "Startup-opplært",
         "proactive": "Proaktiv",
         "honest": "Ærlig",
-        "detailOriented": "Detaljorientert",
+        "detailOriented": "Detalj-orientert",
         "alwaysAvailable": "Alltid tilgjengelig",
-        "zeroEgo": "Null Ego",
+        "zeroEgo": "Uten ego",
         "confidential": "Konfidensiell",
-        "growsWith": "Vokser Med Deg"
+        "growsWith": "Vokser med deg"
       }
     },
     "why": {
       "label": "Hvorfor HypeShow",
       "h2": "Ledergruppen du ikke<br>hadde råd til. Før nå.",
       "table": {
-        "headerHs": "✦ HypeShow",
-        "headerAlt": "Alternativene",
+        "headerHs": "HypeShow",
+        "headerAlt": "Hiring Full-Time Team",
         "r1": {
-          "hs": "Ekspertledere trent for oppstartsbedrifter - ledet av deg",
-          "alt": "Generiske AI-verktøy uten domenefokus"
+          "hs": "Available 24/7",
+          "alt": "Business hours only"
         },
         "r2": {
-          "hs": "Bygger, koder, administrerer, veileder - alt på en gang",
-          "alt": "Punktløsninger for isolerte problemer"
+          "hs": "9 executives immediately",
+          "alt": "Hiring takes months"
         },
         "r3": {
-          "hs": "Forbereder deg på å lede et ekte menneskelig team",
-          "alt": "Prøver å erstatte teamet ditt permanent"
+          "hs": "$29-139/month",
+          "alt": "$150K+/year per person"
         },
         "r4": {
-          "hs": "Blir smartere med hvert prosjekt på plattformen",
-          "alt": "Starter fra null med hver nye økt"
+          "hs": "9 domains of expertise",
+          "alt": "One person, one domain"
         },
         "r5": {
-          "hs": "Prosjektet ditt er fullt ut konfidensielt - alltid",
-          "alt": "Uklare dataretningslinjer og IP-eierskap"
+          "hs": "Day One operational",
+          "alt": "Weeks to onboard"
         },
         "r6": {
-          "hs": "Tilgjengelig 24/7, null ego, blir aldri utbrent",
-          "alt": "Medgründere med tidsplaner, humørsvingninger og krav til egenkapital"
+          "hs": "Grows with your company",
+          "alt": "Fixed commitment"
         },
         "r7": {
-          "hs": "Et tydelig veikart: fra idé til selskap",
-          "alt": "Ingen retning, ingen milepæler, ingen følelse av fremgang"
+          "hs": "Zero onboarding overhead",
+          "alt": "Training and management required"
         },
         "r8": {
-          "hs": "Veileder deg til å balansere ambisjoner, liv og velvære",
-          "alt": "Hustle-kultur uten hensyn til mennesket bak oppstarten"
+          "hs": "Everything stays confidential",
+          "alt": "Team members talk"
         }
       },
       "moat": {

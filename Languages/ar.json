@@ -99,13 +99,13 @@
         "p": "كل مدير تنفيذي في HypeShow مدرب خصيصاً للتحديات المحددة للشركات الناشئة في مراحلها الأولى. فهم يفهمون السبرنتات، التحولات (Pivots)، جمع التبرعات، المنتجات ذات الحد الأدنى (MVPs)، والواقع العاطفي للبناء من الصفر. عملك وأفكارك ومحادثاتك سرية للغاية - لا تتم مشاركتها أبداً، ولا تُستخدم أبداً خارج مشروعك."
       },
       "tags": {
-        "startupTrained": "مدرب للشركات الناشئة",
-        "proactive": "مبادر",
+        "startupTrained": "مدرب على الشركات الناشئة",
+        "proactive": "استباقي",
         "honest": "صادق",
-        "detailOriented": "دقيق الملاحظة",
-        "alwaysAvailable": "متاح دائماً",
-        "zeroEgo": "بدون غرور (Zero Ego)",
-        "confidential": "سري تماماً",
+        "detailOriented": "دقيق",
+        "alwaysAvailable": "متاح دائمًا",
+        "zeroEgo": "بدون أنانية",
+        "confidential": "سري",
         "growsWith": "ينمو معك"
       }
     },
@@ -113,39 +113,39 @@
       "label": "لماذا HypeShow",
       "h2": "طاقم الإدارة الذي لم<br>تكن لتتحمل تكلفته. حتى الآن.",
       "table": {
-        "headerHs": "✦ HypeShow",
-        "headerAlt": "البدائل",
+        "headerHs": "HypeShow",
+        "headerAlt": "Hiring Full-Time Team",
         "r1": {
-          "hs": "مدراء خبراء مدربون للشركات الناشئة - بقيادتك",
-          "alt": "أدوات ذكاء اصطناعي عامة بدون تركيز على مجال معين"
+          "hs": "Available 24/7",
+          "alt": "Business hours only"
         },
         "r2": {
-          "hs": "يبني، يبرمج، يدير، ويرشد - كل ذلك في وقت واحد",
-          "alt": "حلول نقطية لمشاكل معزولة"
+          "hs": "9 executives immediately",
+          "alt": "Hiring takes months"
         },
         "r3": {
-          "hs": "يُعدك لقيادة فريق بشري حقيقي",
-          "alt": "يحاول استبدال فريقك بشكل دائم"
+          "hs": "$29-139/month",
+          "alt": "$150K+/year per person"
         },
         "r4": {
-          "hs": "يصبح أكثر ذكاءً مع كل مشروع على المنصة",
-          "alt": "يبدأ من الصفر مع كل جلسة جديدة"
+          "hs": "9 domains of expertise",
+          "alt": "One person, one domain"
         },
         "r5": {
-          "hs": "مشروعك سري بالكامل - دائماً",
-          "alt": "سياسات بيانات وملكية فكرية (IP) غير واضحة"
+          "hs": "Day One operational",
+          "alt": "Weeks to onboard"
         },
         "r6": {
-          "hs": "متاح 24/7، بدون غرور، ولا يصاب بالإنهاك أبداً",
-          "alt": "شركاء مؤسسون محكومون بجدول زمني، أمزجة، ومطالب بالحصص"
+          "hs": "Grows with your company",
+          "alt": "Fixed commitment"
         },
         "r7": {
-          "hs": "خريطة طريق واضحة: من الفكرة إلى الشركة",
-          "alt": "لا يوجد اتجاه، لا معالم، لا إحساس بالتقدم"
+          "hs": "Zero onboarding overhead",
+          "alt": "Training and management required"
         },
         "r8": {
-          "hs": "يرشدك للموازنة بين الطموح، الحياة، والرفاهية",
-          "alt": "ثقافة الإرهاق (Hustle) دون اعتبار للإنسان الذي يقف خلف الشركة"
+          "hs": "Everything stays confidential",
+          "alt": "Team members talk"
         }
       },
       "moat": {
