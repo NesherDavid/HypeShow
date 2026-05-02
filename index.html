@@ -1049,7 +1049,12 @@
     });
   }
 
-  loadOfficerNames();
+  // Load names when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadOfficerNames);
+  } else {
+    loadOfficerNames();
+  }
 </script>
 
 <!-- SUPABASE AUTH -->
