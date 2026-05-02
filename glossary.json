@@ -167,6 +167,14 @@
       "category": "product",
       "source": "CEO",
       "dateAdded": "2026-04-06"
+    },
+    {
+      "id": "favicon",
+      "term": "Favicon",
+      "definition": "Small icon (16×16 to 256×256 pixels) displayed in browser tabs, bookmarks, and mobile homescreens. Short for 'favorite icon.' Improves brand recognition and visual identity. Available in formats: .ico (browsers), .png (modern), .webp (next-gen). HypeShow favicon = coral stairs (3 ascending bars).",
+      "category": "design",
+      "source": "CTO",
+      "dateAdded": "2026-05-02"
     }
   ]
 }
