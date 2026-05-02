@@ -102,50 +102,50 @@
         "startupTrained": "Startup-geschult",
         "proactive": "Proaktiv",
         "honest": "Ehrlich",
-        "detailOriented": "Detail-orientiert",
+        "detailOriented": "Detailorientiert",
         "alwaysAvailable": "Immer verfügbar",
-        "zeroEgo": "Kein Ego",
+        "zeroEgo": "Null Ego",
         "confidential": "Vertraulich",
-        "growsWith": "Wächst mit dir"
+        "growsWith": "Wächst mit Ihnen"
       }
     },
     "why": {
       "label": "Warum HypeShow",
       "h2": "Die Führungsebene, die Sie sich<br>nicht leisten konnten. Bis jetzt.",
       "table": {
-        "headerHs": "HypeShow",
-        "headerAlt": "Vollzeit-Team einstellen",
+        "headerHs": "✦ HypeShow",
+        "headerAlt": "Die Alternativen",
         "r1": {
-          "hs": "24/7 verfügbar",
-          "alt": "Nur Geschäftszeiten"
+          "hs": "Für Startups geschulte Experten – von Ihnen geführt",
+          "alt": "Generische KI-Tools ohne fachlichen Fokus"
         },
         "r2": {
-          "hs": "9 Manager sofort",
-          "alt": "Einstellung dauert Monate"
+          "hs": "Baut, programmiert, managt, betreut – alles auf einmal",
+          "alt": "Punktuelle Lösungen für isolierte Probleme"
         },
         "r3": {
-          "hs": "$29-139/Monat",
-          "alt": "$150K+/Jahr pro Person"
+          "hs": "Bereitet Sie darauf vor, ein echtes menschliches Team zu führen",
+          "alt": "Versucht, Ihr Team dauerhaft zu ersetzen"
         },
         "r4": {
-          "hs": "9 Fachbereiche",
-          "alt": "Eine Person, ein Bereich"
+          "hs": "Wird mit jedem Projekt auf der Plattform intelligenter",
+          "alt": "Beginnt bei jeder neuen Sitzung bei Null"
         },
         "r5": {
-          "hs": "Ab Tag Eins betriebsbereit",
-          "alt": "Wochen zum Onboarden"
+          "hs": "Ihr Projekt ist streng vertraulich – immer",
+          "alt": "Unklare Datenrichtlinien und IP-Eigentumsverhältnisse"
         },
         "r6": {
-          "hs": "Wächst mit deinem Unternehmen",
-          "alt": "Feste Verpflichtung"
+          "hs": "Rund um die Uhr verfügbar, null Ego, brennt nie aus",
+          "alt": "Mitgründer mit Zeitplänen, Launen und Eigenkapitalforderungen"
         },
         "r7": {
-          "hs": "Keine Onboarding-Kosten",
-          "alt": "Schulung und Management erforderlich"
+          "hs": "Ein klarer Fahrplan: Von der Idee zum Unternehmen",
+          "alt": "Keine Richtung, keine Meilensteine, kein Gefühl des Fortschritts"
         },
         "r8": {
-          "hs": "Alles bleibt vertraulich",
-          "alt": "Mitglieder sprechen"
+          "hs": "Führt Sie dazu, Ehrgeiz, Leben und Wohlbefinden in Einklang zu bringen",
+          "alt": "Hustle-Kultur ohne Rücksicht auf den Menschen hinter dem Startup"
         }
       },
       "moat": {

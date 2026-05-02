@@ -99,53 +99,53 @@
         "p": "Chaque cadre HypeShow est spécialement formé pour les défis spécifiques des startups en phase d'amorçage. Ils comprennent les sprints, les pivots, les levées de fonds, les MVP et la réalité émotionnelle de partir de zéro. Votre travail, vos idées et vos conversations sont strictement confidentiels – jamais partagés, jamais utilisés en dehors de votre projet."
       },
       "tags": {
-        "startupTrained": "Formé pour les startups",
+        "startupTrained": "Formé pour les Startups",
         "proactive": "Proactif",
         "honest": "Honnête",
-        "detailOriented": "Orienté sur les détails",
-        "alwaysAvailable": "Toujours disponible",
-        "zeroEgo": "Sans ego",
+        "detailOriented": "Soucieux du Détail",
+        "alwaysAvailable": "Toujours Disponible",
+        "zeroEgo": "Zéro Égo",
         "confidential": "Confidentiel",
-        "growsWith": "Grandit avec vous"
+        "growsWith": "Grandit Avec Vous"
       }
     },
     "why": {
       "label": "Pourquoi HypeShow",
       "h2": "L'équipe de direction que vous ne<br>pouviez pas vous offrir. Jusqu'à maintenant.",
       "table": {
-        "headerHs": "HypeShow",
-        "headerAlt": "Embaucher une équipe à temps plein",
+        "headerHs": "✦ HypeShow",
+        "headerAlt": "Les Alternatives",
         "r1": {
-          "hs": "Disponible 24/7",
-          "alt": "Heures de bureau uniquement"
+          "hs": "Des cadres experts formés pour les startups - dirigés par vous",
+          "alt": "Des outils d'IA génériques sans spécialisation"
         },
         "r2": {
-          "hs": "9 cadres immédiatement",
-          "alt": "L'embauche prend des mois"
+          "hs": "Construit, code, gère, conseille - tout à la fois",
+          "alt": "Solutions ponctuelles pour des problèmes isolés"
         },
         "r3": {
-          "hs": "$29-139/mois",
-          "alt": "$150K+/an par personne"
+          "hs": "Vous prépare à diriger une véritable équipe humaine",
+          "alt": "Tente de remplacer définitivement votre équipe"
         },
         "r4": {
-          "hs": "9 domaines d'expertise",
-          "alt": "Une personne, un domaine"
+          "hs": "Devient plus intelligent avec chaque projet sur la plateforme",
+          "alt": "Repart de zéro à chaque nouvelle session"
         },
         "r5": {
-          "hs": "Opérationnel dès le premier jour",
-          "alt": "Semaines pour l'intégration"
+          "hs": "Votre projet est totalement confidentiel - toujours",
+          "alt": "Politiques de données et propriété intellectuelle floues"
         },
         "r6": {
-          "hs": "Grandit avec votre entreprise",
-          "alt": "Engagement fixe"
+          "hs": "Disponible 24/7, zéro égo, ne fait jamais de burn-out",
+          "alt": "Des co-fondateurs avec des contraintes d'horaires, d'humeur et d'équité"
         },
         "r7": {
-          "hs": "Zéro frais d'intégration",
-          "alt": "Formation et gestion requises"
+          "hs": "Une feuille de route claire : de l'idée à l'entreprise",
+          "alt": "Aucune direction, aucune étape clé, aucun sentiment de progression"
         },
         "r8": {
-          "hs": "Tout reste confidentiel",
-          "alt": "Les membres de l'équipe parlent"
+          "hs": "Vous guide pour équilibrer ambition, vie et bien-être",
+          "alt": "Culture de la « Hustle » sans égard pour l'humain derrière la startup"
         }
       },
       "moat": {

@@ -99,53 +99,53 @@
         "p": "Cada ejecutivo de HypeShow está entrenado específicamente para los desafíos de las startups en etapa inicial. Entienden los sprints, los pivotes, la recaudación de fondos, los MVP y la realidad emocional de construir desde cero. Tu trabajo, tus ideas y tus conversaciones son estrictamente confidenciales: nunca se comparten ni se usan fuera de tu proyecto."
       },
       "tags": {
-        "startupTrained": "Entrenado para startups",
+        "startupTrained": "Entrenado para Startups",
         "proactive": "Proactivo",
         "honest": "Honesto",
-        "detailOriented": "Orientado a detalles",
-        "alwaysAvailable": "Siempre disponible",
-        "zeroEgo": "Sin ego",
+        "detailOriented": "Orientado al Detalle",
+        "alwaysAvailable": "Siempre Disponible",
+        "zeroEgo": "Cero Ego",
         "confidential": "Confidencial",
-        "growsWith": "Crece contigo"
+        "growsWith": "Crece Contigo"
       }
     },
     "why": {
       "label": "Por qué HypeShow",
       "h2": "La suite ejecutiva que no<br>podías permitirte. Hasta ahora.",
       "table": {
-        "headerHs": "HypeShow",
-        "headerAlt": "Contratar equipo a tiempo completo",
+        "headerHs": "✦ HypeShow",
+        "headerAlt": "Las Alternativas",
         "r1": {
-          "hs": "Disponible 24/7",
-          "alt": "Solo horario comercial"
+          "hs": "Ejecutivos expertos entrenados para startups, liderados por ti",
+          "alt": "Herramientas de IA genéricas sin enfoque en un dominio"
         },
         "r2": {
-          "hs": "9 ejecutivos inmediatamente",
-          "alt": "La contratación toma meses"
+          "hs": "Construye, codifica, gestiona, es mentor... todo a la vez",
+          "alt": "Soluciones puntuales para problemas aislados"
         },
         "r3": {
-          "hs": "$29-139/mes",
-          "alt": "$150K+/año por persona"
+          "hs": "Te prepara para liderar un equipo humano real",
+          "alt": "Intenta reemplazar permanentemente a tu equipo"
         },
         "r4": {
-          "hs": "9 dominios de experiencia",
-          "alt": "Una persona, un dominio"
+          "hs": "Se vuelve más inteligente con cada proyecto en la plataforma",
+          "alt": "Comienza desde cero con cada nueva sesión"
         },
         "r5": {
-          "hs": "Operacional desde el Día Uno",
-          "alt": "Semanas para incorporar"
+          "hs": "Tu proyecto es completamente confidencial, siempre",
+          "alt": "Políticas de datos y propiedad de IP poco claras"
         },
         "r6": {
-          "hs": "Crece con tu empresa",
-          "alt": "Compromiso fijo"
+          "hs": "Disponible 24/7, cero ego, nunca se agota (burnout)",
+          "alt": "Cofundadores con horarios, cambios de humor y demandas de equidad"
         },
         "r7": {
-          "hs": "Cero gastos de incorporación",
-          "alt": "Se requiere capacitación y gestión"
+          "hs": "Una hoja de ruta clara: de idea a empresa",
+          "alt": "Sin dirección, sin hitos, sin sentido de progreso"
         },
         "r8": {
-          "hs": "Todo permanece confidencial",
-          "alt": "Los miembros del equipo hablan"
+          "hs": "Te guía para equilibrar la ambición, la vida y el bienestar",
+          "alt": "Cultura del ajetreo (Hustle culture) sin respeto por el humano detrás de la startup"
         }
       },
       "moat": {

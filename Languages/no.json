@@ -99,53 +99,53 @@
         "p": "Hver HypeShow-leder er spesialtrent for de spesifikke utfordringene i tidligfase-oppstartsbedrifter. De forstår sprinter, pivots, pengeinnsamling, MVP-er og den emosjonelle virkeligheten ved å bygge fra bunnen av. Arbeidet ditt, ideene dine og samtalene dine er strengt konfidensielle - deles aldri, brukes aldri utenfor prosjektet ditt."
       },
       "tags": {
-        "startupTrained": "Startup-opplært",
+        "startupTrained": "Oppstartstrent",
         "proactive": "Proaktiv",
         "honest": "Ærlig",
-        "detailOriented": "Detalj-orientert",
+        "detailOriented": "Detaljorientert",
         "alwaysAvailable": "Alltid tilgjengelig",
-        "zeroEgo": "Uten ego",
+        "zeroEgo": "Null Ego",
         "confidential": "Konfidensiell",
-        "growsWith": "Vokser med deg"
+        "growsWith": "Vokser Med Deg"
       }
     },
     "why": {
       "label": "Hvorfor HypeShow",
       "h2": "Ledergruppen du ikke<br>hadde råd til. Før nå.",
       "table": {
-        "headerHs": "HypeShow",
-        "headerAlt": "Ansettelse av heltidsteam",
+        "headerHs": "✦ HypeShow",
+        "headerAlt": "Alternativene",
         "r1": {
-          "hs": "Tilgjengelig 24/7",
-          "alt": "Kun kontortid"
+          "hs": "Ekspertledere trent for oppstartsbedrifter - ledet av deg",
+          "alt": "Generiske AI-verktøy uten domenefokus"
         },
         "r2": {
-          "hs": "9 ledere umiddelbart",
-          "alt": "Ansettelse tar måneder"
+          "hs": "Bygger, koder, administrerer, veileder - alt på en gang",
+          "alt": "Punktløsninger for isolerte problemer"
         },
         "r3": {
-          "hs": "$29-139/måned",
-          "alt": "$150K+/år per person"
+          "hs": "Forbereder deg på å lede et ekte menneskelig team",
+          "alt": "Prøver å erstatte teamet ditt permanent"
         },
         "r4": {
-          "hs": "9 fagfelt",
-          "alt": "En person, ett felt"
+          "hs": "Blir smartere med hvert prosjekt på plattformen",
+          "alt": "Starter fra null med hver nye økt"
         },
         "r5": {
-          "hs": "Operativ fra dag en",
-          "alt": "Uker for onboarding"
+          "hs": "Prosjektet ditt er fullt ut konfidensielt - alltid",
+          "alt": "Uklare dataretningslinjer og IP-eierskap"
         },
         "r6": {
-          "hs": "Vokser med ditt selskap",
-          "alt": "Fast forpliktelse"
+          "hs": "Tilgjengelig 24/7, null ego, blir aldri utbrent",
+          "alt": "Medgründere med tidsplaner, humørsvingninger og krav til egenkapital"
         },
         "r7": {
-          "hs": "Null onboarding-kostnader",
-          "alt": "Opplæring og ledelse kreves"
+          "hs": "Et tydelig veikart: fra idé til selskap",
+          "alt": "Ingen retning, ingen milepæler, ingen følelse av fremgang"
         },
         "r8": {
-          "hs": "Alt forblir konfidensielt",
-          "alt": "Teammedlemmer snakker"
+          "hs": "Veileder deg til å balansere ambisjoner, liv og velvære",
+          "alt": "Hustle-kultur uten hensyn til mennesket bak oppstarten"
         }
       },
       "moat": {
