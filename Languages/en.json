@@ -180,8 +180,15 @@
     "about": {
       "label": "Our Vision",
       "h2": "We believe every founder<br>deserves a real team.",
+      "p1": "The best startups don't succeed because of one brilliant person. They succeed because of <strong>a team that challenges, supports, and executes together.</strong> Until now, that team was only available to founders with the right connections or enough capital.",
+      "p2": "HypeShow changes that. We're not here to replace human teams - we're here to <strong>bridge the gap</strong> between \"I have an idea\" and \"I have a company.\" When you're ready to hire your first engineers, designers, and operators, you'll already know how to lead them - because you've been doing it with us.",
+      "p3": "Our goal: Get every founder to at least revenue or investment-ready status, equipped with the skills, habits, and leadership confidence to build something that lasts and makes a positive impact on the world.",
       "quote": "\"I wanted every entrepreneur - young or seasoned, solo or in a small group - to have access to what's only available to those with connections or capital: a real professional team that helps them grow, learn, and succeed.\"",
-      "founderTitle": "Founder & Chairman, HypeShow"
+      "founderTitle": "Founder & Chairman, HypeShow",
+      "stat1": "Expert AI executives, each with their own domain and growing expertise",
+      "stat2": "Things happening at once: Building, Learning, and Preparing to lead humans",
+      "stat3": "Your team is fully operational the moment you join - no setup, no delays",
+      "stat4": "Jobs replaced. HypeShow sets you up on the path to a real human team - not away from it."
     },
     "faq": {
       "label": "FAQ",
