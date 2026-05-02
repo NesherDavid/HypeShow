@@ -114,38 +114,38 @@
       "h2": "वह कार्यकारी सुइट जिसका<br>खर्च आप नहीं उठा सकते थे। अब तक।",
       "table": {
         "headerHs": "HypeShow",
-        "headerAlt": "Hiring Full-Time Team",
+        "headerAlt": "पूर्णकालिक टीम नियुक्त करें",
         "r1": {
-          "hs": "Available 24/7",
-          "alt": "Business hours only"
+          "hs": "24/7 उपलब्ध",
+          "alt": "केवल व्यावसायिक घंटे"
         },
         "r2": {
-          "hs": "9 executives immediately",
-          "alt": "Hiring takes months"
+          "hs": "9 कार्यकारी तुरंत",
+          "alt": "नियुक्ति में महीने लगते हैं"
         },
         "r3": {
-          "hs": "$29-139/month",
-          "alt": "$150K+/year per person"
+          "hs": "$29-139/माह",
+          "alt": "$150K+/वर्ष प्रति व्यक्ति"
         },
         "r4": {
-          "hs": "9 domains of expertise",
-          "alt": "One person, one domain"
+          "hs": "9 विशेषज्ञता के क्षेत्र",
+          "alt": "एक व्यक्ति, एक क्षेत्र"
         },
         "r5": {
-          "hs": "Day One operational",
-          "alt": "Weeks to onboard"
+          "hs": "दिन एक से संचालनीय",
+          "alt": "ऑनबोर्ड करने में हफ्ते"
         },
         "r6": {
-          "hs": "Grows with your company",
-          "alt": "Fixed commitment"
+          "hs": "आपकी कंपनी के साथ बढ़ता है",
+          "alt": "निश्चित प्रतिबद्धता"
         },
         "r7": {
-          "hs": "Zero onboarding overhead",
-          "alt": "Training and management required"
+          "hs": "शून्य ऑनबोर्डिंग ओवरहेड",
+          "alt": "प्रशिक्षण और प्रबंधन आवश्यक"
         },
         "r8": {
-          "hs": "Everything stays confidential",
-          "alt": "Team members talk"
+          "hs": "सब कुछ गोपनीय रहता है",
+          "alt": "टीम सदस्य बात करते हैं"
         }
       },
       "moat": {

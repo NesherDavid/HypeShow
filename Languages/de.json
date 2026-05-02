@@ -114,38 +114,38 @@
       "h2": "Die Führungsebene, die Sie sich<br>nicht leisten konnten. Bis jetzt.",
       "table": {
         "headerHs": "HypeShow",
-        "headerAlt": "Hiring Full-Time Team",
+        "headerAlt": "Vollzeit-Team einstellen",
         "r1": {
-          "hs": "Available 24/7",
-          "alt": "Business hours only"
+          "hs": "24/7 verfügbar",
+          "alt": "Nur Geschäftszeiten"
         },
         "r2": {
-          "hs": "9 executives immediately",
-          "alt": "Hiring takes months"
+          "hs": "9 Manager sofort",
+          "alt": "Einstellung dauert Monate"
         },
         "r3": {
-          "hs": "$29-139/month",
-          "alt": "$150K+/year per person"
+          "hs": "$29-139/Monat",
+          "alt": "$150K+/Jahr pro Person"
         },
         "r4": {
-          "hs": "9 domains of expertise",
-          "alt": "One person, one domain"
+          "hs": "9 Fachbereiche",
+          "alt": "Eine Person, ein Bereich"
         },
         "r5": {
-          "hs": "Day One operational",
-          "alt": "Weeks to onboard"
+          "hs": "Ab Tag Eins betriebsbereit",
+          "alt": "Wochen zum Onboarden"
         },
         "r6": {
-          "hs": "Grows with your company",
-          "alt": "Fixed commitment"
+          "hs": "Wächst mit deinem Unternehmen",
+          "alt": "Feste Verpflichtung"
         },
         "r7": {
-          "hs": "Zero onboarding overhead",
-          "alt": "Training and management required"
+          "hs": "Keine Onboarding-Kosten",
+          "alt": "Schulung und Management erforderlich"
         },
         "r8": {
-          "hs": "Everything stays confidential",
-          "alt": "Team members talk"
+          "hs": "Alles bleibt vertraulich",
+          "alt": "Mitglieder sprechen"
         }
       },
       "moat": {

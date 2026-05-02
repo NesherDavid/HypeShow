@@ -114,38 +114,38 @@
       "h2": "これまで<br>手が出せなかった経営陣。",
       "table": {
         "headerHs": "HypeShow",
-        "headerAlt": "Hiring Full-Time Team",
+        "headerAlt": "フルタイムチームを雇う",
         "r1": {
-          "hs": "Available 24/7",
-          "alt": "Business hours only"
+          "hs": "24/7利用可能",
+          "alt": "営業時間のみ"
         },
         "r2": {
-          "hs": "9 executives immediately",
-          "alt": "Hiring takes months"
+          "hs": "9人の経営者をすぐに",
+          "alt": "採用に数ヶ月かかる"
         },
         "r3": {
-          "hs": "$29-139/month",
-          "alt": "$150K+/year per person"
+          "hs": "$29-139/月",
+          "alt": "1人あたり$150K+/年"
         },
         "r4": {
-          "hs": "9 domains of expertise",
-          "alt": "One person, one domain"
+          "hs": "9つの専門分野",
+          "alt": "1人、1分野"
         },
         "r5": {
-          "hs": "Day One operational",
-          "alt": "Weeks to onboard"
+          "hs": "初日から運用可能",
+          "alt": "オンボードに数週間"
         },
         "r6": {
-          "hs": "Grows with your company",
-          "alt": "Fixed commitment"
+          "hs": "会社とともに成長",
+          "alt": "固定コミットメント"
         },
         "r7": {
-          "hs": "Zero onboarding overhead",
-          "alt": "Training and management required"
+          "hs": "オンボーディングコストゼロ",
+          "alt": "トレーニングと管理が必要"
         },
         "r8": {
-          "hs": "Everything stays confidential",
-          "alt": "Team members talk"
+          "hs": "すべてが機密",
+          "alt": "チームメンバーが話す"
         }
       },
       "moat": {

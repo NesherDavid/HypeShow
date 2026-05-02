@@ -114,38 +114,38 @@
       "h2": "Ledergruppen du ikke<br>hadde råd til. Før nå.",
       "table": {
         "headerHs": "HypeShow",
-        "headerAlt": "Hiring Full-Time Team",
+        "headerAlt": "Ansettelse av heltidsteam",
         "r1": {
-          "hs": "Available 24/7",
-          "alt": "Business hours only"
+          "hs": "Tilgjengelig 24/7",
+          "alt": "Kun kontortid"
         },
         "r2": {
-          "hs": "9 executives immediately",
-          "alt": "Hiring takes months"
+          "hs": "9 ledere umiddelbart",
+          "alt": "Ansettelse tar måneder"
         },
         "r3": {
-          "hs": "$29-139/month",
-          "alt": "$150K+/year per person"
+          "hs": "$29-139/måned",
+          "alt": "$150K+/år per person"
         },
         "r4": {
-          "hs": "9 domains of expertise",
-          "alt": "One person, one domain"
+          "hs": "9 fagfelt",
+          "alt": "En person, ett felt"
         },
         "r5": {
-          "hs": "Day One operational",
-          "alt": "Weeks to onboard"
+          "hs": "Operativ fra dag en",
+          "alt": "Uker for onboarding"
         },
         "r6": {
-          "hs": "Grows with your company",
-          "alt": "Fixed commitment"
+          "hs": "Vokser med ditt selskap",
+          "alt": "Fast forpliktelse"
         },
         "r7": {
-          "hs": "Zero onboarding overhead",
-          "alt": "Training and management required"
+          "hs": "Null onboarding-kostnader",
+          "alt": "Opplæring og ledelse kreves"
         },
         "r8": {
-          "hs": "Everything stays confidential",
-          "alt": "Team members talk"
+          "hs": "Alt forblir konfidensielt",
+          "alt": "Teammedlemmer snakker"
         }
       },
       "moat": {

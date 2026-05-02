@@ -114,38 +114,38 @@
       "h2": "지금까지는 감당할 수 없었던<br>최고의 경영진.",
       "table": {
         "headerHs": "HypeShow",
-        "headerAlt": "Hiring Full-Time Team",
+        "headerAlt": "정규직 팀 채용",
         "r1": {
-          "hs": "Available 24/7",
-          "alt": "Business hours only"
+          "hs": "24/7 이용 가능",
+          "alt": "업무 시간만"
         },
         "r2": {
-          "hs": "9 executives immediately",
-          "alt": "Hiring takes months"
+          "hs": "9명의 임원진 즉시",
+          "alt": "채용에 수개월 소요"
         },
         "r3": {
-          "hs": "$29-139/month",
-          "alt": "$150K+/year per person"
+          "hs": "$29-139/월",
+          "alt": "1인당 $150K+/년"
         },
         "r4": {
-          "hs": "9 domains of expertise",
-          "alt": "One person, one domain"
+          "hs": "9개 분야의 전문성",
+          "alt": "1명, 1분야"
         },
         "r5": {
-          "hs": "Day One operational",
-          "alt": "Weeks to onboard"
+          "hs": "첫날부터 운영 가능",
+          "alt": "온보딩에 수주 소요"
         },
         "r6": {
-          "hs": "Grows with your company",
-          "alt": "Fixed commitment"
+          "hs": "회사와 함께 성장",
+          "alt": "고정 약정"
         },
         "r7": {
-          "hs": "Zero onboarding overhead",
-          "alt": "Training and management required"
+          "hs": "온보딩 비용 없음",
+          "alt": "교육 및 관리 필요"
         },
         "r8": {
-          "hs": "Everything stays confidential",
-          "alt": "Team members talk"
+          "hs": "모든 것이 기밀",
+          "alt": "팀원들이 말함"
         }
       },
       "moat": {

@@ -114,38 +114,38 @@
       "h2": "طاقم الإدارة الذي لم<br>تكن لتتحمل تكلفته. حتى الآن.",
       "table": {
         "headerHs": "HypeShow",
-        "headerAlt": "Hiring Full-Time Team",
+        "headerAlt": "توظيف فريق بدوام كامل",
         "r1": {
-          "hs": "Available 24/7",
-          "alt": "Business hours only"
+          "hs": "متاح 24/7",
+          "alt": "ساعات العمل فقط"
         },
         "r2": {
-          "hs": "9 executives immediately",
-          "alt": "Hiring takes months"
+          "hs": "9 تنفيذيين فوراً",
+          "alt": "التوظيف يستغرق أشهراً"
         },
         "r3": {
-          "hs": "$29-139/month",
-          "alt": "$150K+/year per person"
+          "hs": "$29-139/شهر",
+          "alt": "$150K+/سنة لكل شخص"
         },
         "r4": {
-          "hs": "9 domains of expertise",
-          "alt": "One person, one domain"
+          "hs": "9 مجالات خبرة",
+          "alt": "شخص واحد، مجال واحد"
         },
         "r5": {
-          "hs": "Day One operational",
-          "alt": "Weeks to onboard"
+          "hs": "تشغيلي من اليوم الأول",
+          "alt": "أسابيع للاستقرار"
         },
         "r6": {
-          "hs": "Grows with your company",
-          "alt": "Fixed commitment"
+          "hs": "ينمو مع شركتك",
+          "alt": "التزام ثابت"
         },
         "r7": {
-          "hs": "Zero onboarding overhead",
-          "alt": "Training and management required"
+          "hs": "بدون تكاليف إعداد",
+          "alt": "التدريب والإدارة مطلوبة"
         },
         "r8": {
-          "hs": "Everything stays confidential",
-          "alt": "Team members talk"
+          "hs": "كل شيء يبقى سرياً",
+          "alt": "أعضاء الفريق يتحدثون"
         }
       },
       "moat": {

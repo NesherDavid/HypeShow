@@ -114,38 +114,38 @@
       "h2": "直到现在，<br>您才负担得起的高管团队。",
       "table": {
         "headerHs": "HypeShow",
-        "headerAlt": "Hiring Full-Time Team",
+        "headerAlt": "招聘全职团队",
         "r1": {
-          "hs": "Available 24/7",
-          "alt": "Business hours only"
+          "hs": "24/7可用",
+          "alt": "仅营业时间"
         },
         "r2": {
-          "hs": "9 executives immediately",
-          "alt": "Hiring takes months"
+          "hs": "9名执行官立即上岗",
+          "alt": "招聘需要数月"
         },
         "r3": {
-          "hs": "$29-139/month",
-          "alt": "$150K+/year per person"
+          "hs": "$29-139/月",
+          "alt": "每人$150K+/年"
         },
         "r4": {
-          "hs": "9 domains of expertise",
-          "alt": "One person, one domain"
+          "hs": "9个专业领域",
+          "alt": "1个人，1个领域"
         },
         "r5": {
-          "hs": "Day One operational",
-          "alt": "Weeks to onboard"
+          "hs": "第一天即可运营",
+          "alt": "入职需要数周"
         },
         "r6": {
-          "hs": "Grows with your company",
-          "alt": "Fixed commitment"
+          "hs": "随着公司成长",
+          "alt": "固定承诺"
         },
         "r7": {
-          "hs": "Zero onboarding overhead",
-          "alt": "Training and management required"
+          "hs": "零入职开销",
+          "alt": "需要培训和管理"
         },
         "r8": {
-          "hs": "Everything stays confidential",
-          "alt": "Team members talk"
+          "hs": "一切保持机密",
+          "alt": "团队成员谈论"
         }
       },
       "moat": {
