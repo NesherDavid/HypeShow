@@ -1049,11 +1049,13 @@
     });
   }
 
-  // Load names when DOM is ready
+  // Load names after i18n finishes (delay for setLang's setTimeout)
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadOfficerNames);
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(loadOfficerNames, 300);
+    });
   } else {
-    loadOfficerNames();
+    setTimeout(loadOfficerNames, 300);
   }
 </script>
 
