@@ -200,6 +200,7 @@
     .why-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
     .compare-table { width: 100%; border-collapse: collapse; }
     .compare-table th { padding: 12px 20px; text-align: left; font-size: 13px; font-weight: 700; letter-spacing: 0.05em; border-bottom: 1px solid var(--dark3); }
+    html[dir="rtl"] .compare-table th { text-align: right; }
     .compare-table th:first-child { color: var(--coral); }
     .compare-table th:last-child { color: var(--gray); }
     .compare-table td { padding: 14px 20px; font-size: 14px; line-height: 1.5; border-bottom: 1px solid rgba(255,255,255,0.04); }
@@ -714,7 +715,7 @@
         <li data-i18n="pricing.f.g3"></li>
         <li data-i18n="pricing.f.g4"></li>
       </ul>
-      <a href="#waitlist" class="btn-pricing-primary" data-i18n="pricing.cta"></a>
+      <a href="#waitlist" class="btn-pricing-primary">Beta</a>
     </div>
 
     <div class="pricing-card reveal reveal-delay-2 visible">
