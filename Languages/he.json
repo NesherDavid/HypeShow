@@ -114,38 +114,38 @@
       "h2": "צוות ההנהלה שלא<br>יכולת להרשות לעצמך. עד עכשיו.",
       "table": {
         "headerHs": "HypeShow",
-        "headerAlt": "Hiring Full-Time Team",
+        "headerAlt": "שכירת צוות במשרה מלאה",
         "r1": {
-          "hs": "Available 24/7",
-          "alt": "Business hours only"
+          "hs": "זמין 24/7",
+          "alt": "רק בשעות עבודה"
         },
         "r2": {
-          "hs": "9 executives immediately",
-          "alt": "Hiring takes months"
+          "hs": "9 מנהלים מייד",
+          "alt": "שכירה לוקחת חודשים"
         },
         "r3": {
-          "hs": "$29-139/month",
-          "alt": "$150K+/year per person"
+          "hs": "₪120-450/חודש",
+          "alt": "₪600K+/שנה לאדם"
         },
         "r4": {
-          "hs": "9 domains of expertise",
-          "alt": "One person, one domain"
+          "hs": "9 תחומי ידע",
+          "alt": "אדם אחד, תחום אחד"
         },
         "r5": {
-          "hs": "Day One operational",
-          "alt": "Weeks to onboard"
+          "hs": "פעיל מיום ראשון",
+          "alt": "שבועות להשתלבות"
         },
         "r6": {
-          "hs": "Grows with your company",
-          "alt": "Fixed commitment"
+          "hs": "גדל עם החברה שלך",
+          "alt": "התחייבות קבועה"
         },
         "r7": {
-          "hs": "Zero onboarding overhead",
-          "alt": "Training and management required"
+          "hs": "אפס עומס השתלבות",
+          "alt": "הכשרה וניהול נדרשים"
         },
         "r8": {
-          "hs": "Everything stays confidential",
-          "alt": "Team members talk"
+          "hs": "הכל נשאר סודי",
+          "alt": "חברי הצוות משוחחים"
         }
       },
       "moat": {
