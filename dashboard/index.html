@@ -2929,10 +2929,10 @@ function setMode(mode) {
   const customArea  = document.getElementById('customArea');
 
   chatArea.style.display    = mode==='chat'   ? 'flex'  : 'none';
-  meetingArea.style.display = (mode==='meeting'||mode==='custom') ? 'block' : 'none';
+  meetingArea.style.display = mode==='meeting' ? 'block' : 'none';
   customArea.style.display  = mode==='custom' ? 'flex'  : 'none';
-  customArea.style.flex     = mode==='custom' ? '0 0 auto' : '1';
-  meetingArea.style.flex    = mode==='custom' ? '1' : '';
+  customArea.style.flex     = mode==='custom' ? '1' : '';
+  meetingArea.style.flex    = '';
 
   document.getElementById('btn1on1').classList.toggle('active', mode==='chat');
   document.getElementById('btnMeeting').classList.toggle('active', mode==='meeting');
@@ -2955,12 +2955,19 @@ function setMode(mode) {
   } else if (mode==='custom') {
     const meetingActive = meetingState === 'active';
     if (meetingActive) {
-      // Meeting in progress — show add-participants picker, keep messages
+      // Meeting in progress — show both areas for add-participants picker + messages
+      meetingArea.style.display = 'block';
+      customArea.style.display = 'flex';
+      customArea.style.flex = '0 0 auto';
+      meetingArea.style.flex = '1';
       if (cta) cta.style.display = 'none';
       selectedOfficers.clear();
       renderCustomMeeting(true);
     } else {
-      // Fresh start
+      // Fresh start — show ONLY custom area for officer selection
+      meetingArea.style.display = 'none';
+      customArea.style.display = 'flex';
+      customArea.style.flex = '1';
       if (cta)     cta.style.display = 'none';
       if (endLink) endLink.style.display = 'none';
       document.getElementById('meetingMsgs').innerHTML = '';
