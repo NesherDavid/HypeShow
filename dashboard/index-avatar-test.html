@@ -162,7 +162,7 @@ body.dark .sprint-track { background:#2a2a30; }
   display:grid; place-items:center;
   font-size:14px; font-weight:700; color:#fff; cursor:pointer;
   border:2px solid rgba(255,255,255,.15);
-  line-height:1;
+  line-height:34px;
 }
 
 /* ── MAIN ── */
@@ -392,7 +392,7 @@ body.dark .sprint-track { background:#2a2a30; }
 .panel-chat { flex:1; padding:16px 24px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; }
 .chat-msg { display:flex; gap:8px; align-items:flex-start; }
 .chat-msg.user { flex-direction:row-reverse; }
-.chat-av { width:28px; height:28px; border-radius:50%; display:grid; place-items:center; font-size:11px; font-weight:700; color:#fff; flex-shrink:0; line-height:1; }
+.chat-av { width:28px; height:28px; border-radius:50%; display:grid; place-items:center; font-size:11px; font-weight:700; color:#fff; flex-shrink:0; line-height:28px; }
 .chat-bubble { display:inline-block; max-width:80%; padding:9px 13px; border-radius:14px; font-size:13px; line-height:1.5; unicode-bidi:plaintext; text-align:start; }
 .chat-msg:not(.user) .chat-bubble { background:#f5f4f2; color:var(--text); border-bottom-left-radius:4px; }
 .chat-msg.user .chat-bubble { background:var(--coral); color:#fff; border-bottom-right-radius:4px; }
@@ -910,7 +910,7 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
   display:grid; place-items:center;
   font-size:11px; font-weight:700; color:#fff;
   background:linear-gradient(135deg,#e8623a,#f0855e);
-  line-height:1;
+  line-height:24px;
 }
 /* Profile panel — dark dropdown below header */
 .profile-panel {
@@ -929,7 +929,7 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
   font-size:14px; font-weight:700; color:#fff;
   background:linear-gradient(135deg,#e8623a,#f0855e);
   flex-shrink:0;
-  line-height:1;
+  line-height:44px;
 }
 .profile-panel-av img {
   width:100%; height:100%; border-radius:50%; object-fit:cover;
@@ -1185,7 +1185,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
   <div class="sidebar-me" id="sidebarMe" onclick="toggleDesktopProfileMenu(event)" title="פרופיל">N</div>
   <div id="desktopProfileMenu" style="display:none;position:fixed;bottom:70px;left:72px;background:#1c1c1e;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;z-index:9000;width:280px;box-shadow:0 8px 32px rgba(0,0,0,.6)">
     <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.1)">
-      <div id="desktopProfileAv" style="width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:700;color:#fff;background:linear-gradient(135deg,#e8623a,#f0855e);flex-shrink:0;line-height:1">N</div>
+      <div id="desktopProfileAv" style="width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:700;color:#fff;background:linear-gradient(135deg,#e8623a,#f0855e);flex-shrink:0;line-height:44px">N</div>
       <div>
         <div id="desktopProfileName" style="font-size:13px;font-weight:600;color:#f0eeea">User</div>
         <div id="desktopProfileEmail" style="font-size:11px;color:rgba(255,255,255,.5)">user@example.com</div>
