@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprint Strip Enhanced — Mockup</title>
+    <style>
+        :root {
+            --coral: #e8623a;
+            --coral-light: #fef0eb;
+            --coral-mid: #f0855e;
+            --bg: #faf8f5;
+            --card: #ffffff;
+            --text: #1c1c1e;
+            --muted: #999;
+            --border: rgba(0,0,0,0.07);
+            --green: #2d9b61;
+            --green-bg: #f0faf5;
+            --green-border: #c3e8d5;
+            --red: #ff3b30;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .note {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        /* ── SPRINT BAR ENHANCED ── */
+        .sprint-bar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.04);
+        }
+
+        .sprint-lbl {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--muted);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .sprint-name {
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* ── SPRINT TRACK WITH DOTS ── */
+        .sprint-track-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 200px;
+        }
+
+        .sprint-track {
+            position: relative;
+            height: 6px;
+            background: #f0ebe4;
+            border-radius: 3px;
+            overflow: visible;
+        }
+
+        .sprint-fill {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--coral), var(--coral-mid));
+            border-radius: 3px;
+            position: relative;
+        }
+
+        /* ── DOT MARKERS ON PROGRESS BAR ── */
+        .sprint-dot {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+            color: #fff;
+            transition: all 0.2s;
+            border: 2px solid var(--card);
+            box-shadow: 0 2px 6px rgba(0,0,0,.15);
+            user-select: none;
+        }
+
+        .sprint-dot:hover {
+            transform: translateY(-50%) scale(1.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,.25);
+        }
+
+        /* Dot colors by status */
+        .sprint-dot.done {
+            background: var(--green);
+        }
+
+        .sprint-dot.in-progress {
+            background: var(--coral);
+        }
+
+        .sprint-dot.blocked {
+            background: var(--red);
+        }
+
+        /* Dot labels (visible on hover) */
+        .dot-label {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            white-space: nowrap;
+            margin-bottom: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .sprint-dot:hover .dot-label {
+            opacity: 1;
+        }
+
+        /* Tooltip on hover */
+        .dot-tooltip {
+            position: absolute;
+            bottom: calc(100% + 28px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.4;
+            white-space: normal;
+            width: 160px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 10;
+        }
+
+        /* Arrow below tooltip */
+        .dot-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: var(--text);
+        }
+
+        .sprint-dot:hover .dot-tooltip {
+            opacity: 1;
+        }
+
+        .sprint-days {
+            font-size: 12px;
+            color: var(--coral);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* ── SPRINT LEGEND ── */
+        .sprint-legend {
+            display: flex;
+            gap: 16px;
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.done { background: var(--green); }
+        .legend-dot.in-progress { background: var(--coral); }
+        .legend-dot.blocked { background: var(--red); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            body { padding: 20px; }
+
+            .sprint-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .sprint-track-container {
+                width: 100%;
+            }
+
+            .sprint-legend {
+                flex-wrap: wrap;
+            }
+
+            .dot-tooltip {
+                width: 140px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sprint-dot {
+                width: 12px;
+                height: 12px;
+                font-size: 8px;
+            }
+
+            .dot-label {
+                font-size: 10px;
+                padding: 4px 8px;
+            }
+
+            .dot-tooltip {
+                width: 120px;
+                font-size: 10px;
+                padding: 8px 10px;
+            }
+        }
+
+        /* ── DEMO SECTION ── */
+        .demo-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid var(--border);
+        }
+
+        .demo-section h2 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .demo-text {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        code {
+            background: #f5f5f7;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', monospace;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sprint Strip Enhanced Mockup</h1>
+        <p class="note">
+            💡 Hover over dots to see labels + detailed tooltips (Image 2 style).
+            This uses actual HypeShow colors + spacing. Desktop-first responsive.
+        </p>
+
+        <!-- ── ENHANCED SPRINT BAR ── -->
+        <div class="sprint-bar">
+            <div>
+                <div class="sprint-lbl">Active Sprint</div>
+                <div class="sprint-name">MVP Foundation</div>
+            </div>
+
+            <div class="sprint-track-container">
+                <div class="sprint-track">
+                    <div class="sprint-fill">
+                        <!-- Dots positioned ON the coral progress bar -->
+
+                        <!-- Dot 1: Tech Stack (done) - at 25% -->
+                        <div class="sprint-dot done" style="left: 25%;">
+                            <div class="dot-label">Tech Stack</div>
+                            <div class="dot-tooltip">
+                                API, DB, hosting finalized.<br>
+                                <strong>Day 3/14</strong>
+                            </div>
+                        </div>
+
+                        <!-- Dot 2: Seniority Model (in-progress) - at 50% -->
+                        <div class="sprint-dot in-progress" style="left: 50%;">
+                            <div class="dot-label">Seniority Model</div>
+                            <div class="dot-tooltip">
+                                Building visual hierarchy for tiers.<br>
+                                <strong>Day 8/14</strong>
+                            </div>
+                        </div>
+
+                        <!-- Dot 3: User Journey (done) - at 70% -->
+                        <div class="sprint-dot done" style="left: 70%;">
+                            <div class="dot-label">User Journey</div>
+                            <div class="dot-tooltip">
+                                Onboarding + Day 1 finalized.<br>
+                                <strong>Day 6/14</strong>
+                            </div>
+                        </div>
+
+                        <!-- Dot 4: Threat Model (blocked) - at 85% -->
+                        <div class="sprint-dot blocked" style="left: 85%;">
+                            <div class="dot-label">Threat Model</div>
+                            <div class="dot-tooltip">
+                                Blocked: Waiting for Iftach review.<br>
+                                <strong>Day 10/14</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legend below track -->
+                <div class="sprint-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot done"></div>
+                        <span>Done</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot in-progress"></div>
+                        <span>In Progress</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot blocked"></div>
+                        <span>Blocked</span>
+                    </div>
+                    <div class="legend-item" style="color: var(--muted); font-size: 10px;">
+                        💧 Drag dots to reorder if deferred
+                    </div>
+                </div>
+            </div>
+
+            <div class="sprint-days">Day 14 / 14</div>
+        </div>
+
+        <!-- ── EXPLANATION ── -->
+        <div class="demo-section">
+            <h2>Design Notes</h2>
+
+            <div class="demo-text">
+                <strong>Structure:</strong><br>
+                • Dots sit ON the coral progress bar (not below)<br>
+                • Each dot = task marker (1-2 word label)<br>
+                • Hover label: brief task name<br>
+                • Hover tooltip: full description + sprint day
+            </div>
+
+            <div class="demo-text">
+                <strong>Colors:</strong><br>
+                • <span style="color: var(--green); font-weight: 600;">Green</span> — Done ✓<br>
+                • <span style="color: var(--coral); font-weight: 600;">Coral</span> — In Progress<br>
+                • <span style="color: var(--red); font-weight: 600;">Red</span> — Blocked
+            </div>
+
+            <div class="demo-text">
+                <strong>Interaction:</strong><br>
+                • Hover → scale up, show label + tooltip<br>
+                • Drag (future) → reorder if deferred<br>
+                • Visual feedback: shadow lift on hover
+            </div>
+
+            <div class="demo-text">
+                <strong>Responsive:</strong><br>
+                • Desktop (1920px): Full layout, dots visible<br>
+                • Tablet (768px): Stack vertically, adjust sizing<br>
+                • Mobile (375px): Simplified, dots smaller, tooltips adjusted
+            </div>
+
+            <div class="demo-text">
+                <strong>Integration:</strong><br>
+                Modify <code>.sprint-bar</code> HTML in dashboard/index.html (line 1826).<br>
+                Remove old <code>.sprint-tasks</code> pills (lines 1830–1835).<br>
+                Add new CSS classes: <code>.sprint-dot</code>, <code>.dot-label</code>, <code>.dot-tooltip</code>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

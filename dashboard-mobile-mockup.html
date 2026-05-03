@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HypeShow Dashboard — Mobile</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --coral: #e8623a;
+      --dark: #1c1c1e;
+      --bg: #faf8f5;
+      --card: #ffffff;
+      --text: #1c1c1e;
+      --muted: #999;
+      --border: rgba(0,0,0,0.07);
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    /* Mobile Header */
+    .mobile-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: rgba(250,248,245,0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 100;
+      direction: ltr;
+    }
+    .mobile-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .mobile-logo svg {
+      width: 28px;
+      height: 22px;
+    }
+    .mobile-icons {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .mobile-icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .mobile-icon-btn:active {
+      background: #fef0eb;
+      border-color: var(--coral);
+    }
+    /* Main Content */
+    .main {
+      margin-top: 70px;
+      padding: 0 16px 40px;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .card:active {
+      transform: scale(0.98);
+      background: #f5f4f2;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .avatar.steve { background: linear-gradient(135deg, #e8623a, #f0855e); }
+    .avatar.yaniv { background: linear-gradient(135deg, #3a7bd5, #5a9cf5); }
+    .avatar.oded { background: linear-gradient(135deg, #1a1a1a, #3a3a3a); }
+    .avatar.daniel { background: linear-gradient(135deg, #7b3dd5, #a05cf5); }
+    .avatar.inbar { background: linear-gradient(135deg, #c9534a, #e8756c); }
+    .card-info {
+      flex: 1;
+      text-align: right;
+    }
+    .card-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .card-role {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .card-status {
+      font-size: 12px;
+      color: #2d9b61;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: flex-end;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #2d9b61;
+    }
+    .card-task {
+      font-size: 13px;
+      color: var(--text);
+      margin-top: 8px;
+      line-height: 1.4;
+      text-align: right;
+    }
+    .divider {
+      height: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- MOBILE HEADER -->
+<div class="mobile-header">
+  <div class="mobile-logo">
+    <!-- HypeShow Logo -->
+    <svg viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="16" width="8" height="8" rx="1.2" fill="#e8623a" opacity="0.8"></rect>
+      <rect x="10" y="9" width="10" height="15" rx="1.2" fill="#e8623a" opacity="0.9"></rect>
+      <rect x="22" y="0" width="14" height="24" rx="1.2" fill="#e8623a"></rect>
+    </svg>
+    <span style="color: var(--text); margin-left: 4px;">HypeShow</span>
+  </div>
+  <div class="mobile-icons">
+    <div class="mobile-icon-btn" title="Conversations">💬</div>
+    <div class="mobile-icon-btn" title="Notifications">🔔</div>
+    <div class="mobile-icon-btn" title="Settings">⚙️</div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="main">
+  <div style="margin-bottom: 20px; text-align: right;">
+    <h2 style="font-size: 18px; margin-bottom: 4px;">מה קורה היום</h2>
+    <p style="font-size: 13px; color: var(--muted);">Team Status & Next Actions</p>
+  </div>
+
+  <!-- Officer Card 1 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="avatar steve">S</div>
+      <div class="card-info">
+        <div class="card-name">Steve</div>
+        <div class="card-role">CEO</div>
+      </div>
+    </div>
+    <div class="card-status">
+      <span class="status-dot"></span>
+      <span>Online</span>
+    </div>
+    <div class="card-task">Strategy & routing — sprint oversight</div>
+  </div>
+
+  <!-- Officer Card 2 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="avatar oded">O</div>
+      <div class="card-info">
+        <div class="card-name">Oded</div>
+        <div class="card-role">CTO</div>
+      </div>
+    </div>
+    <div class="card-status">
+      <span class="status-dot"></span>
+      <span>Online</span>
+    </div>
+    <div class="card-task">Supabase setup — starting today</div>
+  </div>
+
+  <!-- Officer Card 3 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="avatar daniel">D</div>
+      <div class="card-info">
+        <div class="card-name">Daniel</div>
+        <div class="card-role">CPO</div>
+      </div>
+    </div>
+    <div class="card-status">
+      <span class="status-dot"></span>
+      <span>Online</span>
+    </div>
+    <div class="card-task">Design Handoff & Dev-Ready Spec — in progress</div>
+  </div>
+
+  <!-- Officer Card 4 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="avatar yaniv">Y</div>
+      <div class="card-info">
+        <div class="card-name">Yaniv</div>
+        <div class="card-role">COO</div>
+      </div>
+    </div>
+    <div class="card-status">
+      <span class="status-dot"></span>
+      <span>Online</span>
+    </div>
+    <div class="card-task">Operations & sprint timeline</div>
+  </div>
+
+  <!-- Officer Card 5 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="avatar inbar">I</div>
+      <div class="card-info">
+        <div class="card-name">Inbar</div>
+        <div class="card-role">CMO</div>
+      </div>
+    </div>
+    <div class="card-status">
+      <span class="status-dot"></span>
+      <span>Offline</span>
+    </div>
+    <div class="card-task">Brand strategy — standing by</div>
+  </div>
+
+</div>
+
+</body>
+</html>

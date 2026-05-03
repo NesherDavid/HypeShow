@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HypeShow Dashboard — Calendar + Sprint Strip Mockup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f7;
+            color: #1c1c1e;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: #6e6e73;
+            font-size: 14px;
+        }
+
+        /* Sprint Strip */
+        .sprint-strip {
+            background: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            overflow-x: auto;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .sprint-label {
+            font-weight: 600;
+            color: #1c1c1e;
+            white-space: nowrap;
+            min-width: 120px;
+        }
+
+        .sprint-progress {
+            color: #6e6e73;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .task-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: #f5f5f7;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            min-width: 140px;
+        }
+
+        .task-item.pending {
+            background: #f5f5f7;
+            border: 1px solid #e5e5ea;
+        }
+
+        .task-item.in-progress {
+            background: #e8623a;
+            color: white;
+            border: none;
+        }
+
+        .task-item.done {
+            background: #34c759;
+            color: white;
+            opacity: 0.7;
+            border: none;
+        }
+
+        .task-item.blocked {
+            background: #ff3b30;
+            color: white;
+            border: none;
+        }
+
+        .task-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .task-badge {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .task-label {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .task-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(50%);
+            background: #1c1c1e;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: normal;
+            width: 200px;
+            margin-bottom: 8px;
+            z-index: 20;
+            line-height: 1.4;
+        }
+
+        .task-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 4px solid transparent;
+            border-top-color: #1c1c1e;
+        }
+
+        .task-item:hover .task-tooltip {
+            display: block;
+        }
+
+        /* Main content area */
+        .main-area {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+
+        /* Calendar View */
+        .calendar-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .calendar-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e5e5ea;
+            padding-bottom: 12px;
+        }
+
+        .tab {
+            padding: 8px 12px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: #6e6e73;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            color: #e8623a;
+            border-bottom-color: #e8623a;
+            font-weight: 600;
+        }
+
+        /* Month View */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .day-cell {
+            aspect-ratio: 1;
+            border: 1px solid #e5e5ea;
+            border-radius: 6px;
+            padding: 8px;
+            position: relative;
+            background: white;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .day-cell:hover {
+            background: #f5f5f7;
+            border-color: #d1d1d6;
+        }
+
+        .day-number {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .day-indicators {
+            display: flex;
+            gap: 2px;
+            flex-wrap: wrap;
+        }
+
+        .indicator {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            cursor: help;
+        }
+
+        .indicator.milestone {
+            background: #e8623a;
+        }
+
+        .indicator.reminder {
+            background: #7b3dd5;
+        }
+
+        .indicator.goal {
+            background: #6e6e73;
+        }
+
+        /* Week View */
+        .week-view {
+            display: none;
+        }
+
+        .week-view.active {
+            display: block;
+        }
+
+        .week-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-left: 4px solid;
+            background: #f5f5f7;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .week-item:hover {
+            background: #ebebf0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .week-item.milestone {
+            border-left-color: #e8623a;
+        }
+
+        .week-item.reminder {
+            border-left-color: #7b3dd5;
+        }
+
+        .week-item.goal {
+            border-left-color: #6e6e73;
+        }
+
+        .week-item-title {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .week-item-time {
+            font-size: 12px;
+            color: #6e6e73;
+        }
+
+        .week-item-tooltip {
+            display: none;
+            margin-top: 8px;
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #6e6e73;
+            border: 1px solid #e5e5ea;
+        }
+
+        .week-item:hover .week-item-tooltip {
+            display: block;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .sidebar h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1c1c1e;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .legend-dot.milestone {
+            background: #e8623a;
+        }
+
+        .legend-dot.reminder {
+            background: #7b3dd5;
+        }
+
+        .legend-dot.goal {
+            background: #6e6e73;
+        }
+
+        /* Status legend */
+        .status-legend {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e5ea;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .status-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+
+        .status-color.pending {
+            background: #f5f5f7;
+            border: 1px solid #e5e5ea;
+        }
+
+        .status-color.in-progress {
+            background: #e8623a;
+        }
+
+        .status-color.done {
+            background: #34c759;
+        }
+
+        .status-color.blocked {
+            background: #ff3b30;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-area {
+                grid-template-columns: 1fr;
+            }
+
+            .calendar-grid {
+                grid-template-columns: repeat(7, 1fr);
+            }
+
+            .sprint-strip {
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sprint-strip {
+                flex-wrap: wrap;
+            }
+
+            .calendar-grid {
+                grid-template-columns: repeat(7, 1fr);
+            }
+
+            .day-cell {
+                padding: 4px;
+                font-size: 11px;
+            }
+
+            .day-number {
+                font-size: 11px;
+            }
+
+            .indicator {
+                width: 3px;
+                height: 3px;
+            }
+
+            .main-area {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: -1;
+            }
+        }
+
+        /* Note */
+        .mockup-note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>HypeShow Dashboard</h1>
+            <p>Calendar View + Sprint Tasks Strip Mockup (Desktop-First Responsive)</p>
+        </header>
+
+        <div class="mockup-note">
+            💡 <strong>Mockup Note:</strong> Hover on sprint tasks to see detailed tooltip. Click calendar tabs to switch views. This design is desktop-optimized; scales gracefully to tablet (768px) and mobile (375px).
+        </div>
+
+        <!-- Sprint Strip -->
+        <div class="sprint-strip">
+            <span class="sprint-label">ACTIVE SPRINT</span>
+            <span class="sprint-progress">MVP Foundation — Day 12/14</span>
+
+            <div class="task-item pending">
+                <span class="task-badge"></span>
+                <span class="task-label">Tech Stack</span>
+                <div class="task-tooltip">Finalize tech stack decisions. API, DB, hosting confirmed.</div>
+            </div>
+
+            <div class="task-item in-progress">
+                <span class="task-badge"></span>
+                <span class="task-label">Seniority Model</span>
+                <div class="task-tooltip">Building visual hierarchy for founder experience tiers.</div>
+            </div>
+
+            <div class="task-item done">
+                <span class="task-badge"></span>
+                <span class="task-label">User Journey</span>
+                <div class="task-tooltip">Onboarding flow + Day 1 experience finalized.</div>
+            </div>
+
+            <div class="task-item blocked">
+                <span class="task-badge"></span>
+                <span class="task-label">Threat Model</span>
+                <div class="task-tooltip">Blocked: Waiting for security review from Iftach.</div>
+            </div>
+
+            <div class="task-item pending">
+                <span class="task-badge"></span>
+                <span class="task-label">API Spec</span>
+                <div class="task-tooltip">Define REST endpoints for founder sync.</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-area">
+            <div class="calendar-section">
+                <div class="calendar-tabs">
+                    <button class="tab active" onclick="switchView('month')">Month</button>
+                    <button class="tab" onclick="switchView('week')">Week</button>
+                    <button class="tab" onclick="switchView('day')">Day</button>
+                </div>
+
+                <!-- Month View -->
+                <div id="month-view" class="active">
+                    <h3 style="margin-bottom: 16px; font-size: 16px; font-weight: 600;">April 2026</h3>
+                    <div class="calendar-grid">
+                        <div style="text-align: center; color: #6e6e73; font-weight: 600; font-size: 12px;">Sun</div>
+                        <div style="text-align: center; color: #6e6e73; font-weight: 600; font-size: 12px;">Mon</div>
+                        <div style="text-align: center; color: #6e6e73; font-weight: 600; font-size: 12px;">Tue</div>
+                        <div style="text-align: center; color: #6e6e73; font-weight: 600; font-size: 12px;">Wed</div>
+                        <div style="text-align: center; color: #6e6e73; font-weight: 600; font-size: 12px;">Thu</div>
+                        <div style="text-align: center; color: #6e6e73; font-weight: 600; font-size: 12px;">Fri</div>
+                        <div style="text-align: center; color: #6e6e73; font-weight: 600; font-size: 12px;">Sat</div>
+
+                        <div class="day-cell" style="color: #6e6e73;"><div class="day-number">31</div></div>
+                        <div class="day-cell"><div class="day-number">1</div></div>
+                        <div class="day-cell"><div class="day-number">2</div></div>
+                        <div class="day-cell"><div class="day-number">3</div></div>
+                        <div class="day-cell"><div class="day-number">4</div></div>
+                        <div class="day-cell"><div class="day-number">5</div></div>
+                        <div class="day-cell"><div class="day-number">6</div></div>
+
+                        <div class="day-cell"><div class="day-number">7</div></div>
+                        <div class="day-cell"><div class="day-number">8</div></div>
+                        <div class="day-cell"><div class="day-number">9</div></div>
+                        <div class="day-cell"><div class="day-number">10</div></div>
+                        <div class="day-cell"><div class="day-number">11</div></div>
+                        <div class="day-cell"><div class="day-number">12</div></div>
+                        <div class="day-cell"><div class="day-number">13</div><div class="day-indicators"><div class="indicator goal"></div></div></div>
+
+                        <div class="day-cell"><div class="day-number">14</div><div class="day-indicators"><div class="indicator milestone"></div><div class="indicator reminder"></div></div></div>
+                        <div class="day-cell"><div class="day-number">15</div></div>
+                        <div class="day-cell"><div class="day-number">16</div></div>
+                        <div class="day-cell"><div class="day-number">17</div></div>
+                        <div class="day-cell"><div class="day-number">18</div></div>
+                        <div class="day-cell"><div class="day-number">19</div></div>
+                        <div class="day-cell"><div class="day-number">20</div></div>
+
+                        <div class="day-cell"><div class="day-number">21</div><div class="day-indicators"><div class="indicator milestone"></div></div></div>
+                        <div class="day-cell"><div class="day-number">22</div></div>
+                        <div class="day-cell"><div class="day-number">23</div></div>
+                        <div class="day-cell"><div class="day-number">24</div></div>
+                        <div class="day-cell"><div class="day-number">25</div></div>
+                        <div class="day-cell"><div class="day-number">26</div></div>
+                        <div class="day-cell"><div class="day-number">27</div></div>
+
+                        <div class="day-cell"><div class="day-number">28</div><div class="day-indicators"><div class="indicator reminder"></div></div></div>
+                        <div class="day-cell"><div class="day-number">29</div></div>
+                        <div class="day-cell"><div class="day-number">30</div></div>
+                        <div class="day-cell" style="color: #6e6e73;"><div class="day-number">1</div></div>
+                        <div class="day-cell" style="color: #6e6e73;"><div class="day-number">2</div></div>
+                        <div class="day-cell" style="color: #6e6e73;"><div class="day-number">3</div></div>
+                        <div class="day-cell" style="color: #6e6e73;"><div class="day-number">4</div></div>
+                    </div>
+                </div>
+
+                <!-- Week View -->
+                <div id="week-view" class="week-view">
+                    <h3 style="margin-bottom: 16px; font-size: 16px; font-weight: 600;">Week of April 14</h3>
+
+                    <div class="week-item milestone">
+                        <div class="week-item-title">🎯 Sprint End — MVP Foundation</div>
+                        <div class="week-item-time">Friday, April 18 — All 5 tasks must be completed</div>
+                        <div class="week-item-tooltip"><strong>Status:</strong> 3/5 tasks done. 2 pending (Tech Stack, API Spec)</div>
+                    </div>
+
+                    <div class="week-item reminder">
+                        <div class="week-item-title">Personal: Review partnership proposal</div>
+                        <div class="week-item-time">Monday, April 14 — 3:00 PM</div>
+                        <div class="week-item-tooltip"><strong>Private reminder (only you see).</strong> Proposal from potential investor waiting for feedback.</div>
+                    </div>
+
+                    <div class="week-item goal">
+                        <div class="week-item-title">Venture Goal: Finalize pricing model</div>
+                        <div class="week-item-time">Wednesday, April 16</div>
+                        <div class="week-item-tooltip"><strong>Cross-team goal.</strong> Daniel, Yarden, Steve aligned on tier structure (200/600/1500 credits).</div>
+                    </div>
+
+                    <div class="week-item milestone">
+                        <div class="week-item-title">🔐 Security Review with Iftach</div>
+                        <div class="week-item-time">Tuesday, April 15 — 2:00 PM</div>
+                        <div class="week-item-tooltip"><strong>Status:</strong> Threat Model spec ready. Iftach to review + approve.</div>
+                    </div>
+                </div>
+
+                <!-- Day View -->
+                <div id="day-view" class="week-view">
+                    <h3 style="margin-bottom: 16px; font-size: 16px; font-weight: 600;">Monday, April 28</h3>
+
+                    <div class="week-item milestone">
+                        <div class="week-item-title">📊 Dashboard Mockups Review</div>
+                        <div class="week-item-time">9:00 AM — With Daniel</div>
+                        <div class="week-item-tooltip"><strong>Review:</strong> Calendar view + Sprint strip mockups. Approve design direction.</div>
+                    </div>
+
+                    <div class="week-item goal">
+                        <div class="week-item-title">Hand off to Oded — Sprint Strip Build</div>
+                        <div class="week-item-time">10:30 AM — Oded starts build</div>
+                        <div class="week-item-tooltip"><strong>Deliverable:</strong> Enhanced sprint strip with hover states + drag reorder. Responsive.</div>
+                    </div>
+
+                    <div class="week-item reminder">
+                        <div class="week-item-title">Personal: Call from son arriving!</div>
+                        <div class="week-item-time">3:00 PM — Family moment</div>
+                        <div class="week-item-tooltip"><strong>Private reminder.</strong> Ben arrives after 8 months away. Priority = family 💙</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <h3>Calendar Legend</h3>
+
+                <div class="legend-item">
+                    <div class="legend-dot milestone"></div>
+                    <span>Milestone</span>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-dot reminder"></div>
+                    <span>Personal Reminder</span>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-dot goal"></div>
+                    <span>Venture Goal</span>
+                </div>
+
+                <div class="status-legend">
+                    <h3>Sprint Task Status</h3>
+                    <div class="status-badge">
+                        <div class="status-color pending"></div>
+                        <span>Pending</span>
+                    </div>
+                    <div class="status-badge">
+                        <div class="status-color in-progress"></div>
+                        <span>In Progress</span>
+                    </div>
+                    <div class="status-badge">
+                        <div class="status-color done"></div>
+                        <span>Done</span>
+                    </div>
+                    <div class="status-badge">
+                        <div class="status-color blocked"></div>
+                        <span>Blocked</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e5ea; font-size: 12px; color: #6e6e73;">
+                    <strong>Interaction:</strong>
+                    <ul style="margin-left: 16px; margin-top: 8px;">
+                        <li>Hover sprint tasks → see details</li>
+                        <li>Click calendar tabs → switch views</li>
+                        <li>Hover calendar days → see events</li>
+                        <li>Drag sprint tasks → reorder if deferred</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchView(view) {
+            // Hide all views
+            document.getElementById('month-view').classList.remove('active');
+            document.getElementById('week-view').classList.remove('active');
+            document.getElementById('day-view').classList.remove('active');
+
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Show selected view
+            if (view === 'month') {
+                document.getElementById('month-view').classList.add('active');
+            } else if (view === 'week') {
+                document.getElementById('week-view').classList.add('active');
+            } else if (view === 'day') {
+                document.getElementById('day-view').classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

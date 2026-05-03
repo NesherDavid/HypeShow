@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprint Strip Final — Mockup</title>
+    <style>
+        :root {
+            --coral: #e8623a;
+            --coral-light: #fef0eb;
+            --coral-mid: #f0855e;
+            --bg: #faf8f5;
+            --card: #ffffff;
+            --text: #1c1c1e;
+            --muted: #999;
+            --border: rgba(0,0,0,0.07);
+            /* Harmonious palette */
+            --green: #2d9b61;
+            --green-bg: #f0faf5;
+            --gray-progress: #999;
+            --red-missed: #ff3b30;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .note {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        /* ── SPRINT BAR FINAL ── */
+        .sprint-bar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.04);
+        }
+
+        /* LEFT: Header */
+        .sprint-header {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            white-space: nowrap;
+        }
+
+        .sprint-lbl {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .sprint-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* MIDDLE: Track + Dots */
+        .sprint-track-wrapper {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .sprint-track {
+            position: relative;
+            height: 6px;
+            background: #f0ebe4;
+            border-radius: 3px;
+            overflow: visible;
+        }
+
+        .sprint-fill {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--coral), var(--coral-mid));
+            border-radius: 3px;
+            position: relative;
+        }
+
+        /* ── DOT MARKERS ── */
+        .sprint-dot {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+            color: #fff;
+            transition: all 0.2s;
+            border: 2px solid var(--card);
+            box-shadow: 0 2px 6px rgba(0,0,0,.15);
+            user-select: none;
+        }
+
+        .sprint-dot:hover {
+            transform: translateY(-50%) scale(1.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,.25);
+        }
+
+        /* Dot status colors — harmonious */
+        .sprint-dot.done {
+            background: var(--green);
+        }
+
+        .sprint-dot.in-progress {
+            background: var(--gray-progress);
+        }
+
+        .sprint-dot.missed {
+            background: var(--red-missed);
+        }
+
+        /* ── TOOLTIP (light style, not dark) ── */
+        .dot-tooltip {
+            position: absolute;
+            bottom: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            color: var(--text);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--coral);
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.4;
+            white-space: normal;
+            width: 150px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,.08);
+        }
+
+        /* Arrow below tooltip */
+        .dot-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: var(--coral);
+        }
+
+        /* Day label in coral */
+        .day-label {
+            font-size: 10px;
+            color: var(--coral);
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .sprint-dot:hover .dot-tooltip {
+            opacity: 1;
+        }
+
+        /* RIGHT: Day counter + button */
+        .sprint-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            white-space: nowrap;
+        }
+
+        .sprint-days {
+            font-size: 12px;
+            color: var(--coral);
+            font-weight: 600;
+        }
+
+        /* Coral pill button (like Image 3) */
+        .sprint-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 100px;
+            border: 1.5px solid var(--coral);
+            background: transparent;
+            color: var(--coral);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .sprint-btn:hover {
+            background: var(--coral-light);
+            box-shadow: 0 2px 8px rgba(232, 98, 58, .15);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .sprint-bar {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .sprint-track-wrapper {
+                flex-basis: 100%;
+                min-width: auto;
+            }
+
+            .sprint-right {
+                flex-basis: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sprint-bar {
+                padding: 12px 16px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .sprint-dot {
+                width: 12px;
+                height: 12px;
+                font-size: 8px;
+            }
+
+            .dot-tooltip {
+                width: 130px;
+                font-size: 11px;
+                padding: 8px 10px;
+            }
+
+            .sprint-btn {
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+        }
+
+        /* ── LEGEND ── */
+        .legend {
+            display: flex;
+            gap: 20px;
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.done { background: var(--green); }
+        .legend-dot.in-progress { background: var(--gray-progress); }
+        .legend-dot.missed { background: var(--red-missed); }
+
+        /* ── INFO ── */
+        .info {
+            margin-top: 48px;
+            padding: 20px;
+            background: var(--coral-light);
+            border: 1px solid rgba(232, 98, 58, .25);
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .info strong { color: var(--coral); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sprint Strip Enhanced — Final</h1>
+        <p class="note">
+            ✓ Light tooltip (white bg + coral border)<br>
+            ✓ No duplicate task name (just Day 14)<br>
+            ✓ Gray for in-progress, red for missed<br>
+            ✓ Harmonious palette with coral
+        </p>
+
+        <!-- SPRINT BAR -->
+        <div class="sprint-bar">
+            <!-- LEFT: Header -->
+            <div class="sprint-header">
+                <div class="sprint-lbl">Active Sprint</div>
+                <div class="sprint-name">MVP Foundation</div>
+            </div>
+
+            <!-- MIDDLE: Track with dots -->
+            <div class="sprint-track-wrapper">
+                <div class="sprint-track">
+                    <div class="sprint-fill">
+                        <!-- Dot 1: Tech Stack (done) -->
+                        <div class="sprint-dot done" style="left: 25%;">
+                            <div class="dot-tooltip">
+                                <div class="day-label">Day 3 / 14</div>
+                            </div>
+                        </div>
+
+                        <!-- Dot 2: Seniority Model (in-progress) -->
+                        <div class="sprint-dot in-progress" style="left: 50%;">
+                            <div class="dot-tooltip">
+                                <div class="day-label">Day 8 / 14</div>
+                            </div>
+                        </div>
+
+                        <!-- Dot 3: User Journey (done) -->
+                        <div class="sprint-dot done" style="left: 70%;">
+                            <div class="dot-tooltip">
+                                <div class="day-label">Day 6 / 14</div>
+                            </div>
+                        </div>
+
+                        <!-- Dot 4: Threat Model (missed) -->
+                        <div class="sprint-dot missed" style="left: 85%;">
+                            <div class="dot-tooltip">
+                                <div class="day-label">Day 10 / 14</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legend below track -->
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-dot done"></div>
+                        <span>Done</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot in-progress"></div>
+                        <span>In Progress</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot missed"></div>
+                        <span>Missed</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Day counter + button -->
+            <div class="sprint-right">
+                <div class="sprint-days">Day 14 / 14</div>
+                <button class="sprint-btn">+ Add Task</button>
+            </div>
+        </div>
+
+        <!-- INFO -->
+        <div class="info">
+            <strong>What changed:</strong><br>
+            • Tooltip: white bg + coral thin border (not dark)<br>
+            • Only "Day X / 14" in tooltip (no task name repeat)<br>
+            • In-progress = gray (not coral-ish)<br>
+            • Missed = red (terminology fixed)<br>
+            • Coral pill button replaces old icon<br>
+            • Harmonious color palette with coral line<br>
+            • Responsive layout (desktop → tablet → mobile)
+        </div>
+    </div>
+</body>
+</html>

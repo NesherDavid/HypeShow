@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avatar Centering Test</title>
+  <style>
+    body {
+      background: #000;
+      padding: 40px;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .container {
+      display: flex;
+      gap: 60px;
+      align-items: flex-start;
+    }
+    .section {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+    .label {
+      color: #fff;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #999;
+    }
+
+    /* Desktop Avatar */
+    .avatar-desktop {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, #e8623a, #f0855e);
+      line-height: 1;
+    }
+
+    /* Mobile Avatar */
+    .avatar-mobile {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, #e8623a, #f0855e);
+      line-height: 1;
+    }
+
+    /* Panel Avatar */
+    .avatar-panel {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, #e8623a, #f0855e);
+      line-height: 1;
+    }
+
+    /* Reference grid for verification */
+    .grid-overlay {
+      position: relative;
+      border: 1px dashed rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="section">
+    <div class="label">Desktop (44x44)</div>
+    <div class="avatar-desktop grid-overlay">N</div>
+  </div>
+
+  <div class="section">
+    <div class="label">Mobile (24x24)</div>
+    <div class="avatar-mobile grid-overlay">N</div>
+  </div>
+
+  <div class="section">
+    <div class="label">Panel (44x44)</div>
+    <div class="avatar-panel grid-overlay">N</div>
+  </div>
+</div>
+
+</body>
+</html>

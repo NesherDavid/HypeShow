@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HypeShow — Agenda</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --coral: #e8623a;
+            --coral-light: #fef0eb;
+            --coral-mid: #f0855e;
+            --green: #2d9b61;
+            --green-light: #f0faf5;
+            --purple: #7b3dd5;
+            --purple-light: #f3eeff;
+            --bg: #faf8f5;
+            --card: #ffffff;
+            --text: #1c1c1e;
+            --muted: #8e8e93;
+            --border: rgba(0,0,0,0.07);
+            --gray-event-bg: #f5f5f7;
+            --gray-event-text: #6e6e73;
+            --gray-event-bar: #c7c7cc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ══════════════════════════
+           TOP BAR (coral)
+        ══════════════════════════ */
+        .top-bar {
+            flex-shrink: 0;
+            height: 86px;
+            background: var(--coral);
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            padding: 0 28px;
+        }
+
+        .agenda-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .agenda-brand-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.4px;
+        }
+
+        .agenda-strip {
+            flex: 1;
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding-top: 22px;
+        }
+
+        .strip-track {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .strip-track::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            top: 50%;
+            height: 1.5px;
+            background: rgba(255,255,255,0.22);
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+
+        .strip-dot {
+            position: relative;
+            z-index: 1;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: transform 0.15s;
+        }
+
+        .strip-dot:hover { transform: scale(1.3); }
+
+        .strip-dot.done {
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.2);
+        }
+
+        .strip-dot.active {
+            background: #1c1c1e;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.18);
+        }
+
+        .strip-dot.flagged {
+            width: 16px;
+            height: 16px;
+            background: transparent;
+            border: 2.5px solid rgba(255,255,255,0.88);
+        }
+
+        .dot-lbl {
+            position: absolute;
+            top: calc(100% + 7px);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 9px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.78);
+            white-space: nowrap;
+            letter-spacing: 0.01em;
+            pointer-events: none;
+        }
+
+        .top-avatar {
+            flex-shrink: 0;
+        }
+
+        .avatar-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #c9845a, #a8643e);
+            border: 2.5px solid rgba(255,255,255,0.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            letter-spacing: -0.5px;
+        }
+
+        /* ══════════════════════════
+           CONTENT ROW
+        ══════════════════════════ */
+        .content {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* ══════════════════════════
+           SIDEBAR
+        ══════════════════════════ */
+        .sidebar {
+            width: 240px;
+            min-width: 240px;
+            background: var(--card);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 20px 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 16px 0;
+        }
+
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .toggle-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .toggle {
+            width: 38px;
+            height: 22px;
+            background: var(--coral);
+            border-radius: 11px;
+            position: relative;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .toggle.off { background: var(--muted); }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            right: 2px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+            transition: right 0.2s;
+        }
+
+        .toggle.off::after { right: calc(100% - 20px); }
+
+        .categories-label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            color: var(--muted);
+            margin-bottom: 6px;
+            padding-left: 10px;
+        }
+
+        .categories-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s;
+            user-select: none;
+        }
+
+        .category-item:hover { background: var(--bg); }
+
+        .category-item.hidden { opacity: 0.5; }
+
+        .cat-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .cat-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
+            flex: 1;
+        }
+
+        .cat-count {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+            background: var(--bg);
+            padding: 2px 8px;
+            border-radius: 10px;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-spacer { flex: 1; min-height: 20px; }
+
+        .customize-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border: none;
+            background: none;
+            width: 100%;
+            font-family: inherit;
+            text-align: left;
+        }
+
+        .customize-btn:hover { background: var(--bg); }
+
+        .customize-icon-wrap {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--coral-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .customize-text strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .customize-text em {
+            display: block;
+            font-size: 11px;
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        /* ══════════════════════════
+           MAIN CALENDAR
+        ══════════════════════════ */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .cal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 24px;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .cal-month-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+            letter-spacing: -0.3px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: background 0.15s;
+        }
+
+        .cal-month-btn:hover { background: var(--bg); }
+
+        .cal-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .today-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 16px;
+            border-radius: 8px;
+            border: 1.5px solid var(--coral);
+            background: transparent;
+            color: var(--coral);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.15s;
+        }
+
+        .today-btn:hover { background: var(--coral-light); }
+
+        .nav-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--coral);
+            color: var(--coral);
+        }
+
+        .day-headers {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 0 4px;
+            flex-shrink: 0;
+        }
+
+        .day-header {
+            padding: 9px 0;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--muted);
+        }
+
+        .cal-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 4px;
+            padding: 4px;
+            overflow: hidden;
+        }
+
+        .cal-cell {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .cal-cell.other-month { background: transparent; }
+        .cal-cell.today { border: 1.5px solid var(--coral); }
+
+        .cell-date {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .cal-cell.other-month .cell-date {
+            color: var(--muted);
+            opacity: 0.4;
+        }
+
+        .today-date {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--coral);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .event-card {
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: opacity 0.15s, transform 0.1s;
+            flex-shrink: 0;
+        }
+
+        .event-card:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        .event-bar {
+            width: 3px;
+            align-self: stretch;
+            flex-shrink: 0;
+        }
+
+        .event-content {
+            padding: 4px 6px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .event-title {
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .event-time {
+            font-size: 10px;
+            opacity: 0.7;
+            display: block;
+            margin-top: 1px;
+        }
+
+        .event-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #c9845a, #a8643e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+            margin-right: 5px;
+            border: 1.5px solid rgba(255,255,255,0.7);
+        }
+
+        .event-card.milestone .event-bar     { background: var(--coral); }
+        .event-card.milestone .event-content { background: var(--coral-light); color: var(--coral); }
+        .event-card.milestone .event-avatar  { border-color: rgba(232,98,58,0.3); }
+
+        .event-card.goal .event-bar          { background: var(--green); }
+        .event-card.goal .event-content      { background: var(--green-light); color: var(--green); }
+
+        .event-card.personal .event-bar      { background: var(--purple); }
+        .event-card.personal .event-content  { background: var(--purple-light); color: var(--purple); }
+
+        .event-card.external .event-bar      { background: var(--gray-event-bar); }
+        .event-card.external .event-content  { background: var(--gray-event-bg); color: var(--gray-event-text); }
+
+        .event-card.hidden { display: none; }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show { display: flex; }
+
+        .modal-content {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 28px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-time {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .modal-desc {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 9px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.15s;
+        }
+
+        .modal-btn:hover {
+            background: var(--coral-light);
+            border-color: var(--coral);
+            color: var(--coral);
+        }
+    </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="top-bar">
+    <div class="agenda-brand">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="2" y="4" width="20" height="18" rx="3.5" stroke="rgba(255,255,255,0.88)" stroke-width="1.6"/>
+            <path d="M7 2v3M17 2v3" stroke="rgba(255,255,255,0.88)" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M2 9.5h20" stroke="rgba(255,255,255,0.7)" stroke-width="1.3"/>
+        </svg>
+        <span class="agenda-brand-title">Agenda</span>
+    </div>
+
+    <div class="agenda-strip">
+        <div class="strip-track">
+            <div class="strip-dot done"><span class="dot-lbl">AI Brainstorming</span></div>
+            <div class="strip-dot done"><span class="dot-lbl">Q1 Data Review</span></div>
+            <div class="strip-dot done"><span class="dot-lbl">Upcoming Work</span></div>
+            <div class="strip-dot active"><span class="dot-lbl">In Progress</span></div>
+            <div class="strip-dot active"><span class="dot-lbl">Delayed Today</span></div>
+            <div class="strip-dot flagged"><span class="dot-lbl">Action Items</span></div>
+        </div>
+    </div>
+
+    <div class="top-avatar">
+        <div class="avatar-circle">N</div>
+    </div>
+</header>
+
+<!-- CONTENT -->
+<div class="content">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="toggle-row">
+            <span class="toggle-label">Show All</span>
+            <div class="toggle" id="showAllToggle" role="switch" aria-checked="true"></div>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="categories-label">Categories</div>
+        <div class="categories-list">
+            <div class="category-item" data-type="milestone">
+                <div class="cat-dot" style="background:var(--coral)"></div>
+                <span class="cat-name">Venture Milestone</span>
+                <span class="cat-count">3</span>
+            </div>
+            <div class="category-item" data-type="goal">
+                <div class="cat-dot" style="background:var(--green)"></div>
+                <span class="cat-name">Team Goal</span>
+                <span class="cat-count">4</span>
+            </div>
+            <div class="category-item" data-type="personal">
+                <div class="cat-dot" style="background:var(--purple)"></div>
+                <span class="cat-name">Personal Reminder</span>
+                <span class="cat-count">1</span>
+            </div>
+            <div class="category-item" data-type="external">
+                <div class="cat-dot" style="background:var(--gray-event-bar)"></div>
+                <span class="cat-name">External Event</span>
+                <span class="cat-count">3</span>
+            </div>
+        </div>
+
+        <div class="sidebar-spacer"></div>
+
+        <button class="customize-btn">
+            <div class="customize-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <circle cx="10" cy="10" r="3" stroke="#e8623a" stroke-width="1.4"/>
+                    <circle cx="10" cy="3.5" r="1.3" fill="#e8623a"/>
+                    <circle cx="10" cy="16.5" r="1.3" fill="#e8623a"/>
+                    <circle cx="3.5" cy="10" r="1.3" fill="#e8623a"/>
+                    <circle cx="16.5" cy="10" r="1.3" fill="#e8623a"/>
+                    <circle cx="5.4" cy="5.4" r="1.1" fill="#e8623a"/>
+                    <circle cx="14.6" cy="14.6" r="1.1" fill="#e8623a"/>
+                    <circle cx="5.4" cy="14.6" r="1.1" fill="#e8623a"/>
+                    <circle cx="14.6" cy="5.4" r="1.1" fill="#e8623a"/>
+                </svg>
+            </div>
+            <div class="customize-text">
+                <strong>Customize</strong>
+                <em>View</em>
+            </div>
+        </button>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+        <div class="cal-header">
+            <button class="cal-month-btn" id="monthBtn">
+                <span id="monthDisplay">April 2026</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M3 5l4 4 4-4" stroke="#8e8e93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="cal-nav">
+                <button class="today-btn" id="todayBtn">
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                        <rect x="1" y="2" width="11" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+                        <path d="M3.5 1.5v2M9.5 1.5v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                        <path d="M1 5.5h11" stroke="currentColor" stroke-width="1.1"/>
+                    </svg>
+                    Today
+                </button>
+                <button class="nav-btn" id="prevBtn" aria-label="Previous month">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M9 3L5 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="nav-btn" id="nextBtn" aria-label="Next month">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="day-headers">
+            <div class="day-header">Sun</div>
+            <div class="day-header">Mon</div>
+            <div class="day-header">Tue</div>
+            <div class="day-header">Wed</div>
+            <div class="day-header">Thu</div>
+            <div class="day-header">Fri</div>
+            <div class="day-header">Sat</div>
+        </div>
+
+        <div class="cal-grid" id="calGrid"></div>
+    </main>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="eventModal">
+    <div class="modal-content">
+        <button class="modal-close" id="modalClose">&times;</button>
+        <div class="modal-title" id="modalTitle">Event</div>
+        <div class="modal-time" id="modalTime">Time</div>
+        <div class="modal-desc" id="modalDesc">Description</div>
+        <div class="modal-actions">
+            <button class="modal-btn" id="modalEdit">Edit</button>
+            <button class="modal-btn" id="modalClose2">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ── STATE ──
+    let currentDate = new Date();
+    let visibleCategories = {
+        milestone: true,
+        goal: true,
+        personal: true,
+        external: true
+    };
+
+    // Events data
+    const events = {
+        '2026-04-01': [{ type: 'milestone', title: 'MVP Beta Launch', time: 'All Day', desc: 'Launch beta version to select testers.' }],
+        '2026-04-07': [{ type: 'external', title: 'Weekly Review', time: '10:00 AM', desc: 'Team weekly sync.' }],
+        '2026-04-08': [{ type: 'goal', title: 'PMF Check', time: '2:00 PM', desc: 'Product-market fit assessment.' }],
+        '2026-04-14': [{ type: 'external', title: 'Investor Call', time: '3:00 PM', desc: 'Series A discussions.' }],
+        '2026-04-15': [{ type: 'goal', title: 'Q2 Planning', time: '11:00 AM', desc: 'Quarterly planning session.' }],
+        '2026-04-20': [{ type: 'personal', title: 'Personal', time: '9:00 AM', desc: 'Personal reminder (private).' }],
+        '2026-04-22': [{ type: 'milestone', title: 'Series A Prep', time: 'All Day', desc: 'Prepare materials for Series A.' }],
+        '2026-04-27': [{ type: 'external', title: 'Weekly Review', time: '10:00 AM', desc: 'Team weekly sync.' }],
+        '2026-04-28': [{ type: 'goal', title: 'Beta Feedback', time: '1:00 PM', desc: 'Collect feedback from beta users.' }],
+        '2026-04-29': [{ type: 'goal', title: 'Sprint Review', time: '4:00 PM', desc: 'Sprint retrospective.' }],
+        '2026-04-30': [{ type: 'milestone', title: 'Launch Review', time: 'All Day', desc: 'Post-launch review meeting.' }]
+    };
+
+    // ── FUNCTIONS ──
+    function getMonthDays(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const startDate = new Date(firstDay);
+        startDate.setDate(startDate.getDate() - firstDay.getDay());
+
+        const days = [];
+        const current = new Date(startDate);
+        while (days.length < 35) {
+            days.push(new Date(current));
+            current.setDate(current.getDate() + 1);
+        }
+        return days;
+    }
+
+    function formatDate(date) {
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+    }
+
+    function updateMonthDisplay() {
+        const opts = { year: 'numeric', month: 'long' };
+        document.getElementById('monthDisplay').textContent =
+            currentDate.toLocaleDateString('en-US', opts);
+    }
+
+    function renderCalendar() {
+        const days = getMonthDays(currentDate);
+        const grid = document.getElementById('calGrid');
+        grid.innerHTML = '';
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        days.forEach(day => {
+            const cell = document.createElement('div');
+            const isOtherMonth = day.getMonth() !== currentDate.getMonth();
+            const isToday = day.getTime() === today.getTime();
+            const dateStr = formatDate(day);
+
+            cell.className = 'cal-cell';
+            if (isOtherMonth) cell.classList.add('other-month');
+            if (isToday) cell.classList.add('today');
+
+            const dateEl = document.createElement('div');
+            dateEl.className = 'cell-date';
+            if (isToday) {
+                const span = document.createElement('span');
+                span.className = 'today-date';
+                span.textContent = day.getDate();
+                dateEl.appendChild(span);
+            } else {
+                dateEl.textContent = day.getDate();
+            }
+            cell.appendChild(dateEl);
+
+            const dayEvents = events[dateStr] || [];
+            dayEvents.forEach(evt => {
+                if (visibleCategories[evt.type]) {
+                    const card = document.createElement('div');
+                    card.className = `event-card ${evt.type}`;
+                    card.innerHTML = `
+                        <div class="event-bar"></div>
+                        <div class="event-content">
+                            <span class="event-title">${evt.title}${evt.type === 'personal' ? '<svg width="9" height="10" viewBox="0 0 10 12" fill="none" aria-hidden="true" style="flex-shrink:0;opacity:0.75"><rect x="1" y="5" width="8" height="6.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3.2 5V3.2a1.8 1.8 0 013.6 0V5" stroke="currentColor" stroke-width="1.3"/></svg>' : ''}</span>
+                            <span class="event-time">${evt.time}</span>
+                        </div>
+                        ${['milestone'].includes(evt.type) ? '<div class="event-avatar">N</div>' : ''}
+                    `;
+                    card.addEventListener('click', () => showEventModal(evt, dateStr));
+                    cell.appendChild(card);
+                }
+            });
+
+            grid.appendChild(cell);
+        });
+    }
+
+    function showEventModal(evt, dateStr) {
+        document.getElementById('modalTitle').textContent = evt.title;
+        document.getElementById('modalTime').textContent = evt.time;
+        document.getElementById('modalDesc').textContent = evt.desc;
+        document.getElementById('eventModal').classList.add('show');
+    }
+
+    function closeModal() {
+        document.getElementById('eventModal').classList.remove('show');
+    }
+
+    function toggleCategory(type) {
+        visibleCategories[type] = !visibleCategories[type];
+        renderCalendar();
+    }
+
+    // ── LISTENERS ──
+    document.getElementById('prevBtn').addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        updateMonthDisplay();
+        renderCalendar();
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        updateMonthDisplay();
+        renderCalendar();
+    });
+
+    document.getElementById('todayBtn').addEventListener('click', () => {
+        currentDate = new Date();
+        updateMonthDisplay();
+        renderCalendar();
+    });
+
+    document.getElementById('showAllToggle').addEventListener('click', function() {
+        const isOff = this.classList.toggle('off');
+        Object.keys(visibleCategories).forEach(k => {
+            visibleCategories[k] = !isOff;
+        });
+        document.querySelectorAll('.category-item').forEach(el => {
+            el.classList.toggle('hidden', isOff);
+        });
+        renderCalendar();
+    });
+
+    document.querySelectorAll('.category-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const type = this.dataset.type;
+            this.classList.toggle('hidden');
+            toggleCategory(type);
+        });
+    });
+
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    document.getElementById('modalClose2').addEventListener('click', closeModal);
+    document.getElementById('eventModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('eventModal')) closeModal();
+    });
+
+    // ── INIT ──
+    updateMonthDisplay();
+    renderCalendar();
+</script>
+
+</body>
+</html>

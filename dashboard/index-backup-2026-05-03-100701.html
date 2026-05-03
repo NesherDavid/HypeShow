@@ -159,10 +159,10 @@ body.dark .sprint-track { background:#2a2a30; }
 .sidebar-me {
   width:34px; height:34px; border-radius:50%;
   background:linear-gradient(135deg,var(--coral),var(--coral-mid));
-  display:grid; place-items:center;
+  display:flex; align-items:center; justify-content:center;
   font-size:14px; font-weight:700; color:#fff; cursor:pointer;
   border:2px solid rgba(255,255,255,.15);
-  }
+}
 
 /* ── MAIN ── */
 .main { margin-left:72px; padding:80px 40px 40px; }
@@ -354,7 +354,7 @@ body.dark .sprint-track { background:#2a2a30; }
   position:fixed; top:50%; left:50%;
   transform:translate(-50%,-50%) scale(0.97);
   opacity:0; pointer-events:none;
-  width:550px; max-height:82vh; background:var(--card); border-radius:24px;
+  width:520px; max-height:82vh; background:var(--card); border-radius:24px;
   box-shadow:0 24px 80px rgba(0,0,0,.22); z-index:300;
   transition:opacity .28s ease, transform .28s ease;
   display:flex; flex-direction:column; overflow:hidden;
@@ -373,8 +373,7 @@ body.dark .sprint-track { background:#2a2a30; }
   display:flex; align-items:center; justify-content:center;
   font-size:22px; font-weight:700; color:#fff; flex-shrink:0; position:relative;
 }
-.panel-letter { position:absolute; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; color:#fff; }
-.panel-hobby { position:absolute; bottom:-2px; right:-2px; width:22px; height:22px; border-radius:50%; background:var(--card); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--text); }
+.panel-hobby { position:absolute; bottom:-2px; right:-2px; width:22px; height:22px; border-radius:50%; background:var(--card); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:12px; }
 .panel-info { flex:1; }
 .panel-role { font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); font-weight:600; margin-bottom:3px; }
 .panel-name { font-size:20px; font-weight:700; margin-bottom:4px; }
@@ -391,7 +390,7 @@ body.dark .sprint-track { background:#2a2a30; }
 .panel-chat { flex:1; padding:16px 24px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; }
 .chat-msg { display:flex; gap:8px; align-items:flex-start; }
 .chat-msg.user { flex-direction:row-reverse; }
-.chat-av { width:28px; height:28px; border-radius:50%; display:grid; place-items:center; font-size:11px; font-weight:700; color:#fff; flex-shrink:0; line-height:1; text-indent:-0.05em; }
+.chat-av { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff; flex-shrink:0; }
 .chat-bubble { display:inline-block; max-width:80%; padding:9px 13px; border-radius:14px; font-size:13px; line-height:1.5; unicode-bidi:plaintext; text-align:start; }
 .chat-msg:not(.user) .chat-bubble { background:#f5f4f2; color:var(--text); border-bottom-left-radius:4px; }
 .chat-msg.user .chat-bubble { background:var(--coral); color:#fff; border-bottom-right-radius:4px; }
@@ -907,9 +906,9 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
 .mobile-profile-av {
   width:24px; height:24px; border-radius:50%;
   display:flex; align-items:center; justify-content:center;
-  font-size:12px; font-weight:700; color:#fff;
+  font-size:11px; font-weight:700; color:#fff;
   background:linear-gradient(135deg,#e8623a,#f0855e);
-  }
+}
 /* Profile panel — dark dropdown below header */
 .profile-panel {
   position:fixed; top:54px; right:12px;
@@ -924,10 +923,10 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
 .profile-panel-av {
   width:44px; height:44px; border-radius:50%;
   display:flex; align-items:center; justify-content:center;
-  font-size:16px; font-weight:700; color:#fff;
+  font-size:14px; font-weight:700; color:#fff;
   background:linear-gradient(135deg,#e8623a,#f0855e);
   flex-shrink:0;
-  }
+}
 .profile-panel-av img {
   width:100%; height:100%; border-radius:50%; object-fit:cover;
 }
@@ -1179,10 +1178,10 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
     </a>
   </div>
 
-  <div class="sidebar-me" id="sidebarMe" onclick="toggleDesktopProfileMenu(event)" title="פרופיל"></div>
+  <div class="sidebar-me" id="sidebarMe" onclick="toggleDesktopProfileMenu(event)" title="פרופיל">N</div>
   <div id="desktopProfileMenu" style="display:none;position:fixed;bottom:70px;left:72px;background:#1c1c1e;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;z-index:9000;width:280px;box-shadow:0 8px 32px rgba(0,0,0,.6)">
     <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.1)">
-      <div id="desktopProfileAv" style="width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(135deg,#e8623a,#f0855e);flex-shrink:0">N</div>
+      <div id="desktopProfileAv" style="width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;background:linear-gradient(135deg,#e8623a,#f0855e);flex-shrink:0">N</div>
       <div>
         <div id="desktopProfileName" style="font-size:13px;font-weight:600;color:#f0eeea">User</div>
         <div id="desktopProfileEmail" style="font-size:11px;color:rgba(255,255,255,.5)">user@example.com</div>
@@ -2110,9 +2109,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(232,98,58,.28)" stroke-width="2.5" clip-path="url(#rc-steve)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(232,98,58,.52)" stroke-width="3" clip-path="url(#rc-steve)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-steve)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">S</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">S</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"></path><path d="M5 21h14"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 4h9v6c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V4z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 5v1.5c0 .83.67 1.5 1.5 1.5S14 7.33 14 6.5V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M2 4h9V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v1z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="card-role" bis_skin_checked="1">CEO</div>
       <div class="card-name" bis_skin_checked="1">Steve</div>
@@ -2139,9 +2138,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(58,123,213,.28)" stroke-width="2.5" clip-path="url(#rc-yaniv)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(58,123,213,.55)" stroke-width="3" clip-path="url(#rc-yaniv)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-yaniv)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">Y</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">Y</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><circle cx="18.5" cy="17.5" r="3.5"></circle><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="15" cy="5" r="1"></circle><path d="M12 17.5V14l-3-3 4-3 2 3h2"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="3.5" cy="10.5" r="2" stroke="currentColor" stroke-width="1.2"/><circle cx="10.5" cy="10.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M7 6L4.5 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M7 6L10.5 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="6" r="1.2" fill="currentColor"/></svg></div>
       </div>
       <div class="card-role" bis_skin_checked="1">COO</div>
       <div class="card-name" bis_skin_checked="1">Yaniv</div>
@@ -2168,9 +2167,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(30,30,30,.25)" stroke-width="2.5" clip-path="url(#rc-oded)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(30,30,30,.50)" stroke-width="3" clip-path="url(#rc-oded)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-oded)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">O</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">O</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="m16 18 6-6-6-6"></path><path d="m8 6-6 6 6 6"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 6c-1.1 0-2 .9-2 2v2h4v-2c0-1.1-.9-2-2-2z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 8l1-1m7 1l-1-1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></div>
       </div>
       <div class="card-role" bis_skin_checked="1">CTO</div>
       <div class="card-name" bis_skin_checked="1">Oded</div>
@@ -2197,9 +2196,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(123,61,213,.28)" stroke-width="2.5" clip-path="url(#rc-daniel)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(123,61,213,.55)" stroke-width="3" clip-path="url(#rc-daniel)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-daniel)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">D</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">D</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><path d="m7.5 4.27 9 5.15"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3c0-.55.45-1 1-1h8c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V3z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><circle cx="5" cy="6" r="1.2" stroke="currentColor" stroke-width="1" fill="none"/><path d="M7 2v10M3 7h8" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/></svg></div>
       </div>
       <div class="card-role" bis_skin_checked="1">CPO</div>
       <div class="card-name" bis_skin_checked="1">Daniel</div>
@@ -2226,9 +2225,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(201,83,74,.28)" stroke-width="2.5" clip-path="url(#rc-inbar)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(201,83,74,.55)" stroke-width="3" clip-path="url(#rc-inbar)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-inbar)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">I</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">I</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg></div>
+        <div class="hobby" bis_skin_checked="1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="2.5" r="1.2" fill="currentColor"/><path d="M6 4.5h2l1.5 4-1 3h-3l-1-3 1.5-4z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 9l-1 2m8 0l1-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></div>
       </div>
       <div class="card-role" bis_skin_checked="1">CMO</div>
       <div class="card-name" bis_skin_checked="1">Inbar</div>
@@ -2260,9 +2259,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(122,122,138,.28)" stroke-width="2.5" clip-path="url(#rc-yarden)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(122,122,138,.55)" stroke-width="3" clip-path="url(#rc-yarden)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-yarden)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">Y</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">Y</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><circle cx="8" cy="8" r="6"></circle><path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path><path d="M7 6h1v4"></path><path d="m16.71 13.88.7.71-2.82 2.82"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="0.9" stroke-dasharray="1,1"/></svg></div>
       </div>
       <div class="card-role" bis_skin_checked="1">CFO</div>
       <div class="card-name" bis_skin_checked="1">Yarden</div>
@@ -2296,9 +2295,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(154,122,16,.28)" stroke-width="2.5" clip-path="url(#rc-yiftach)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(154,122,16,.55)" stroke-width="3" clip-path="url(#rc-yiftach)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-yiftach)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">I</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">I</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 8h10M6 2v6m2-6v6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="3" cy="10" r="1.2" stroke="currentColor" stroke-width="1.1"/><circle cx="11" cy="10" r="1.2" stroke="currentColor" stroke-width="1.1"/><path d="M7 8v2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg></div>
       </div>
       <div class="card-role" bis_skin_checked="1">CISO</div>
       <div class="card-name" bis_skin_checked="1">Iftach</div>
@@ -2325,9 +2324,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(74,158,107,.28)" stroke-width="2.5" clip-path="url(#rc-ayelet)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(74,158,107,.55)" stroke-width="3" clip-path="url(#rc-ayelet)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-ayelet)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">A</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">A</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M7 10v12"></path><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="3" cy="4" r="0.8" fill="currentColor"/><circle cx="5" cy="3" r="0.8" fill="currentColor"/><circle cx="7" cy="3.5" r="0.8" fill="currentColor"/><circle cx="9" cy="4" r="0.8" fill="currentColor"/><path d="M2 10c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v4z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="card-role" bis_skin_checked="1">QA Lead</div>
       <div class="card-name" bis_skin_checked="1">Ayelet</div>
@@ -2354,9 +2353,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(212,114,138,.28)" stroke-width="2.5" clip-path="url(#rc-mia)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(212,114,138,.55)" stroke-width="3" clip-path="url(#rc-mia)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-mia)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">M</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">M</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v9M3 8c0-2 2-3 4-3s4 1 4 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10c-1 0-1 1-1 2s0 2 2 2h2c2 0 2-1 2-2s0-2-1-2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="card-role" bis_skin_checked="1">CPsyO</div>
       <div class="card-name" bis_skin_checked="1">Mia</div>
@@ -2378,7 +2377,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
 <!-- FLOATING PANEL -->
 <div class="float-panel" id="floatPanel" bis_skin_checked="1">
   <div class="panel-header" bis_skin_checked="1">
-    <div class="panel-av" id="pAv" bis_skin_checked="1"><div class="panel-letter" id="pLetter" bis_skin_checked="1"></div><div class="panel-hobby" id="pHobby" bis_skin_checked="1"></div></div>
+    <div class="panel-av" id="pAv" bis_skin_checked="1"><div class="panel-hobby" id="pHobby" bis_skin_checked="1"></div></div>
     <div class="panel-info" bis_skin_checked="1">
       <div class="panel-role" id="pRole" bis_skin_checked="1"></div>
       <div class="panel-name" id="pName" bis_skin_checked="1"></div>
@@ -2387,8 +2386,36 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
     <div class="panel-close" onclick="closePanel()" bis_skin_checked="1">✕</div>
   </div>
 
-  <!-- 1-on-1 Chat Only -->
+  <div class="panel-mode-row" bis_skin_checked="1">
+    <button class="mode-btn active" id="btn1on1" onclick="setMode(&#39;chat&#39;)">💬 1-on-1</button>
+    <button class="mode-btn" id="btnMeeting" onclick="setMode(&#39;meeting&#39;)">👥 Team</button>
+    <button class="mode-btn" id="btnCustom" onclick="setMode(&#39;custom&#39;)">✦ Custom</button>
+  </div>
+
+  <!-- 1-on-1 -->
   <div id="chatArea" class="panel-chat" bis_skin_checked="1"></div>
+
+  <!-- CUSTOM MEETING PICKER -->
+  <div id="customArea" class="custom-meeting-area" style="display:none" bis_skin_checked="1">
+    <div class="custom-meeting-grid" id="customGrid" bis_skin_checked="1"></div>
+    <div class="custom-invite-wrap" bis_skin_checked="1">
+      <button class="custom-invite-btn" id="customInviteBtn" onclick="startCustomMeeting()"></button>
+    </div>
+  </div>
+
+  <!-- MEETING -->
+  <div id="meetingArea" class="meeting-area" style="display:none" bis_skin_checked="1">
+    <div class="meeting-bar" id="meetingBar" bis_skin_checked="1"></div>
+    <!-- Start Meeting CTA -->
+    <div id="meetingCTA" class="meeting-cta" bis_skin_checked="1">
+      <div class="meeting-cta-inner" id="meetingCtaInner" onclick="startMeeting()" bis_skin_checked="1">
+        <span class="meeting-cta-dot" id="meetingCtaDot"></span>
+        <span id="meetingCtaLabel">התחל ישיבה — הזמן את הצוות</span>
+      </div>
+    </div>
+    <div class="meeting-end-link" id="meetingEndLink" onclick="endMeeting()" bis_skin_checked="1">סיים ישיבה</div>
+    <div class="meeting-messages" id="meetingMsgs" bis_skin_checked="1"></div>
+  </div>
 
   <!-- PII Warning Layer A — always visible under input -->
   <div style="padding:0 24px 4px;font-size:11px;color:#6e6e73;direction:rtl;text-align:right">
@@ -2425,30 +2452,20 @@ const officers = {
     msgs:[{f:'Mia',t:"Hi Nadav 🌿 Team energy is good. Oded seems a bit in his head about architecture — I'll check on him."},{f:'Nadav',t:'Thanks Mia, I appreciate it.'},{f:'Mia',t:"Always. And if *you* ever need to decompress — I'm here for you too."}]},
 };
 
-/* Role SVG Icons */
-function getRoleIcon(role) {
+/* Hobby SVG Icons */
+function getHobbyIcon(emoji) {
   const icons = {
-    'CEO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"></path><path d="M5 21h14"></path></svg>',
-    'COO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><circle cx="18.5" cy="17.5" r="3.5"></circle><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="15" cy="5" r="1"></circle><path d="M12 17.5V14l-3-3 4-3 2 3h2"></path></svg>',
-    'CTO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="m16 18 6-6-6-6"></path><path d="m8 6-6 6 6 6"></path></svg>',
-    'CPO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><path d="m7.5 4.27 9 5.15"></path></svg>',
-    'CMO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>',
-    'CFO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><circle cx="8" cy="8" r="6"></circle><path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path><path d="M7 6h1v4"></path><path d="m16.71 13.88.7.71-2.82 2.82"></path></svg>',
-    'CISO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>',
-    'QA Lead': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M7 10v12"></path><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"></path></svg>',
-    'CPsyO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>',
+    '☕': '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 4h9v6c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V4z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 5v1.5c0 .83.67 1.5 1.5 1.5S14 7.33 14 6.5V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M2 4h9V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v1z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    '🚴': '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="3.5" cy="10.5" r="2" stroke="currentColor" stroke-width="1.2"/><circle cx="10.5" cy="10.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M7 6L4.5 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M7 6L10.5 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="6" r="1.2" fill="currentColor"/></svg>',
+    '🤿': '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 6c-1.1 0-2 .9-2 2v2h4v-2c0-1.1-.9-2-2-2z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 8l1-1m7 1l-1-1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>',
+    '🎸': '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3c0-.55.45-1 1-1h8c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V3z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><circle cx="5" cy="6" r="1.2" stroke="currentColor" stroke-width="1" fill="none"/><path d="M7 2v10M3 7h8" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/></svg>',
+    '🏄': '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="2.5" r="1.2" fill="currentColor"/><path d="M6 4.5h2l1.5 4-1 3h-3l-1-3 1.5-4z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 9l-1 2m8 0l1-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>',
+    '🎾': '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="0.9" stroke-dasharray="1,1"/></svg>',
+    '🚁': '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 8h10M6 2v6m2-6v6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="3" cy="10" r="1.2" stroke="currentColor" stroke-width="1.1"/><circle cx="11" cy="10" r="1.2" stroke="currentColor" stroke-width="1.1"/><path d="M7 8v2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>',
+    '🎨': '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="3" cy="4" r="0.8" fill="currentColor"/><circle cx="5" cy="3" r="0.8" fill="currentColor"/><circle cx="7" cy="3.5" r="0.8" fill="currentColor"/><circle cx="9" cy="4" r="0.8" fill="currentColor"/><path d="M2 10c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v4z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    '🌿': '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v9M3 8c0-2 2-3 4-3s4 1 4 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10c-1 0-1 1-1 2s0 2 2 2h2c2 0 2-1 2-2s0-2-1-2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   };
-  return icons[role] || '';
-}
-
-/* Chat Mode Icons */
-function getChatModeIcon(mode) {
-  const icons = {
-    '1-on-1': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>',
-    'Team': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>',
-    'Custom': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M5 3a2 2 0 0 0-2 2"></path><path d="M19 3a2 2 0 0 1 2 2"></path><path d="M21 19a2 2 0 0 1-2 2"></path><path d="M5 21a2 2 0 0 1-2-2"></path><path d="M9 3h1"></path><path d="M9 21h1"></path><path d="M14 3h1"></path><path d="M14 21h1"></path><path d="M3 9v1"></path><path d="M21 9v1"></path><path d="M3 14v1"></path><path d="M21 14v1"></path></svg>',
-  };
-  return icons[mode] || '';
+  return icons[emoji] || emoji;
 }
 
 /* Meeting script (multi-person) */
@@ -2480,8 +2497,7 @@ function openPanel(id) {
   chatHistory = [];
   const o = officers[id];
   document.getElementById('pAv').style.background = o.color;
-  document.getElementById('pLetter').textContent = o.name.charAt(0);
-  document.getElementById('pHobby').innerHTML = getRoleIcon(o.role);
+  document.getElementById('pHobby').innerHTML = getHobbyIcon(o.hobby);
   document.getElementById('pRole').textContent = o.role;
   document.getElementById('pName').textContent = o.name;
   document.getElementById('pTask').textContent = o.task;
@@ -2939,10 +2955,62 @@ function _loadHistoryIntoPanel(officerId) {
 
 /* ── MODE SWITCH ── */
 function setMode(mode) {
-  currentMode = 'chat';
-  const chatArea = document.getElementById('chatArea');
-  if (chatArea) chatArea.style.display = 'flex';
-  renderChat();
+  currentMode = mode;
+  const chatArea    = document.getElementById('chatArea');
+  const meetingArea = document.getElementById('meetingArea');
+  const customArea  = document.getElementById('customArea');
+
+  chatArea.style.display    = mode==='chat'   ? 'flex'  : 'none';
+  meetingArea.style.display = mode==='meeting' ? 'block' : 'none';
+  customArea.style.display  = mode==='custom' ? 'flex'  : 'none';
+  customArea.style.flex     = mode==='custom' ? '1' : '';
+  meetingArea.style.flex    = '';
+
+  document.getElementById('btn1on1').classList.toggle('active', mode==='chat');
+  document.getElementById('btnMeeting').classList.toggle('active', mode==='meeting');
+  document.getElementById('btnCustom').classList.toggle('active', mode==='custom');
+  document.getElementById('floatPanel').classList.toggle('meeting-mode', mode==='meeting'||mode==='custom');
+
+  const cta     = document.getElementById('meetingCTA');
+  const endLink = document.getElementById('meetingEndLink');
+
+  if (mode==='meeting') {
+    _meetingTimers.forEach(t => clearTimeout(t)); _meetingTimers = [];
+    meetingState = 'idle'; _meetingFilter = null;
+    selectedOfficers.clear();
+    if (cta)     { cta.style.display = ''; }
+    if (endLink) { endLink.style.display = ''; endLink.classList.remove('visible'); }
+    const inner = document.getElementById('meetingCtaInner');
+    const label = document.getElementById('meetingCtaLabel');
+    if (inner) { inner.className = 'meeting-cta-inner'; inner.onclick = startMeeting; label.textContent = 'התחל ישיבה — הזמן את הצוות'; }
+    renderMeeting();
+  } else if (mode==='custom') {
+    const meetingActive = meetingState === 'active';
+    if (meetingActive) {
+      // Meeting in progress — show both areas for add-participants picker + messages
+      meetingArea.style.display = 'block';
+      customArea.style.display = 'flex';
+      customArea.style.flex = '0 0 auto';
+      meetingArea.style.flex = '1';
+      if (cta) cta.style.display = 'none';
+      selectedOfficers.clear();
+      renderCustomMeeting(true);
+    } else {
+      // Fresh start — show ONLY custom area for officer selection
+      meetingArea.style.display = 'none';
+      customArea.style.display = 'flex';
+      customArea.style.flex = '1';
+      if (cta)     cta.style.display = 'none';
+      if (endLink) endLink.style.display = 'none';
+      document.getElementById('meetingMsgs').innerHTML = '';
+      document.getElementById('meetingBar').innerHTML  = '';
+      currentMeetingOfficers.clear();
+      selectedOfficers.clear();
+      renderCustomMeeting(false);
+    }
+  } else if (mode==='chat') {
+    renderChat();
+  }
 }
 
 /* ── RENDER 1-ON-1 CHAT ── */

@@ -4,7 +4,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HypeSHow — The Hub (v3)</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <link href="./HypeSHowdashboard_files/css2" rel="stylesheet">
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -32,9 +31,7 @@ body.dark {
 body.dark .ring-bg { stroke:#2a2a30; }
 body.dark .topbar { background:rgba(15,15,17,.94); }
 body.dark .panel-input { background:#2a2a30; color:var(--text); }
-body.dark .chat-msg:not(.user) .chat-bubble { background:#2a2a30; color:var(--text); }
-body.dark .panel-close { background:transparent; color:var(--text); }
-body.dark .panel-close:hover { background:#3a3a40; color:var(--text); }
+body.dark .chat-msg:not(.user) .chat-bubble { background:#2a2a30; }
 /* settings-panel is always dark — no dark override needed */
 body.dark .sprint-bar { background:var(--card); box-shadow:none; }
 body.dark .sprint-track { background:#2a2a30; }
@@ -102,12 +99,6 @@ body.dark .sprint-track { background:#2a2a30; }
 .sp-bar:nth-child(4){height:10px;animation-delay:.1s}
 @keyframes snd { from{transform:scaleY(.4)} to{transform:scaleY(1)} }
 
-/* ── TYPING DOTS ── */
-.typing-dots span { animation:blink 1.2s infinite; font-size:18px; line-height:1; }
-.typing-dots span:nth-child(2) { animation-delay:.2s; }
-.typing-dots span:nth-child(3) { animation-delay:.4s; }
-@keyframes blink { 0%,80%,100%{opacity:0} 40%{opacity:1} }
-
 /* ── SIDEBAR ── */
 .sidebar {
   position:fixed; top:0; left:0; width:72px; height:100vh;
@@ -159,10 +150,10 @@ body.dark .sprint-track { background:#2a2a30; }
 .sidebar-me {
   width:34px; height:34px; border-radius:50%;
   background:linear-gradient(135deg,var(--coral),var(--coral-mid));
-  display:grid; place-items:center;
+  display:flex; align-items:center; justify-content:center;
   font-size:14px; font-weight:700; color:#fff; cursor:pointer;
   border:2px solid rgba(255,255,255,.15);
-  }
+}
 
 /* ── MAIN ── */
 .main { margin-left:72px; padding:80px 40px 40px; }
@@ -176,35 +167,13 @@ body.dark .sprint-track { background:#2a2a30; }
 }
 .sprint-lbl { font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); font-weight:600; }
 .sprint-name { font-size:14px; font-weight:600; }
-.sprint-track { flex:1; height:6px; background:#f0ebe4; border-radius:3px; overflow:visible; position:relative; }
+.sprint-track { flex:1; height:6px; background:#f0ebe4; border-radius:3px; overflow:hidden; }
 .sprint-fill { width:0; height:100%; background:linear-gradient(90deg,var(--coral),var(--coral-mid)); border-radius:3px; transition:width .6s ease; }
-.sprint-days { font-size:12px; color:var(--coral); font-weight:600; white-space:nowrap; }
-/* Sprint dots */
-.sprint-dot { position:absolute; top:50%; transform:translateY(-50%); width:16px; height:16px; border-radius:50%; cursor:pointer; border:2px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,.15); transition:all .2s; user-select:none; z-index:2; }
-.sprint-dot:hover { transform:translateY(-50%) scale(1.2); box-shadow:0 4px 12px rgba(0,0,0,.25); }
-.sprint-dot.done       { background:var(--green); }
-.sprint-dot.in-progress{ background:#999; }
-.sprint-dot.missed     { background:#ff3b30; }
-.sprint-dot.upcoming   { background:#fff; border-color:var(--coral); border-width:2.5px; }
-/* Dot label */
-.dot-name { position:absolute; top:calc(100% + 8px); left:50%; transform:translateX(-50%); font-size:7px; font-weight:600; white-space:nowrap; color:var(--muted); pointer-events:none; letter-spacing:.01em; transition:font-size .15s, color .15s; }
-.sprint-dot:hover .dot-name { font-size:10px; color:var(--text); }
-/* Bubble tooltip */
-.dot-bubble { position:absolute; bottom:calc(100% + 14px); left:50%; transform:translateX(-50%); padding:10px 14px; border-radius:8px; font-size:12px; font-weight:500; line-height:1.4; white-space:normal; width:150px; text-align:center; opacity:0; pointer-events:none; transition:opacity .2s; z-index:20; border:1px solid; }
-.dot-bubble::after { content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:5px solid transparent; }
-.sprint-dot.done      .dot-bubble { background:var(--green-bg); color:var(--green); border-color:var(--green-border); }
-.sprint-dot.done      .dot-bubble::after { border-top-color:var(--green-bg); }
-.sprint-dot.in-progress .dot-bubble { background:#f5f5f7; color:#999; border-color:#d1d1d6; }
-.sprint-dot.in-progress .dot-bubble::after { border-top-color:#f5f5f7; }
-.sprint-dot.missed    .dot-bubble { background:#fff5f5; color:#ff3b30; border-color:rgba(255,59,48,.25); }
-.sprint-dot.missed    .dot-bubble::after { border-top-color:#fff5f5; }
-.sprint-dot.upcoming  .dot-bubble { background:var(--coral-light); color:var(--coral); border-color:rgba(232,98,58,.3); }
-.sprint-dot.upcoming  .dot-bubble::after { border-top-color:var(--coral-light); }
-.sprint-dot:hover .dot-bubble { opacity:1; }
-.day-label { font-weight:700; margin-top:4px; }
-/* Sprint Log button */
-.sprint-log-btn { display:flex; align-items:center; gap:7px; padding:9px 18px; border-radius:8px; border:none; background:var(--coral); color:#fff; font-size:12px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; box-shadow:0 2px 8px rgba(232,98,58,.25); transition:all .15s; white-space:nowrap; }
-.sprint-log-btn:hover { background:var(--coral-mid); transform:translateY(-1px); }
+.sprint-days { font-size:12px; color:var(--coral); font-weight:600; }
+.sprint-tasks { display:flex; gap:8px; }
+.pill { font-size:11px; padding:3px 10px; border-radius:100px; font-weight:500; }
+.pill-done { background:var(--green-bg); color:var(--green); border:1px solid var(--green-border); }
+.pill-prog { background:#fff8f5; color:var(--coral); border:1px solid #ffd4c4; }
 
 /* ── SECTION HEADER ── */
 .sec-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
@@ -354,7 +323,7 @@ body.dark .sprint-track { background:#2a2a30; }
   position:fixed; top:50%; left:50%;
   transform:translate(-50%,-50%) scale(0.97);
   opacity:0; pointer-events:none;
-  width:550px; max-height:82vh; background:var(--card); border-radius:24px;
+  width:520px; max-height:82vh; background:var(--card); border-radius:24px;
   box-shadow:0 24px 80px rgba(0,0,0,.22); z-index:300;
   transition:opacity .28s ease, transform .28s ease;
   display:flex; flex-direction:column; overflow:hidden;
@@ -373,8 +342,7 @@ body.dark .sprint-track { background:#2a2a30; }
   display:flex; align-items:center; justify-content:center;
   font-size:22px; font-weight:700; color:#fff; flex-shrink:0; position:relative;
 }
-.panel-letter { position:absolute; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; color:#fff; }
-.panel-hobby { position:absolute; bottom:-2px; right:-2px; width:22px; height:22px; border-radius:50%; background:var(--card); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--text); }
+.panel-hobby { position:absolute; bottom:-2px; right:-2px; width:22px; height:22px; border-radius:50%; background:var(--card); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:12px; }
 .panel-info { flex:1; }
 .panel-role { font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); font-weight:600; margin-bottom:3px; }
 .panel-name { font-size:20px; font-weight:700; margin-bottom:4px; }
@@ -391,7 +359,7 @@ body.dark .sprint-track { background:#2a2a30; }
 .panel-chat { flex:1; padding:16px 24px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; }
 .chat-msg { display:flex; gap:8px; align-items:flex-start; }
 .chat-msg.user { flex-direction:row-reverse; }
-.chat-av { width:28px; height:28px; border-radius:50%; display:grid; place-items:center; font-size:11px; font-weight:700; color:#fff; flex-shrink:0; line-height:1; text-indent:-0.05em; }
+.chat-av { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff; flex-shrink:0; }
 .chat-bubble { display:inline-block; max-width:80%; padding:9px 13px; border-radius:14px; font-size:13px; line-height:1.5; unicode-bidi:plaintext; text-align:start; }
 .chat-msg:not(.user) .chat-bubble { background:#f5f4f2; color:var(--text); border-bottom-left-radius:4px; }
 .chat-msg.user .chat-bubble { background:var(--coral); color:#fff; border-bottom-right-radius:4px; }
@@ -513,68 +481,6 @@ body.dark .sprint-track { background:#2a2a30; }
 }
 .tb-icon-btn:hover::after { opacity:1; }
 
-/* ── NOTIFICATIONS PANEL ── */
-.notif-panel { position:fixed; top:54px; right:12px; width:320px; max-height:460px; background:#1c1c1e; border:1px solid rgba(255,255,255,.1); border-radius:16px; z-index:800; box-shadow:0 16px 48px rgba(0,0,0,.45); display:none; flex-direction:column; overflow:hidden; }
-.notif-panel.open { display:flex; }
-.notif-head { padding:14px 18px 10px; border-bottom:1px solid rgba(255,255,255,.08); display:flex; align-items:center; justify-content:space-between; }
-.notif-head-title { font-size:13px; font-weight:700; color:#f0eeea; }
-.notif-mark-all { font-size:11px; color:var(--coral); cursor:pointer; font-weight:600; }
-.notif-list { overflow-y:auto; padding:4px 0; }
-.notif-item { display:flex; align-items:flex-start; gap:10px; padding:11px 16px; cursor:pointer; transition:background .12s; border-bottom:1px solid rgba(255,255,255,.04); position:relative; }
-.notif-item:hover { background:rgba(255,255,255,.04); }
-.notif-item.notif-read { opacity:.55; }
-.notif-av { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#fff; flex-shrink:0; }
-.notif-content { flex:1; min-width:0; }
-.notif-title { font-size:12px; font-weight:600; color:#f0eeea; margin-bottom:3px; }
-.notif-body { font-size:11px; color:rgba(255,255,255,.5); line-height:1.45; }
-.notif-time { font-size:10px; color:rgba(255,255,255,.3); margin-top:4px; }
-.notif-dot { width:7px; height:7px; border-radius:50%; background:var(--coral); flex-shrink:0; margin-top:4px; }
-.notif-empty { padding:28px 16px; text-align:center; color:rgba(255,255,255,.3); font-size:12px; }
-
-/* ── DAILY BRIEFING ── */
-.daily-briefing { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:22px 28px 20px; margin-bottom:20px; position:relative; overflow:hidden; }
-.daily-briefing::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--coral),#f0855e,#7b3dd5); }
-.db-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px; }
-.db-greeting { font-size:20px; font-weight:700; color:var(--text); }
-.db-date { font-size:11px; color:var(--muted); margin-top:3px; }
-.db-sprint-pill { background:rgba(232,98,58,.1); border:1px solid rgba(232,98,58,.25); border-radius:100px; padding:5px 12px; font-size:11px; font-weight:600; color:var(--coral); white-space:nowrap; }
-.db-updates { display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
-.db-update-row { display:flex; align-items:flex-start; gap:10px; }
-.db-av { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; flex-shrink:0; margin-top:1px; }
-.db-update-text { font-size:12px; color:var(--muted); line-height:1.5; }
-.db-update-text strong { color:var(--text); font-weight:600; }
-.db-cta { display:inline-flex; align-items:center; gap:8px; background:var(--coral); color:#fff; border:none; border-radius:100px; padding:10px 20px; font-size:13px; font-weight:600; cursor:pointer; transition:all .15s; font-family:'DM Sans',sans-serif; }
-.db-cta:hover { background:var(--coral-mid); transform:translateY(-1px); }
-.db-cta-daily { background:transparent; border:1.5px solid var(--coral); color:var(--coral); }
-.db-cta-daily:hover { background:var(--coral); color:#fff; }
-.db-collapse-btn { width:28px; height:28px; border:none; background:rgba(232,98,58,.1); border-radius:6px; cursor:pointer; color:var(--coral); font-size:11px; display:flex; align-items:center; justify-content:center; transition:all .2s; flex-shrink:0; }
-.db-collapse-btn:hover { background:rgba(232,98,58,.2); transform:scale(1.05); }
-.daily-briefing.collapsed .db-updates { display:none; }
-.daily-briefing.collapsed .db-cta { display:none; }
-.daily-briefing.collapsed .db-collapse-btn { transform:rotate(180deg); }
-
-/* ── SEARCH RESULTS ── */
-.sr-section { padding:8px 16px 4px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); }
-.sr-item { display:flex; align-items:center; gap:12px; padding:10px 16px; cursor:pointer; transition:background .1s; border-radius:8px; margin:0 6px; }
-.sr-item:hover { background:var(--border); }
-.sr-av { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff; flex-shrink:0; }
-.sr-label { font-size:13px; color:var(--text); font-weight:500; }
-.sr-sub { font-size:11px; color:var(--muted); margin-top:1px; }
-.sr-empty { padding:24px 16px; text-align:center; color:var(--muted); font-size:13px; }
-
-/* ── OFFICER CARD ACTIVE STATE ── */
-.officer-card .card-active-tag { display:none; font-size:10px; color:var(--coral); font-weight:600; margin-top:4px; }
-.officer-card.has-convo .card-active-tag { display:block; }
-.officer-card.has-convo .card-task { display:none; }
-
-/* ── CUSTOM MEETING: already-in state ── */
-.custom-officer-pick.already-in { opacity:.4; cursor:default; pointer-events:none; }
-.custom-officer-pick.already-in .cop-av { filter:grayscale(.4); }
-
-/* ── FIRST LOGIN TOUR ── */
-.tour-highlight { animation:tourPulse 1.8s ease-in-out 3; }
-@keyframes tourPulse { 0%,100%{box-shadow:0 0 0 0 rgba(232,98,58,0)} 50%{box-shadow:0 0 0 6px rgba(232,98,58,.35)} }
-
 /* Language button in topbar */
 .tb-lang-btn {
   display:flex; align-items:center; gap:5px;
@@ -638,78 +544,6 @@ body.dark .sprint-track { background:#2a2a30; }
   border-radius:10px; border:1px solid rgba(232,98,58,.15);
   color:#e8623a;
 }
-
-/* ── CONFLICT DETECTION MODAL ── */
-#conflictModalOverlay {
-  position:fixed; inset:0; background:rgba(28,28,30,.8);
-  backdrop-filter:blur(8px); z-index:1000; display:none;
-  align-items:center; justify-content:center;
-}
-#conflictModalOverlay.show { display:flex; }
-.conflict-modal {
-  background:var(--card); border-radius:20px; padding:32px;
-  max-width:360px; width:90%; box-shadow:0 20px 64px rgba(0,0,0,.3);
-  direction:rtl; text-align:right;
-}
-.conflict-header {
-  font-size:18px; font-weight:700; color:var(--text);
-  margin-bottom:8px;
-}
-.conflict-subtitle {
-  font-size:14px; color:var(--muted); margin-bottom:24px;
-}
-.conflict-cards {
-  display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px;
-}
-.conflict-card {
-  border:2px solid var(--border); border-radius:12px; padding:14px;
-  background:rgba(232,98,58,.04);
-}
-.conflict-card-label {
-  font-size:12px; font-weight:600; color:var(--muted); margin-bottom:10px;
-  text-transform:uppercase; letter-spacing:.05em;
-}
-.conflict-card-device {
-  font-size:13px; color:var(--text); margin-bottom:6px; word-break:break-word;
-}
-.conflict-card-time {
-  font-size:11px; color:var(--muted);
-}
-.conflict-field {
-  margin-top:10px; padding-top:10px; border-top:1px solid rgba(0,0,0,.05);
-}
-.conflict-field-name {
-  font-size:10px; color:var(--muted); margin-bottom:4px;
-}
-.conflict-field-value {
-  font-size:12px; color:var(--text); font-weight:500; word-break:break-word;
-}
-body.dark .conflict-card { background:rgba(232,98,58,.08); }
-body.dark .conflict-field { border-top-color:rgba(255,255,255,.05); }
-
-.conflict-buttons {
-  display:flex; flex-direction:column; gap:10px;
-}
-.btn-conflict {
-  padding:12px 16px; border-radius:10px; border:none;
-  font-size:14px; font-weight:600; cursor:pointer;
-  transition:all .2s; text-align:center;
-}
-.btn-conflict-primary {
-  background:var(--coral); color:#fff;
-}
-.btn-conflict-primary:hover { background:#d6501f; transform:translateY(-1px); }
-.btn-conflict-secondary {
-  background:rgba(0,0,0,.08); color:var(--text);
-}
-.btn-conflict-secondary:hover { background:rgba(0,0,0,.12); }
-body.dark .btn-conflict-secondary { background:rgba(255,255,255,.08); }
-body.dark .btn-conflict-secondary:hover { background:rgba(255,255,255,.12); }
-.btn-conflict-link {
-  background:none; border:none; color:var(--muted);
-  font-size:13px; padding:8px 0; cursor:pointer;
-}
-.btn-conflict-link:hover { color:var(--coral); text-decoration:underline; }
 
 #archiveOverlay {
   position:fixed; inset:0; background:rgba(15,15,17,.78);
@@ -888,223 +722,9 @@ body.dark .search-input { background:#2a2a30; border-color:rgba(255,255,255,.1);
 .legal-footer a { color: #6e6e73; text-decoration: none; transition: color 0.2s; }
 .legal-footer a:hover { color: #e8623a; }
 .legal-footer-copy { white-space: nowrap; }
-
-/* ── MOBILE HEADER ── */
-.mobile-header {
-  display:none; position:fixed; top:0; left:0; right:0; height:56px;
-  background:rgba(250,248,245,0.94); backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border); z-index:85;
-  padding:0 16px; align-items:center; justify-content:space-between;
-  direction:ltr;
-}
-.mobile-logo { display:flex; align-items:center; gap:8px; font-weight:700; font-size:14px; color:var(--text); text-decoration:none; }
-.mobile-icons { display:flex; gap:10px; align-items:center; }
-.mobile-icon-btn { width:34px; height:34px; border-radius:50%;
-  border:1.5px solid var(--coral); color:var(--coral);
-  background:transparent; display:flex; align-items:center; justify-content:center;
-  cursor:pointer; transition:all .18s; position:relative; flex-shrink:0; }
-.mobile-icon-btn:active { background:var(--coral); color:#fff; }
-.mobile-profile-av {
-  width:24px; height:24px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-size:12px; font-weight:700; color:#fff;
-  background:linear-gradient(135deg,#e8623a,#f0855e);
-  }
-/* Profile panel — dark dropdown below header */
-.profile-panel {
-  position:fixed; top:54px; right:12px;
-  width:280px; background:#1c1c1e; border:1px solid rgba(255,255,255,.1);
-  border-radius:16px; z-index:800; box-shadow:0 16px 48px rgba(0,0,0,.45);
-  display:none; flex-direction:column; overflow:hidden;
-}
-.profile-panel.open { display:flex; }
-.profile-panel-header {
-  padding:16px; display:flex; gap:12px; align-items:center;
-}
-.profile-panel-av {
-  width:44px; height:44px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-size:16px; font-weight:700; color:#fff;
-  background:linear-gradient(135deg,#e8623a,#f0855e);
-  flex-shrink:0;
-  }
-.profile-panel-av img {
-  width:100%; height:100%; border-radius:50%; object-fit:cover;
-}
-.profile-panel-name {
-  font-size:13px; font-weight:600; color:#f0eeea;
-}
-.profile-panel-email {
-  font-size:11px; color:rgba(255,255,255,.5);
-}
-.profile-panel-divider {
-  height:1px; background:rgba(255,255,255,.1);
-}
-.profile-panel-item {
-  padding:12px 16px; text-align:left; border:none;
-  background:transparent; color:#f0eeea; font-size:13px;
-  cursor:pointer; transition:background .15s; width:100%;
-}
-.profile-panel-item:hover { background:rgba(255,255,255,.07); }
-.profile-logout-btn {
-  color:#ff6b6b; font-weight:500;
-}
-
-/* ── RESPONSIVE LAYOUT ── */
-@media (max-width:767px) {
-  /* Hide desktop elements */
-  .sidebar { display:none; }
-  .topbar { display:none; }
-  .legal-footer { display:none; }
-
-  /* Show mobile header */
-  .mobile-header { display:flex; }
-
-  /* Adjust main content */
-  .main { margin-left:0; padding:72px 16px 40px; }
-
-  /* Stack grids vertically */
-  .grid5, .grid4 { grid-template-columns:1fr !important; }
-
-  /* Officer cards full width */
-  .officer-card { width:100%; }
-
-  /* Hide sprint bar on mobile */
-  .sprint-bar { display:none !important; }
-
-  /* Float panel fullscreen on mobile */
-  .float-panel {
-    display:none !important;
-    position:fixed !important; inset:0 !important;
-    width:100% !important; height:100% !important;
-    max-width:none !important; border-radius:0 !important;
-    top:0 !important; left:0 !important; right:0 !important; bottom:0 !important;
-    z-index:1000 !important;
-    opacity:1 !important; pointer-events:auto !important;
-    transform:none !important;
-    max-height:100% !important;
-  }
-  .float-panel.open {
-    display:flex !important;
-    transform:none !important;
-  }
-
-  /* Settings panel — drop down from top on mobile (below header, like notifPanel) */
-  .settings-panel {
-    left:12px !important; right:12px !important;
-    top:60px !important; bottom:auto !important;
-    width:auto !important;
-    border-radius:0 0 16px 16px !important;
-    max-height:70vh !important;
-  }
-  /* Hide Sprint Alerts + Sidekicks section on mobile */
-  #settingsSprintAlertsItem,
-  #settingsSidekicksDiv,
-  #settingsSidekicksHeader,
-  #settingsMusicItem,
-  #musicOpts,
-  #settingsFoodItem,
-  #foodOpts { display:none !important; }
-
-  /* Hide overlay */
-  .overlay { display:none !important; }
-
-  /* Meeting bar — max 5 per row, wrap to next row */
-  .meeting-bar {
-    flex-wrap:wrap !important;
-    gap:8px 0 !important;
-    padding-bottom:10px !important;
-  }
-  .meeting-participant {
-    flex:0 0 20% !important;
-    max-width:20% !important;
-  }
-
-  /* Custom meeting grid — max 5 per row */
-  .custom-meeting-grid {
-    flex-wrap:wrap !important;
-    justify-content:flex-start !important;
-    gap:12px 8px !important;
-  }
-  .custom-officer-pick {
-    flex:0 0 calc(20% - 8px) !important;
-    width:calc(20% - 8px) !important;
-  }
-
-  /* Notifications panel — full width on mobile */
-  .notif-panel {
-    left:12px !important; right:12px !important;
-    width:auto !important; top:60px !important;
-    z-index:900 !important;
-  }
-
-  /* Header icons — fit all 3 */
-  .mobile-icons { gap:6px; }
-  .mobile-icon-btn { width:32px; height:32px; }
-
-  /* Toast/modal adjustments */
-  .album-modal-inner { width:calc(100vw - 32px); max-height:90vh; }
-}
-
-/* Dark mode mobile header */
-body.dark .mobile-header { background:rgba(15,15,17,0.94); }
 </style>
 </head>
-<body __processed_643f7941-93ab-486e-82bd-4abf184dd42e__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSktUT0siOiJkaXNhYmxlZCIsIkxJTktFRElOIjoiZW5hYmxlZCIsIkNPTkZJRyI6ImRpc2FibGVkIn0sInZlcnNpb24iOiIyLjAuNDciLCJzY29yZSI6MjAwNDcwfV0=" cz-shortcut-listen="true">
-
-<!-- AUTH BLOCKER OVERLAY (removed by initAuth on success) -->
-<div id="authBlocker" style="position:fixed;top:0;left:0;right:0;bottom:0;background:#0f0f11;z-index:9999;display:flex;align-items:center;justify-content:center;font-family:sans-serif;color:#f0eeea;"></div>
-
-<!-- MOBILE HEADER -->
-<div class="mobile-header show">
-  <div class="mobile-logo" onclick="window.location.href='../index.html'">
-    <svg width="28" height="19" viewBox="0 0 36 24" fill="none">
-      <rect x="0" y="16" width="8" height="8" rx="1.2" fill="#e8623a" opacity=".8"></rect>
-      <rect x="10" y="9" width="10" height="15" rx="1.2" fill="#e8623a" opacity=".9"></rect>
-      <rect x="22" y="0" width="14" height="24" rx="1.2" fill="#e8623a"></rect>
-    </svg>
-    <span>HypeShow</span>
-  </div>
-  <div class="mobile-icons">
-    <div class="mobile-icon-btn" onclick="openPanel('steve');setMode('meeting');startMeeting()" title="כנס ישיבה">
-      <svg width="17" height="14" viewBox="0 0 17 14" fill="none">
-        <circle cx="6" cy="4.5" r="2.8" stroke="currentColor" stroke-width="1.5"></circle>
-        <path d="M1 13c0-2.8 2.2-5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
-        <circle cx="11.5" cy="4.5" r="2.2" stroke="currentColor" stroke-width="1.4"></circle>
-        <path d="M11.5 8.5c2.5 0 4.5 1.8 4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
-        <path d="M6 8.5c1 .4 1.8 1.2 2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
-      </svg>
-    </div>
-    <div class="mobile-icon-btn" id="mobileNotifBtn" onclick="toggleNotifications()" title="התראות">
-      <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
-        <path d="M7 1C4.8 1 3 2.8 3 5v4L1.5 11h11L11 9V5c0-2.2-1.8-4-4-4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
-        <path d="M5.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
-      </svg>
-    </div>
-    <div class="mobile-icon-btn" id="mobileSettingsBtn" onclick="toggleSettings()" title="Settings">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"></circle>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-      </svg>
-    </div>
-    <div class="mobile-icon-btn" id="mobileProfileBtn" onclick="toggleProfile()" title="Profile">
-      <div id="mobileProfileAv" class="mobile-profile-av">N</div>
-    </div>
-  </div>
-</div>
-
-<!-- PROFILE DROPDOWN PANEL -->
-<div class="profile-panel" id="profilePanel">
-  <div class="profile-panel-header">
-    <div id="profilePanelAv" class="profile-panel-av">N</div>
-    <div style="flex:1">
-      <div class="profile-panel-name" id="profilePanelName">User</div>
-      <div class="profile-panel-email" id="profilePanelEmail">user@example.com</div>
-    </div>
-  </div>
-  <div class="profile-panel-divider"></div>
-  <button class="profile-panel-item profile-logout-btn" onclick="doLogout()">Log Out</button>
-</div>
+<body __processed_643f7941-93ab-486e-82bd-4abf184dd42e__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSUtUT0siOiJkaXNhYmxlZCIsIkxJTktFRElOIjoiZW5hYmxlZCIsIkNPTkZJRyI6ImRpc2FibGVkIn0sInZlcnNpb24iOiIyLjAuNDciLCJzY29yZSI6MjAwNDcwfV0=" cz-shortcut-listen="true">
 
 <!-- SIDEBAR -->
 <nav class="sidebar">
@@ -1179,17 +799,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
     </a>
   </div>
 
-  <div class="sidebar-me" id="sidebarMe" onclick="toggleDesktopProfileMenu(event)" title="פרופיל"></div>
-  <div id="desktopProfileMenu" style="display:none;position:fixed;bottom:70px;left:72px;background:#1c1c1e;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;z-index:9000;width:280px;box-shadow:0 8px 32px rgba(0,0,0,.6)">
-    <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.1)">
-      <div id="desktopProfileAv" style="width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(135deg,#e8623a,#f0855e);flex-shrink:0">N</div>
-      <div>
-        <div id="desktopProfileName" style="font-size:13px;font-weight:600;color:#f0eeea">User</div>
-        <div id="desktopProfileEmail" style="font-size:11px;color:rgba(255,255,255,.5)">user@example.com</div>
-      </div>
-    </div>
-    <button onclick="doLogout()" style="width:100%;background:none;border:none;color:#ff6b6b;font-size:13px;padding:8px 12px;cursor:pointer;border-radius:8px;text-align:right;direction:rtl;font-weight:500" onmouseenter="this.style.background='rgba(255,107,107,.1)'" onmouseleave="this.style.background='none'">Log Out</button>
-  </div>
+  <div class="sidebar-me" bis_skin_checked="1">N</div>
 </nav>
 
 <!-- TOPBAR -->
@@ -1250,20 +860,19 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
       </svg>
     </button>
     <!-- Notifications -->
-    <button class="tb-icon-btn" id="notifBtn" onclick="toggleNotifications()" data-tip="התראות">
+    <button class="tb-icon-btn" data-tip="התראות">
       <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
         <path d="M7 1C4.8 1 3 2.8 3 5v4L1.5 11h11L11 9V5c0-2.2-1.8-4-4-4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
         <path d="M5.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
       </svg>
-      <div class="notif-badge" id="notifBadge">3</div>
+      <div class="notif-badge" bis_skin_checked="1">3</div>
     </button>
     <!-- Lab -->
     <button class="tb-lang-btn" id="topbarLangBtn" onclick="openSettingsToLang()" data-tip="Change language" style="display:none">
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex-shrink:0"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M6.5 1c0 0-2.5 2-2.5 5.5s2.5 5.5 2.5 5.5" stroke="currentColor" stroke-width="1.4"></path><path d="M6.5 1c0 0 2.5 2 2.5 5.5S6.5 12 6.5 12" stroke="currentColor" stroke-width="1.4"></path><line x1="1" y1="6.5" x2="12" y2="6.5" stroke="currentColor" stroke-width="1.4"></line></svg>
       <span id="topbarLangLabel">EN</span>
     </button>
-    <div id="syncDot" title="מסונכרן" style="width:7px;height:7px;border-radius:50%;background:#4a9e6b;flex-shrink:0;margin-left:2px;transition:background .4s"></div>
-    <button class="tb-icon-btn" onclick="toggleLogoLab()" data-tip="הרשימות שלי">
+    <button class="tb-icon-btn" onclick="toggleLogoLab()" data-tip="HypeSHow Lab">
       <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
         <line x1="5" y1="1.5" x2="9" y2="1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
         <path d="M5 1.5v5.5L2 13h10L9 7V1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1277,23 +886,13 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
 <!-- SEARCH BAR -->
 <div class="search-bar" id="searchBar" bis_skin_checked="1">
   <svg width="17" height="17" viewBox="0 0 17 17" fill="none" style="flex-shrink:0;color:var(--muted)" aria-hidden="true"><circle cx="7.5" cy="7.5" r="5" stroke="currentColor" stroke-width="1.8"></circle><line x1="11.2" y1="11.2" x2="15.5" y2="15.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></line></svg>
-  <input class="search-input" id="searchInput" placeholder="חפש שיחות, החלטות, קצינים…" onkeydown="if(event.key==='Escape')toggleSearch()" oninput="runSearch(this.value)">
-  <span class="search-close" onclick="toggleSearch()">✕ סגור</span>
+  <input class="search-input" id="searchInput" placeholder="Search conversations, decisions, sprints…" onkeydown="if(event.key===&#39;Escape&#39;)toggleSearch()">
+  <span class="search-close" onclick="toggleSearch()">✕ Close</span>
 </div>
-<div id="searchResults" style="display:none;position:fixed;top:96px;left:50%;transform:translateX(-50%);width:min(640px,90vw);background:var(--card);border:1px solid var(--border);border-radius:16px;z-index:851;box-shadow:0 16px 48px rgba(0,0,0,.3);max-height:420px;overflow-y:auto"></div>
 
 <!-- ══════════════════════════════════════════
      TEAM ALBUM MODAL
 ══════════════════════════════════════════ -->
-<!-- NOTIFICATIONS PANEL -->
-<div class="notif-panel" id="notifPanel">
-  <div class="notif-head">
-    <div class="notif-head-title">התראות</div>
-    <div class="notif-mark-all" onclick="markAllRead()">סמן הכל כנקרא</div>
-  </div>
-  <div class="notif-list" id="notifList"></div>
-</div>
-
 <div id="albumModal" style="display:none" onclick="if(event.target===this)toggleAlbum()" bis_skin_checked="1">
   <div class="album-modal-inner" bis_skin_checked="1">
     <div class="album-modal-header" bis_skin_checked="1">
@@ -1301,60 +900,10 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
       <button class="album-modal-close" onclick="toggleAlbum()">✕</button>
     </div>
     <div class="album-single" bis_skin_checked="1">
-      <svg width="100%" viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" style="border-radius:12px;display:block">
-        <rect width="480" height="200" fill="#1c1c1e"/>
-        <text x="240" y="36" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" font-weight="600" fill="rgba(255,255,255,.35)">Your Executive Team</text>
-        <circle cx="52" cy="110" r="28" fill="#e8623a"/><text x="52" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">S</text><text x="52" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CEO</text>
-        <circle cx="104" cy="110" r="28" fill="#3a7bd5"/><text x="104" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">Y</text><text x="104" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">COO</text>
-        <circle cx="156" cy="110" r="28" fill="#2a2a2a" stroke="rgba(255,255,255,.15)" stroke-width="1"/><text x="156" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">O</text><text x="156" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CTO</text>
-        <circle cx="208" cy="110" r="28" fill="#7b3dd5"/><text x="208" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">D</text><text x="208" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CPO</text>
-        <circle cx="260" cy="110" r="28" fill="#c9534a"/><text x="260" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">I</text><text x="260" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CMO</text>
-        <circle cx="312" cy="110" r="28" fill="#7a7a8a"/><text x="312" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">Y</text><text x="312" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CFO</text>
-        <circle cx="364" cy="110" r="28" fill="#9a7a10"/><text x="364" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">I</text><text x="364" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CISO</text>
-        <circle cx="416" cy="110" r="28" fill="#4a9e6b"/><text x="416" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">A</text><text x="416" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">QA</text>
-        <circle cx="468" cy="110" r="28" fill="#d4728a"/><text x="468" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="16" font-weight="700" fill="white">M</text><text x="468" y="154" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,.45)">CPsyO</text>
-      </svg>
+      <img src="http://localhost:3456/assets/team-nine.png" alt="Your Executive Team">
     </div>
     <div class="album-coming-label" bis_skin_checked="1">
-      תמונות אישיות של הצוות יתווספו לאלבום אוטומטית לאחר כל ספרינט
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     CONFLICT DETECTION MODAL
-══════════════════════════════════════════ -->
-<div id="conflictModalOverlay">
-  <div class="conflict-modal">
-    <div class="conflict-header">סנכרנו את החברה שלך משני מכשירים</div>
-    <div class="conflict-subtitle">איזו גרסה לשמור?</div>
-
-    <div class="conflict-cards">
-      <div class="conflict-card">
-        <div class="conflict-card-label">המכשיר הזה</div>
-        <div class="conflict-card-device" id="conflictDeviceLocal">Device Name</div>
-        <div class="conflict-card-time" id="conflictTimeLocal">12:34 PM</div>
-        <div class="conflict-field">
-          <div class="conflict-field-name" id="conflictFieldNameLocal">שם שדה</div>
-          <div class="conflict-field-value" id="conflictFieldValueLocal">ערך חדש</div>
-        </div>
-      </div>
-
-      <div class="conflict-card">
-        <div class="conflict-card-label">גרסת ענן</div>
-        <div class="conflict-card-device" id="conflictDeviceCloud">Device Name</div>
-        <div class="conflict-card-time" id="conflictTimeCloud">12:34 PM</div>
-        <div class="conflict-field">
-          <div class="conflict-field-name" id="conflictFieldNameCloud">שם שדה</div>
-          <div class="conflict-field-value" id="conflictFieldValueCloud">ערך אחר</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="conflict-buttons">
-      <button class="btn-conflict btn-conflict-primary" onclick="resolveConflict('local')">השתמש במכשיר הזה</button>
-      <button class="btn-conflict btn-conflict-secondary" onclick="resolveConflict('cloud')">השתמש בגרסת ענן</button>
-      <button class="btn-conflict btn-conflict-link" onclick="resolveConflict('manual')">מזג ידנית</button>
+      📸 תמונות חדשות של הצוות שלך יתווספו לאלבום אוטומטית
     </div>
   </div>
 </div>
@@ -1362,63 +911,24 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
 <!-- ══════════════════════════════════════════
      HYPESHOW LAB OVERLAY
 ══════════════════════════════════════════ -->
-<div id="logoLab" style="display:none;position:fixed;inset:0;background:rgba(15,15,17,.72);backdrop-filter:blur(8px);z-index:900;overflow-y:auto;padding:40px 0 60px">
-  <div style="max-width:680px;margin:0 auto;padding:0 24px">
+<div id="logoLab" style="display:none;position:fixed;inset:0;background:rgba(15,15,17,.72);backdrop-filter:blur(8px);z-index:900;overflow-y:auto;padding:40px 0 60px" bis_skin_checked="1">
+  <div style="max-width:900px;margin:0 auto;padding:0 24px" bis_skin_checked="1">
 
     <!-- Header -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-      <div>
-        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.4);font-weight:600;margin-bottom:4px">HypeSHow · רשימות</div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <div style="font-size:22px;font-weight:700;color:#f0eeea">הרשימות שלי</div>
-          <!-- i-icon with markdown help tooltip -->
-          <div style="position:relative;display:inline-block" id="mdHelpWrap">
-            <div style="width:20px;height:20px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);transition:all .2s"
-                 onmouseenter="document.getElementById('mdTooltip').style.display='block'"
-                 onmouseleave="document.getElementById('mdTooltip').style.display='none'">i</div>
-            <div id="mdTooltip" style="display:none;position:absolute;top:26px;left:0;width:260px;background:#2a2a2e;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px 16px;z-index:10;box-shadow:0 12px 40px rgba(0,0,0,.5)">
-              <div style="font-size:11px;font-weight:700;color:#e8623a;margin-bottom:10px;text-transform:uppercase;letter-spacing:.08em">איך כותבים כאן?</div>
-              <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:rgba(255,255,255,.7);direction:rtl;text-align:right">
-                <div><span style="color:#f0eeea;font-weight:600;font-family:monospace"># כותרת גדולה</span><br>כמו כותרת של מסמך</div>
-                <div><span style="color:#f0eeea;font-weight:600;font-family:monospace">## כותרת בינונית</span><br>כמו פרק בתוך המסמך</div>
-                <div><span style="color:#f0eeea;font-weight:600;font-family:monospace">**טקסט מודגש**</span><br>שמים כוכביות משני הצדדים</div>
-                <div><span style="color:#f0eeea;font-weight:600;font-family:monospace">- פריט ברשימה</span><br>כמו נקודות בקיר</div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px" bis_skin_checked="1">
+      <div bis_skin_checked="1">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.4);font-weight:600;margin-bottom:4px" bis_skin_checked="1">HypeSHow Lab · פיתוח בזמן אמת</div>
+        <div style="font-size:22px;font-weight:700;color:#f0eeea" bis_skin_checked="1">פיצ׳רים ורעיונות — כפי שנבנים</div>
       </div>
-      <div onclick="toggleLogoLab()" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:#f0eeea">✕</div>
+      <div onclick="toggleLogoLab()" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:#f0eeea" bis_skin_checked="1">✕</div>
     </div>
-    <div style="font-size:13px;color:rgba(255,255,255,.35);margin-bottom:24px">רשימות, מחשבות, רעיונות — נשמר אוטומטית</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.35);margin-bottom:32px" bis_skin_checked="1">כל פיצ׳ר שנבנה בסשן מועלה לכאן אוטומטית · לחץ כדי לראות הדגמה חיה</div>
 
-    <!-- ─── NOTE EDITOR ─── -->
-    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;margin-bottom:16px">
-      <!-- Toolbar -->
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.08)">
-        <div style="display:flex;gap:6px">
-          <button onclick="labInsert('# ')" style="background:rgba(255,255,255,.07);border:none;border-radius:6px;color:rgba(255,255,255,.6);font-size:11px;font-weight:700;padding:4px 8px;cursor:pointer;font-family:monospace">#</button>
-          <button onclick="labInsert('## ')" style="background:rgba(255,255,255,.07);border:none;border-radius:6px;color:rgba(255,255,255,.6);font-size:11px;font-weight:700;padding:4px 8px;cursor:pointer;font-family:monospace">##</button>
-          <button onclick="labWrap('**')" style="background:rgba(255,255,255,.07);border:none;border-radius:6px;color:rgba(255,255,255,.6);font-size:11px;font-weight:700;padding:4px 9px;cursor:pointer">B</button>
-          <button onclick="labInsert('- ')" style="background:rgba(255,255,255,.07);border:none;border-radius:6px;color:rgba(255,255,255,.6);font-size:11px;font-weight:700;padding:4px 9px;cursor:pointer">—</button>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span id="labSaveStatus" style="font-size:11px;color:rgba(255,255,255,.3)">נשמר</span>
-          <button onclick="labExport()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;color:rgba(255,255,255,.7);font-size:12px;padding:5px 12px;cursor:pointer">ייצוא .md</button>
-        </div>
-      </div>
-      <!-- Textarea -->
-      <textarea id="labNotes"
-        placeholder="כתוב כאן כל מה שבראש...&#10;&#10;# כותרת גדולה&#10;## כותרת בינונית&#10;**טקסט מודגש**&#10;- פריט ברשימה"
-        oninput="labAutoSave()"
-        style="width:100%;min-height:360px;background:transparent;border:none;outline:none;resize:vertical;padding:20px;font-size:14px;line-height:1.8;color:#f0eeea;font-family:'DM Sans',sans-serif;direction:rtl;text-align:right;box-sizing:border-box;caret-color:#e8623a"></textarea>
-    </div>
-
-    <!-- ─── SAVED NOTES LIST ─── -->
-    <div id="labNotesList" style="display:flex;flex-direction:column;gap:8px"></div>
+    <!-- ─── SECTION: פיצ'רים ─── -->
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.4);font-weight:600;margin-bottom:16px" bis_skin_checked="1">📦 פיצ׳רים בפיתוח</div>
 
     <!-- FEATURE: Board Meeting -->
-    <div class="lab-feature-card" onclick="openPanel(&#39;steve&#39;);setMode(&#39;meeting&#39;);toggleLogoLab()" style="display:none">
+    <div class="lab-feature-card" onclick="openPanel(&#39;steve&#39;);setMode(&#39;meeting&#39;);toggleLogoLab()" bis_skin_checked="1">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px" bis_skin_checked="1">
         <div style="flex:1" bis_skin_checked="1">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px" bis_skin_checked="1">
@@ -1452,7 +962,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
     </div>
 
     <!-- FEATURE: Sprint Log Filter -->
-    <div class="lab-feature-card" onclick="toggleSprintLog();toggleLogoLab()" style="display:none">
+    <div class="lab-feature-card" onclick="toggleSprintLog();toggleLogoLab()" bis_skin_checked="1">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px" bis_skin_checked="1">
         <div style="flex:1" bis_skin_checked="1">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px" bis_skin_checked="1">
@@ -1472,7 +982,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
     </div>
 
     <!-- FEATURE: My Agenda -->
-    <div class="lab-feature-card" onclick="toggleActivity();toggleLogoLab()" style="display:none">
+    <div class="lab-feature-card" onclick="toggleActivity();toggleLogoLab()" bis_skin_checked="1">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px" bis_skin_checked="1">
         <div style="flex:1" bis_skin_checked="1">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px" bis_skin_checked="1">
@@ -1492,7 +1002,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
     </div>
 
     <!-- FEATURE: Font Size -->
-    <div class="lab-feature-card" onclick="toggleSettings();toggleLogoLab()" style="display:none">
+    <div class="lab-feature-card" onclick="toggleSettings();toggleLogoLab()" bis_skin_checked="1">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px" bis_skin_checked="1">
         <div style="flex:1" bis_skin_checked="1">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px" bis_skin_checked="1">
@@ -1512,7 +1022,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
     </div>
 
     <!-- ─── SECTION: עיצוב לוגו ─── -->
-    <div style="display:none"><!-- hidden logo options -->
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.4);font-weight:600;margin:32px 0 16px" bis_skin_checked="1">🎨 עיצוב לוגו — 3 כיוונים</div>
 
     <!-- ─── OPTION A — הבמה ─── -->
     <div class="logo-option-card" bis_skin_checked="1">
@@ -1634,8 +1144,6 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
         </div>
       </div>
     </div>
-
-    </div><!-- /hidden logo options -->
 
   </div><!-- /max-width -->
 </div><!-- /logoLab -->
@@ -1992,7 +1500,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
   </div>
   <div class="settings-divider" bis_skin_checked="1"></div>
   <div class="settings-section" bis_skin_checked="1">Notifications</div>
-  <div class="settings-item" id="settingsSprintAlertsItem" onclick="this.querySelector(&#39;.toggle&#39;).classList.toggle(&#39;on&#39;)" bis_skin_checked="1">
+  <div class="settings-item" onclick="this.querySelector(&#39;.toggle&#39;).classList.toggle(&#39;on&#39;)" bis_skin_checked="1">
     <div class="settings-item-left" bis_skin_checked="1"><span class="settings-icon">🔔</span>Sprint Alerts</div>
     <div class="toggle on" bis_skin_checked="1"></div>
   </div>
@@ -2029,9 +1537,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
   END LANGUAGE SECTION -->
 
   <!-- SECONDARY SETTINGS -->
-  <div class="settings-divider" id="settingsSidekicksDiv" style="margin-top:6px" bis_skin_checked="1"></div>
-  <div class="settings-section" id="settingsSidekicksHeader" style="opacity:.5;font-size:9px" bis_skin_checked="1">Sidekicks</div>
-  <div class="settings-item" id="settingsMusicItem" onclick="toggleMusicOpts()" bis_skin_checked="1">
+  <div class="settings-divider" style="margin-top:6px" bis_skin_checked="1"></div>
+  <div class="settings-section" style="opacity:.5;font-size:9px" bis_skin_checked="1">Sidekicks</div>
+  <div class="settings-item" onclick="toggleMusicOpts()" bis_skin_checked="1">
     <div class="settings-item-left" bis_skin_checked="1"><span class="settings-icon">🎵</span>Music</div>
     <span style="font-size:11px;color:rgba(255,255,255,.4)" id="musicLabel">Spotify</span>
   </div>
@@ -2040,7 +1548,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
     <button class="music-opt" onclick="setMusic(&#39;YouTube&#39;,this)">YouTube</button>
     <button class="music-opt" onclick="setMusic(&#39;Apple Music&#39;,this)">Apple Music</button>
   </div>
-  <div class="settings-item" id="settingsFoodItem" onclick="toggleFoodOpts()" bis_skin_checked="1">
+  <div class="settings-item" onclick="toggleFoodOpts()" bis_skin_checked="1">
     <div class="settings-item-left" bis_skin_checked="1"><span class="settings-icon">🛵</span>Food</div>
     <span style="font-size:11px;color:rgba(255,255,255,.4)" id="foodLabel">Wolt</span>
   </div>
@@ -2053,38 +1561,15 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
 <!-- MAIN -->
 <main class="main">
 
-  <!-- DAILY BRIEFING -->
-  <div class="daily-briefing" id="dailyBriefing" style="display:none">
-    <div class="db-top">
-      <div>
-        <div class="db-greeting" id="dbGreeting">שלום, Nadav</div>
-        <div class="db-date" id="dbDate"></div>
-      </div>
-      <div style="display:flex;gap:12px;align-items:center">
-        <div class="db-sprint-pill" id="dbSprintPill">Sprint Day —</div>
-        <button class="db-collapse-btn" id="dbCollapseBtn" onclick="toggleDailyBriefing()" title="Collapse briefing">▼</button>
-      </div>
-    </div>
-    <div class="db-updates" id="dbUpdates"></div>
-    <button class="db-cta" id="dbCta" onclick="handleDbCta()">הכר את הצוות שלך</button>
-  </div>
-
-  <div class="sprint-bar">
-    <div><div class="sprint-lbl">Active Sprint</div><div class="sprint-name" id="sprintNameMain">MVP Foundation</div></div>
-    <div class="sprint-track" id="sprintTrackMain">
-      <div class="sprint-fill" id="sprintFillMain" style="width:0%"></div>
-      <!-- dots injected by JS -->
-    </div>
-    <div style="display:flex;align-items:center;gap:16px;padding-left:24px;flex-shrink:0;">
-      <div class="sprint-days" id="sprintDaysMain">Day — / —</div>
-      <button class="sprint-log-btn" onclick="document.getElementById('sprintLogBtn')?.click()">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <rect x="1" y="2" width="11" height="10" rx="1.5" stroke="white" stroke-width="1.4"/>
-          <path d="M4 1v2M9 1v2" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
-          <path d="M3.5 6h6M3.5 8.5h4" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>
-        Sprint Log
-      </button>
+  <div class="sprint-bar" bis_skin_checked="1">
+    <div bis_skin_checked="1"><div class="sprint-lbl" bis_skin_checked="1">Active Sprint</div><div class="sprint-name" bis_skin_checked="1">MVP Foundation</div></div>
+    <div class="sprint-track" bis_skin_checked="1"><div class="sprint-fill" bis_skin_checked="1" style="width: 100%;"></div></div>
+    <div class="sprint-days" bis_skin_checked="1">Day 14 / 14</div>
+    <div class="sprint-tasks" bis_skin_checked="1">
+      <span class="pill pill-done">✓ Tech Stack</span>
+      <span class="pill pill-done">✓ Seniority Model</span>
+      <span class="pill pill-prog">⟳ User Journey</span>
+      <span class="pill pill-prog">⟳ Threat Model</span>
     </div>
   </div>
 
@@ -2110,9 +1595,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(232,98,58,.28)" stroke-width="2.5" clip-path="url(#rc-steve)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(232,98,58,.52)" stroke-width="3" clip-path="url(#rc-steve)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-steve)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">S</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">S</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"></path><path d="M5 21h14"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1">☕</div>
       </div>
       <div class="card-role" bis_skin_checked="1">CEO</div>
       <div class="card-name" bis_skin_checked="1">Steve</div>
@@ -2139,9 +1624,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(58,123,213,.28)" stroke-width="2.5" clip-path="url(#rc-yaniv)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(58,123,213,.55)" stroke-width="3" clip-path="url(#rc-yaniv)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-yaniv)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">Y</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">Y</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><circle cx="18.5" cy="17.5" r="3.5"></circle><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="15" cy="5" r="1"></circle><path d="M12 17.5V14l-3-3 4-3 2 3h2"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1">🚴</div>
       </div>
       <div class="card-role" bis_skin_checked="1">COO</div>
       <div class="card-name" bis_skin_checked="1">Yaniv</div>
@@ -2168,9 +1653,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(30,30,30,.25)" stroke-width="2.5" clip-path="url(#rc-oded)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(30,30,30,.50)" stroke-width="3" clip-path="url(#rc-oded)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-oded)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">O</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">O</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="m16 18 6-6-6-6"></path><path d="m8 6-6 6 6 6"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1">🤿</div>
       </div>
       <div class="card-role" bis_skin_checked="1">CTO</div>
       <div class="card-name" bis_skin_checked="1">Oded</div>
@@ -2197,9 +1682,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(123,61,213,.28)" stroke-width="2.5" clip-path="url(#rc-daniel)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(123,61,213,.55)" stroke-width="3" clip-path="url(#rc-daniel)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-daniel)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">D</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">D</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><path d="m7.5 4.27 9 5.15"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1">🎸</div>
       </div>
       <div class="card-role" bis_skin_checked="1">CPO</div>
       <div class="card-name" bis_skin_checked="1">Daniel</div>
@@ -2226,9 +1711,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(201,83,74,.28)" stroke-width="2.5" clip-path="url(#rc-inbar)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(201,83,74,.55)" stroke-width="3" clip-path="url(#rc-inbar)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-inbar)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">I</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">I</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg></div>
+        <div class="hobby" bis_skin_checked="1">🏄</div>
       </div>
       <div class="card-role" bis_skin_checked="1">CMO</div>
       <div class="card-name" bis_skin_checked="1">Inbar</div>
@@ -2260,9 +1745,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(122,122,138,.28)" stroke-width="2.5" clip-path="url(#rc-yarden)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(122,122,138,.55)" stroke-width="3" clip-path="url(#rc-yarden)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-yarden)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">Y</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">Y</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><circle cx="8" cy="8" r="6"></circle><path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path><path d="M7 6h1v4"></path><path d="m16.71 13.88.7.71-2.82 2.82"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1">🎾</div>
       </div>
       <div class="card-role" bis_skin_checked="1">CFO</div>
       <div class="card-name" bis_skin_checked="1">Yarden</div>
@@ -2296,9 +1781,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(154,122,16,.28)" stroke-width="2.5" clip-path="url(#rc-yiftach)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(154,122,16,.55)" stroke-width="3" clip-path="url(#rc-yiftach)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-yiftach)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">I</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">I</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1">🚁</div>
       </div>
       <div class="card-role" bis_skin_checked="1">CISO</div>
       <div class="card-name" bis_skin_checked="1">Iftach</div>
@@ -2325,9 +1810,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(74,158,107,.28)" stroke-width="2.5" clip-path="url(#rc-ayelet)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(74,158,107,.55)" stroke-width="3" clip-path="url(#rc-ayelet)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-ayelet)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">A</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">A</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M7 10v12"></path><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1">🎨</div>
       </div>
       <div class="card-role" bis_skin_checked="1">QA Lead</div>
       <div class="card-name" bis_skin_checked="1">Ayelet</div>
@@ -2354,9 +1839,9 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
           <circle cx="25" cy="25" r="34" fill="none" stroke="rgba(212,114,138,.28)" stroke-width="2.5" clip-path="url(#rc-mia)"></circle>
           <circle cx="25" cy="25" r="29" fill="none" stroke="rgba(212,114,138,.55)" stroke-width="3" clip-path="url(#rc-mia)"></circle>
           <circle cx="25" cy="25" r="25" fill="url(#ag-mia)"></circle>
-          <text x="25" y="25" text-anchor="middle" dominantBaseline="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">M</text>
+          <text x="25" y="31" text-anchor="middle" fill="white" font-family="DM Sans,sans-serif" font-size="17" font-weight="700">M</text>
         </svg>
-        <div class="hobby" bis_skin_checked="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg></div>
+        <div class="hobby" bis_skin_checked="1">🌿</div>
       </div>
       <div class="card-role" bis_skin_checked="1">CPsyO</div>
       <div class="card-name" bis_skin_checked="1">Mia</div>
@@ -2378,7 +1863,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
 <!-- FLOATING PANEL -->
 <div class="float-panel" id="floatPanel" bis_skin_checked="1">
   <div class="panel-header" bis_skin_checked="1">
-    <div class="panel-av" id="pAv" bis_skin_checked="1"><div class="panel-letter" id="pLetter" bis_skin_checked="1"></div><div class="panel-hobby" id="pHobby" bis_skin_checked="1"></div></div>
+    <div class="panel-av" id="pAv" bis_skin_checked="1"><div class="panel-hobby" id="pHobby" bis_skin_checked="1"></div></div>
     <div class="panel-info" bis_skin_checked="1">
       <div class="panel-role" id="pRole" bis_skin_checked="1"></div>
       <div class="panel-name" id="pName" bis_skin_checked="1"></div>
@@ -2387,17 +1872,39 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
     <div class="panel-close" onclick="closePanel()" bis_skin_checked="1">✕</div>
   </div>
 
-  <!-- 1-on-1 Chat Only -->
+  <div class="panel-mode-row" bis_skin_checked="1">
+    <button class="mode-btn active" id="btn1on1" onclick="setMode(&#39;chat&#39;)">💬 1-on-1</button>
+    <button class="mode-btn" id="btnMeeting" onclick="setMode(&#39;meeting&#39;)">👥 Team</button>
+    <button class="mode-btn" id="btnCustom" onclick="setMode(&#39;custom&#39;)">✦ Custom</button>
+  </div>
+
+  <!-- 1-on-1 -->
   <div id="chatArea" class="panel-chat" bis_skin_checked="1"></div>
 
-  <!-- PII Warning Layer A — always visible under input -->
-  <div style="padding:0 24px 4px;font-size:11px;color:#6e6e73;direction:rtl;text-align:right">
-    הסוכנים פועלים באמצעות AI חיצוני — הימנע מסיסמאות וכרטיסי אשראי
+  <!-- CUSTOM MEETING PICKER -->
+  <div id="customArea" class="custom-meeting-area" style="display:none" bis_skin_checked="1">
+    <div class="custom-meeting-grid" id="customGrid" bis_skin_checked="1"></div>
+    <div class="custom-invite-wrap" bis_skin_checked="1">
+      <button class="custom-invite-btn" id="customInviteBtn" onclick="startCustomMeeting()"></button>
+    </div>
   </div>
+
+  <!-- MEETING -->
+  <div id="meetingArea" class="meeting-area" style="display:none" bis_skin_checked="1">
+    <div class="meeting-bar" id="meetingBar" bis_skin_checked="1"></div>
+    <!-- Start Meeting CTA -->
+    <div id="meetingCTA" class="meeting-cta" bis_skin_checked="1">
+      <div class="meeting-cta-inner" id="meetingCtaInner" onclick="startMeeting()" bis_skin_checked="1">
+        <span class="meeting-cta-dot" id="meetingCtaDot"></span>
+        <span id="meetingCtaLabel">התחל ישיבה — הזמן את הצוות</span>
+      </div>
+    </div>
+    <div class="meeting-end-link" id="meetingEndLink" onclick="endMeeting()" bis_skin_checked="1">סיים ישיבה</div>
+    <div class="meeting-messages" id="meetingMsgs" bis_skin_checked="1"></div>
+  </div>
+
   <div class="panel-input-wrap" bis_skin_checked="1">
-    <input class="panel-input" id="panelInput" placeholder="Message…" dir="auto"
-      onkeydown="if(event.key==='Enter')sendMsg()"
-      oninput="_checkPIIRealtime(this.value)">
+    <input class="panel-input" id="panelInput" placeholder="Message…" dir="auto" onkeydown="if(event.key===&#39;Enter&#39;)sendMsg()">
     <button class="panel-send" onclick="sendMsg()">↑</button>
   </div>
 </div>
@@ -2425,32 +1932,6 @@ const officers = {
     msgs:[{f:'Mia',t:"Hi Nadav 🌿 Team energy is good. Oded seems a bit in his head about architecture — I'll check on him."},{f:'Nadav',t:'Thanks Mia, I appreciate it.'},{f:'Mia',t:"Always. And if *you* ever need to decompress — I'm here for you too."}]},
 };
 
-/* Role SVG Icons */
-function getRoleIcon(role) {
-  const icons = {
-    'CEO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"></path><path d="M5 21h14"></path></svg>',
-    'COO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><circle cx="18.5" cy="17.5" r="3.5"></circle><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="15" cy="5" r="1"></circle><path d="M12 17.5V14l-3-3 4-3 2 3h2"></path></svg>',
-    'CTO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="m16 18 6-6-6-6"></path><path d="m8 6-6 6 6 6"></path></svg>',
-    'CPO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><path d="m7.5 4.27 9 5.15"></path></svg>',
-    'CMO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>',
-    'CFO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><circle cx="8" cy="8" r="6"></circle><path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path><path d="M7 6h1v4"></path><path d="m16.71 13.88.7.71-2.82 2.82"></path></svg>',
-    'CISO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>',
-    'QA Lead': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M7 10v12"></path><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"></path></svg>',
-    'CPsyO': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>',
-  };
-  return icons[role] || '';
-}
-
-/* Chat Mode Icons */
-function getChatModeIcon(mode) {
-  const icons = {
-    '1-on-1': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>',
-    'Team': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>',
-    'Custom': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="none" stroke="none" /><path d="M5 3a2 2 0 0 0-2 2"></path><path d="M19 3a2 2 0 0 1 2 2"></path><path d="M21 19a2 2 0 0 1-2 2"></path><path d="M5 21a2 2 0 0 1-2-2"></path><path d="M9 3h1"></path><path d="M9 21h1"></path><path d="M14 3h1"></path><path d="M14 21h1"></path><path d="M3 9v1"></path><path d="M21 9v1"></path><path d="M3 14v1"></path><path d="M21 14v1"></path></svg>',
-  };
-  return icons[mode] || '';
-}
-
 /* Meeting script (multi-person) */
 const meetingScript = [
   {speaker:'nadav',  text:"אני שוקל להוציא את HypeSHow לשוק ב-Q3 — מה הצוות חושב?"},
@@ -2466,483 +1947,71 @@ const meetingScript = [
   {speaker:'steve',  text:"Here's my call: commit to Q3. Ship onboarding + 3 officers + billing. Everything else is v1.1. Yaniv — get Oded unblocked today. Iftach — green light by 9am tomorrow. Daniel — you have 2 sprints. Let's go.", gap:'long'},
   {speaker:'nadav',  text:"מעולה. זה מה שרציתי לשמוע. יניב — תזמן צ׳ק-פוינט שבועי מיום שני. נוזנוז, נתחיל.", gap:'quick'},
 ];
-const meetingParticipants = Object.keys(officers); // same order as Custom tab
+const meetingParticipants = ['steve','daniel','yaniv','oded','yiftach','mia','inbar','yarden','ayelet'];
 const nadav = {name:'Nadav',hex:'#e8623a'};
 
 let currentOfficer = null;
 let currentMode = 'chat';
 let onlineCount = 8;
-let chatHistory = [];
 
 /* ── OPEN/CLOSE PANEL ── */
 function openPanel(id) {
   currentOfficer = id;
-  chatHistory = [];
   const o = officers[id];
   document.getElementById('pAv').style.background = o.color;
-  document.getElementById('pLetter').textContent = o.name.charAt(0);
-  document.getElementById('pHobby').innerHTML = getRoleIcon(o.role);
+  document.getElementById('pHobby').textContent = o.hobby;
   document.getElementById('pRole').textContent = o.role;
   document.getElementById('pName').textContent = o.name;
   document.getElementById('pTask').textContent = o.task;
-  // Close any open side panels
-  document.getElementById('sprintLogPanel').style.display = 'none';
-  document.getElementById('sprintLogOverlay').style.display = 'none';
-  document.getElementById('historyPanel').style.display = 'none';
-  document.getElementById('historyOverlay').style.display = 'none';
-  document.getElementById('activityPanel').style.display = 'none';
-  document.getElementById('activityOverlay').style.display = 'none';
-  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-  document.getElementById('officersBtn').classList.add('active');
   setMode('chat');
   document.getElementById('overlay').classList.add('open');
   document.getElementById('floatPanel').classList.add('open');
-  _loadHistoryIntoPanel(id);
-  _showOfficerPIIWelcome(id);
 }
 function closePanel() {
-  saveChatSummary();
   document.getElementById('overlay').classList.remove('open');
   document.getElementById('floatPanel').classList.remove('open');
 }
 
-async function saveChatSummary() {
-  if (!currentOfficer || chatHistory.length < 2) return;
-  const o = officers[currentOfficer];
-  const now = new Date();
-  const dateStr = now.toISOString().split('T')[0];
-  const key = `hypeshow_memory_${currentOfficer}_${dateStr}_${Date.now()}`;
-
-  const record = {
-    date: dateStr, officer: o.name, role: o.role,
-    mode: currentMode, history: chatHistory, summary: null
-  };
-
-  // 1. Save raw immediately to localStorage
-  localStorage.setItem(key, JSON.stringify(record));
-
-  // 2. Async Gemini summary
-  try {
-    const res = await fetch('/api/summary', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        history: chatHistory, officerName: o.name, officerRole: o.role, mode: '1on1'
-      })
-    });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.summary) {
-        const existing = JSON.parse(localStorage.getItem(key) || '{}');
-        existing.summary = data.summary;
-        localStorage.setItem(key, JSON.stringify(existing));
-        record.summary = data.summary;
-      }
-    }
-  } catch {}
-
-  // 3. Push to Supabase (fire and forget)
-  syncPush({
-    officer_id:   currentOfficer,
-    date:         dateStr,
-    local_key:    key,
-    mode:         currentMode,
-    officer_name: o.name,
-    officer_role: o.role,
-    history:      chatHistory,
-    summary:      record.summary || null,
-  }).catch(() => {});
-}
-
-/* ── AUTH ──────────────────────────────────────────────────────────────── */
-
-const _sbDash = (typeof supabase !== 'undefined')
-  ? supabase.createClient(
-      'https://afhgsrwzvnhtpyulohjn.supabase.co',
-      'sb_publishable_tnF6QkOcIzmuKlqBHPuNEw_t3Pw70Il'
-    )
-  : null;
-
-async function initAuth() {
-  const blocker = document.getElementById('authBlocker');
-
-  if (!_sbDash) {
-    if (blocker) blocker.style.display = 'none';
-    setTimeout(syncPull, 2000);
-    return;
-  }
-
-  // Handle OAuth callback hash (#access_token=...)
-  const { data: { session } } = await _sbDash.auth.getSession();
-
-  if (session?.user) {
-    const ALLOWED = ['nadav.dafni@gmail.com'];
-    if (!ALLOWED.includes(session.user.email)) {
-      await _sbDash.auth.signOut();
-      if (blocker) {
-        blocker.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;text-align:center;padding:24px;">
-          <div>
-            <div style="font-size:32px;margin-bottom:16px;">🔒</div>
-            <div style="font-size:18px;font-weight:600;margin-bottom:8px;">גישה מוגבלת</div>
-            <div style="font-size:14px;color:#999;">Dashboard זמין בבטא פרטית בלבד.<br>נא לפנות ל-nadav.dafni@gmail.com לגישה.</div>
-          </div>
-        </div>`;
-      }
-      return;
-    }
-    const uid = session.user.id;
-    localStorage.setItem('hypeshow_user_id', uid);
-    _updateUserDisplay(session.user);
-  }
-
-  // Auth passed — remove blocker to show dashboard
-  if (blocker) blocker.style.display = 'none';
-
-  // Pull cloud conversations after auth resolved
-  setTimeout(syncPull, 1500);
-}
-
-function _updateUserDisplay(user) {
-  const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Nadav';
-  const firstName = name.split(' ')[0];
-  const avatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture || null;
-
-  // Update greeting name
-  document.querySelectorAll('.topbar-greeting span').forEach(el => { el.textContent = firstName; });
-  const dbGreet = document.getElementById('dbGreeting');
-  if (dbGreet) dbGreet.textContent = 'שלום, ' + firstName;
-
-  // Update sidebar avatar — always show initial, replace with photo only on successful load
-  const me = document.getElementById('sidebarMe');
-  if (me) {
-    const initial = firstName[0].toUpperCase();
-    me.textContent = initial;
-    me.style.background = '';
-    me.style.padding = '';
-    me.style.overflow = '';
-
-    if (avatarUrl) {
-      const img = document.createElement('img');
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;display:none';
-      img.onload = () => {
-        me.innerHTML = '';
-        me.style.background = 'none';
-        me.style.padding = '0';
-        me.style.overflow = 'hidden';
-        img.style.display = 'block';
-        me.appendChild(img);
-      };
-      img.onerror = () => { me.textContent = initial; me.style.background = ''; };
-      img.src = avatarUrl;
-    }
-  }
-}
-
-function toggleDesktopProfileMenu(e) {
-  e.stopPropagation();
-  const m = document.getElementById('desktopProfileMenu');
-  const isOpen = m.style.display !== 'none';
-  if (!isOpen) _loadDesktopProfileData();
-  m.style.display = isOpen ? 'none' : 'block';
-}
-async function _loadDesktopProfileData() {
-  if (!_sbDash) return;
-  const { data: { user } } = await _sbDash.auth.getUser();
-  if (!user) return;
-
-  const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
-  const email = user.email || 'user@example.com';
-  const avatar = user.user_metadata?.avatar_url || user.user_metadata?.picture;
-  const initial = name.split(' ')[0].charAt(0).toUpperCase();
-
-  document.getElementById('desktopProfileName').textContent = name;
-  document.getElementById('desktopProfileEmail').textContent = email;
-
-  const av = document.getElementById('desktopProfileAv');
-  if (avatar) {
-    av.innerHTML = `<img src="${avatar}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
-    av.style.background = 'transparent';
-  } else {
-    av.textContent = initial;
-    av.style.background = 'linear-gradient(135deg,#e8623a,#f0855e)';
-  }
-}
-document.addEventListener('click', () => {
-  const m = document.getElementById('desktopProfileMenu');
-  if (m) m.style.display = 'none';
-});
-function signOut() {
-  if (_sbDash) _sbDash.auth.signOut().then(() => { window.location.href = '/'; });
-  else window.location.href = '/';
-}
-
-/* ── SUPABASE SYNC ─────────────────────────────────────────────────────── */
-
-function getOrCreateUserId() {
-  let uid = localStorage.getItem('hypeshow_user_id');
-  if (!uid) {
-    uid = 'anon_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
-    localStorage.setItem('hypeshow_user_id', uid);
-  }
-  return uid;
-}
-
-async function syncPush(conversation) {
-  const userId = getOrCreateUserId();
-  _syncSetStatus('syncing');
-  try {
-    const res = await fetch('/api/sync', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'push', userId, conversation })
-    });
-    _syncSetStatus(res.ok ? 'ok' : 'error');
-  } catch {
-    _syncSetStatus('error');
-  }
-}
-
-async function syncPull() {
-  const userId = getOrCreateUserId();
-  try {
-    const res = await fetch('/api/sync', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'pull', userId })
-    });
-    if (!res.ok) return;
-    const data = await res.json();
-    _mergeCloudConversations(data.conversations || []);
-  } catch {}
-}
-
-function _mergeCloudConversations(cloudConvs) {
-  if (!cloudConvs.length) return;
-  let conflicts = [];
-
-  cloudConvs.forEach(cloud => {
-    const localKey = cloud.local_key;
-    if (!localKey) return;
-    const localRaw = localStorage.getItem(localKey);
-
-    if (!localRaw) {
-      // Cloud has data local doesn't — restore it silently
-      localStorage.setItem(localKey, JSON.stringify({
-        date: cloud.date, officer: cloud.officer_name, role: cloud.officer_role,
-        mode: cloud.mode, history: cloud.history || [], summary: cloud.summary
-      }));
-    } else {
-      // Both exist — compare msg_count
-      try {
-        const local = JSON.parse(localRaw);
-        const localCount = (local.history || []).length;
-        const cloudCount = cloud.msg_count || 0;
-        if (cloudCount > localCount) {
-          conflicts.push({ cloud, local, localKey, localCount });
-        }
-      } catch {}
-    }
-  });
-
-  if (conflicts.length) _showConflictModal(conflicts);
-}
-
-window._conflictData = null;
-
-function _showConflictModal(conflicts) {
-  if (!conflicts.length) return;
-  const c = conflicts[0];
-  const localRaw = localStorage.getItem(c.localKey);
-  const local = localRaw ? JSON.parse(localRaw) : {};
-  const cloud = c.cloud;
-
-  const localCount = c.localCount || 0;
-  const cloudCount = cloud?.msg_count || 0;
-  const localTime = new Date(local.updated_at || Date.now()).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
-  const cloudTime = cloud?.updated_at ? new Date(cloud.updated_at).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }) : '—';
-  const deviceName = navigator.userAgent.includes('Mac') ? 'Mac' : navigator.userAgent.includes('iPhone') ? 'iPhone' : 'מכשיר זה';
-
-  // Store conflict data globally for resolution handler
-  window._conflictData = { conflicts, localKey: c.localKey };
-
-  // Populate modal fields
-  document.getElementById('conflictDeviceLocal').textContent = deviceName;
-  document.getElementById('conflictTimeLocal').textContent = localTime;
-  document.getElementById('conflictDeviceCloud').textContent = 'ענן';
-  document.getElementById('conflictTimeCloud').textContent = cloudTime;
-
-  document.getElementById('conflictFieldNameLocal').textContent = `${localCount} הודעות`;
-  document.getElementById('conflictFieldValueLocal').textContent = local.officer || '—';
-  document.getElementById('conflictFieldNameCloud').textContent = `${cloudCount} הודעות`;
-  document.getElementById('conflictFieldValueCloud').textContent = cloud?.officer_name || '—';
-
-  // Show modal
-  document.getElementById('conflictModalOverlay').classList.add('show');
-}
-
-function resolveConflict(choice) {
-  const { conflicts, localKey } = window._conflictData || {};
-  if (!conflicts) return;
-
-  if (choice === 'local') {
-    _applyLocalWins();
-  } else if (choice === 'cloud') {
-    _applyCloudWins(conflicts);
-  } else if (choice === 'manual') {
-    // Close modal, user will merge manually
-  }
-
-  // Hide modal
-  document.getElementById('conflictModalOverlay').classList.remove('show');
-  window._conflictData = null;
-}
-
-function _applyLocalWins() {
-  // local already has priority — push local version to cloud
-  const overlay = document.getElementById('conflictModalOverlay');
-  if (overlay) overlay.classList.remove('show');
-
-  // Push all local conversations to Supabase
-  const keys = Object.keys(localStorage).filter(k => k.startsWith('hypeshow_memory_'));
-  keys.forEach(key => {
-    const data = localStorage.getItem(key);
-    if (data) {
-      try {
-        const conv = JSON.parse(data);
-        // Extract officerId from key format: hypeshow_memory_${officerId}_...
-        const parts = key.split('_');
-        const officerId = parts[2]; // hypeshow_memory_{officerId}_...
-        syncPush({
-          officer_id: officerId,
-          local_key: key,
-          date: conv.date,
-          mode: conv.mode,
-          officer_name: conv.officer,
-          officer_role: conv.role,
-          history: conv.history || [],
-          summary: conv.summary || null,
-        });
-      } catch {}
-    }
-  });
-}
-
-function _showOfficerPIIWelcome(officerId) {
-  const key = 'pii_welcomed_' + officerId;
-  if (sessionStorage.getItem(key)) return;
-  sessionStorage.setItem(key, '1');
-  const o = officers[officerId];
-  if (!o) return;
-  setTimeout(() => {
-    const area = document.getElementById('chatArea');
-    if (!area) return;
-    const msg = document.createElement('div');
-    msg.className = 'chat-msg';
-    msg.style.cssText = 'opacity:.7';
-    msg.innerHTML = `
-      <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
-      <div><div class="chat-name">${o.name}</div>
-      <div class="chat-bubble" style="font-size:13px">
-        היי, אני ${o.name}. שים לב — אני עובד עם AI חיצוני. אל תשלח סיסמאות, מספרי אשראי, או מידע רגיש.
-      </div></div>`;
-    area.appendChild(msg);
-    area.scrollTop = area.scrollHeight;
-  }, 600);
-}
-
-function _checkPIIRealtime(val) {
-  const hasPII = /\b[\w.+-]+@[\w-]+\.[a-z]{2,}\b/i.test(val) ||
-    /\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b/.test(val) ||
-    /\b(?:050|051|052|053|054|055|057|058)\d{7}\b/.test(val) ||
-    /\b\d{9,15}\b/.test(val);
-  if (!hasPII) return;
-  let toast = document.getElementById('piiToast');
-  if (toast) { clearTimeout(toast._t); toast.remove(); }
-  toast = document.createElement('div');
-  toast.id = 'piiToast';
-  toast.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#1c1c1e;border:1px solid rgba(74,158,107,.4);border-radius:10px;padding:10px 18px;font-size:13px;color:#4a9e6b;z-index:10000;direction:rtl;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.5)';
-  toast.textContent = 'מידע רגיש זוהה — יוסתר לפני שליחה';
-  document.body.appendChild(toast);
-  toast._t = setTimeout(() => toast.remove(), 3000);
-}
-
-function _applyCloudWins(conflicts) {
-  conflicts.forEach(({ cloud, localKey }) => {
-    const resolved = {
-      date: cloud.date, officer: cloud.officer_name, role: cloud.officer_role,
-      mode: cloud.mode, history: cloud.history || [], summary: cloud.summary,
-      updated_at: cloud.updated_at
-    };
-    localStorage.setItem(localKey, JSON.stringify(resolved));
-    // Push resolved version back to cloud
-    // Extract officerId from key format: hypeshow_memory_${officerId}_...
-    const parts = localKey.split('_');
-    const officerId = parts[2]; // hypeshow_memory_{officerId}_...
-    syncPush({
-      officer_id: officerId,
-      local_key: localKey,
-      date: cloud.date,
-      mode: cloud.mode,
-      officer_name: cloud.officer_name,
-      officer_role: cloud.officer_role,
-      history: cloud.history || [],
-      summary: cloud.summary || null,
-    });
-  });
-  const overlay = document.getElementById('conflictModalOverlay');
-  if (overlay) overlay.classList.remove('show');
-  markActiveOfficers();
-}
-
-function _syncSetStatus(state) {
-  const dot = document.getElementById('syncDot');
-  if (!dot) return;
-  const colors = { ok: '#4a9e6b', syncing: '#e8623a', error: '#c0392b' };
-  dot.style.background = colors[state] || colors.ok;
-  dot.title = state === 'ok' ? 'מסונכרן' : state === 'syncing' ? 'מסנכרן...' : 'שגיאת סנכרון';
-}
-
-/* ── LOAD PREVIOUS CONVERSATION INTO PANEL ── */
-function _loadHistoryIntoPanel(officerId) {
-  const keys = Object.keys(localStorage)
-    .filter(k => k.startsWith('hypeshow_memory_' + officerId + '_'))
-    .sort().slice(-1);
-  if (!keys.length) return;
-  try {
-    const data = JSON.parse(localStorage.getItem(keys[0]));
-    if (!data || !data.history || data.history.length < 2) return;
-    const recent = data.history.slice(-6);
-    chatHistory = recent.slice();
-    // Render history messages with dimmed style after renderChat runs
-    setTimeout(() => {
-      const area = document.getElementById('chatArea');
-      const o = officers[officerId];
-      if (!area || !o) return;
-      const divider = `<div style="text-align:center;font-size:10px;color:var(--muted);padding:4px 0 8px;opacity:.6">— שיחה קודמת —</div>`;
-      let histHtml = divider;
-      recent.forEach(m => {
-        const isUser = m.role === 'user';
-        const col = isUser ? nadav.hex : o.hex;
-        const init = isUser ? 'N' : o.name[0];
-        const name = isUser ? 'Nadav' : o.name;
-        histHtml += `<div class="chat-msg${isUser?' user':''}" style="opacity:.55">
-          <div class="chat-av" style="background:${col}">${init}</div>
-          <div><div class="chat-name">${name}</div><div class="chat-bubble">${m.content}</div></div>
-        </div>`;
-      });
-      histHtml += `<div style="text-align:center;font-size:10px;color:var(--muted);padding:4px 0 8px;opacity:.6">— שיחה חדשה —</div>`;
-      area.innerHTML = histHtml;
-      area.scrollTop = area.scrollHeight;
-    }, 60);
-  } catch(e) {}
-}
-
 /* ── MODE SWITCH ── */
 function setMode(mode) {
-  currentMode = 'chat';
-  const chatArea = document.getElementById('chatArea');
-  if (chatArea) chatArea.style.display = 'flex';
-  renderChat();
+  currentMode = mode;
+  const chatArea    = document.getElementById('chatArea');
+  const meetingArea = document.getElementById('meetingArea');
+  const customArea  = document.getElementById('customArea');
+
+  chatArea.style.display    = mode==='chat'   ? 'flex'  : 'none';
+  meetingArea.style.display = (mode==='meeting'||mode==='custom') ? 'block' : 'none';
+  customArea.style.display  = mode==='custom' ? 'flex'  : 'none';
+  customArea.style.flex     = mode==='custom' ? '0 0 auto' : '1';
+  meetingArea.style.flex    = mode==='custom' ? '1' : '';
+
+  document.getElementById('btn1on1').classList.toggle('active', mode==='chat');
+  document.getElementById('btnMeeting').classList.toggle('active', mode==='meeting');
+  document.getElementById('btnCustom').classList.toggle('active', mode==='custom');
+  document.getElementById('floatPanel').classList.toggle('meeting-mode', mode==='meeting'||mode==='custom');
+
+  const cta     = document.getElementById('meetingCTA');
+  const endLink = document.getElementById('meetingEndLink');
+
+  if (mode==='meeting') {
+    _meetingTimers.forEach(t => clearTimeout(t)); _meetingTimers = [];
+    meetingState = 'idle'; _meetingFilter = null;
+    if (cta)     { cta.style.display = ''; }
+    if (endLink) { endLink.style.display = ''; endLink.classList.remove('visible'); }
+    const inner = document.getElementById('meetingCtaInner');
+    const label = document.getElementById('meetingCtaLabel');
+    if (inner) { inner.className = 'meeting-cta-inner'; inner.onclick = startMeeting; label.textContent = 'התחל ישיבה — הזמן את הצוות'; }
+    renderMeeting();
+  } else if (mode==='custom') {
+    if (cta)     cta.style.display = 'none';
+    if (endLink) endLink.style.display = 'none';
+    document.getElementById('meetingMsgs').innerHTML = '';
+    document.getElementById('meetingBar').innerHTML  = '';
+    selectedOfficers.clear();
+    renderCustomMeeting();
+  } else if (mode==='chat') {
+    renderChat();
+  }
 }
 
 /* ── RENDER 1-ON-1 CHAT ── */
@@ -2962,189 +2031,93 @@ function renderChat() {
   setTimeout(()=>{ area.scrollTop=area.scrollHeight; },50);
 }
 
-/* ── LOCAL MOCK (fallback when no API) ── */
-const mockReplies = {
-  steve:   ["Heard. Let me assess the strategic angle and get back to you.","Good question. That's a Day 1 priority — let me loop in the right people.","Understood. Here's my read on the situation: we move forward, but carefully."],
-  yaniv:   ["Noted. Sprint log updated. I'll flag any timeline impact.","On it. I'll coordinate across the team and report back.","Checked. We're on track — no blockers on my end."],
-  oded:    ["Got it. Assessing technical feasibility now. I'll have an answer with dependencies.","That's a 2-day build if the schema is finalized. 4 days if it changes.","Technically possible. One condition: Iftach needs to green-light the auth layer first."],
-  daniel:  ["Interesting. Let me look at this from the user experience angle.","The flow makes sense. I'd add one emotional beat at the start — establishes trust.","From a product perspective: yes. This is the magic moment we want to preserve."],
-  inbar:   ["Love the direction. I'll bring a brand angle to the next session.","That resonates with 'ambitious but human' — our core brand voice.","I'll draft three positioning options and share before end of day."],
-  yarden:  ["I'll model the numbers. Need real conversion data before I project.","Unit economics hold. 58% gross margin even in the pessimistic scenario.","That's a CFO green light — financially sound at current pricing."],
-  yiftach: ["Security review required before we proceed. I'll assess and report.","Two non-negotiables: RLS on all user tables, JWT refresh rotation every session.","Green light — with one condition. Audit layer must be in place before launch."],
-  ayelet:  ["On it. Running full QA pass now. Will report findings.","Found an issue: I'll flag it to Oded and Daniel. Fix before next sprint.","Passed RTL check. All good from QA side."],
-  mia:     ["Thanks for sharing. Team energy is good — everyone is focused, not stressed.","I'll check in with the team and see how they're feeling about this direction.","Noted. And if you ever need to decompress — I'm here for you too."],
-};
-function getMockReply(officerId) {
-  const replies = mockReplies[officerId] || ["Understood. I'll look into it."];
-  return replies[Math.floor(Math.random() * replies.length)];
-}
-
 /* ── SEND MESSAGE ── */
-async function sendMsg() {
+function sendMsg() {
   const input = document.getElementById('panelInput');
   const val = input.value.trim();
   if (!val) return;
-  input.value = '';
-  input.disabled = true;
-
-  if (currentMode === 'chat') {
+  if (currentMode==='chat') {
     const area = document.getElementById('chatArea');
-    const o = officers[currentOfficer];
-
-    // Add user message
     area.innerHTML += `<div class="chat-msg user">
       <div class="chat-av" style="background:${nadav.hex}">N</div>
       <div><div class="chat-name">Nadav</div><div class="chat-bubble">${val}</div></div>
     </div>`;
-
-    // Typing indicator
-    const typingId = 'typing-' + Date.now();
-    area.innerHTML += `<div class="chat-msg" id="${typingId}">
-      <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
-      <div><div class="chat-name">${o.name}</div><div class="chat-bubble">
-        <span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>
-      </div></div>
-    </div>`;
-    setTimeout(() => { area.scrollTop = area.scrollHeight; }, 80);
-
-    chatHistory.push({ role: 'user', content: val });
-
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: val, officerId: currentOfficer, history: chatHistory.slice(-10), mode: '1on1' })
-      });
-      let reply;
-      if (res.ok) {
-        const data = await res.json();
-        reply = data.reply || getMockReply(currentOfficer);
-      } else {
-        reply = getMockReply(currentOfficer);
-      }
-      chatHistory.push({ role: 'assistant', content: reply });
-
-      document.getElementById(typingId)?.remove();
-      area.innerHTML += `<div class="chat-msg">
-        <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
-        <div><div class="chat-name">${o.name}</div><div class="chat-bubble">${reply}</div></div>
-      </div>`;
-    } catch {
-      const reply = getMockReply(currentOfficer);
-      chatHistory.push({ role: 'assistant', content: reply });
-      document.getElementById(typingId)?.remove();
-      area.innerHTML += `<div class="chat-msg">
-        <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
-        <div><div class="chat-name">${o.name}</div><div class="chat-bubble">${reply}</div></div>
-      </div>`;
-    }
-    setTimeout(() => { area.scrollTop = area.scrollHeight; }, 80);
-
-  } else if (currentMode === 'meeting' || currentMode === 'custom') {
-    appendMeetingMsg('nadav', val, true);
-    meetingHistory.push({ role: 'user', content: val });
-
-    const typingId = 'typing-' + Date.now();
+    setTimeout(()=>{ area.scrollTop=area.scrollHeight; },50);
+  } else {
     const msgs = document.getElementById('meetingMsgs');
-    msgs.innerHTML += `<div class="comic-msg" id="${typingId}">
-      <div class="comic-speaker-row"><div class="comic-av-sm" style="background:#e8623a">S</div>
-      <div class="comic-name-sm">Steve · CEO</div></div>
-      <div class="comic-bubble" style="color:var(--muted)"><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span></div>
+    msgs.innerHTML += `<div class="comic-msg is-user" data-speaker="nadav">
+      <div class="comic-speaker-row">
+        <div class="comic-av-sm" style="background:${nadav.hex}">N</div>
+        <div class="comic-name-sm">Nadav (You)</div>
+      </div>
+      <div class="comic-bubble">${val}</div>
     </div>`;
-
-    const ma = document.getElementById('meetingArea');
-    ma.scrollTop = ma.scrollHeight;
-
-    const mode = currentMode === 'custom' ? 'custom' : 'meeting';
-    const participants = currentMode === 'custom' ? [...selectedOfficers] : meetingParticipants;
-
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: val, officerId: 'steve', history: meetingHistory.slice(-12), mode, participants })
-      });
-      document.getElementById(typingId)?.remove();
-      let replyText = '';
-      if (res.ok) {
-        const data = await res.json();
-        replyText = data.reply || '';
-      }
-      if (!replyText) { replyText = 'Steve: ' + getMockReply('steve'); }
-
-      const parsed = parseMeetingReply(replyText);
-      parsed.forEach(p => {
-        appendMeetingMsg(p.id, p.text, false);
-        meetingHistory.push({ role: 'assistant', content: `${officers[p.id]?.name || p.id}: ${p.text}` });
-      });
-    } catch {
-      document.getElementById(typingId)?.remove();
-      const fallback = getMockReply('steve');
-      appendMeetingMsg('steve', fallback, false);
-      meetingHistory.push({ role: 'assistant', content: `Steve: ${fallback}` });
-    }
-
-    ma.scrollTop = ma.scrollHeight;
+    setTimeout(()=>{ const ma=document.getElementById('meetingArea'); ma.scrollTop=ma.scrollHeight; },50);
   }
-
-  input.disabled = false;
-  input.focus();
+  input.value='';
 }
 
 /* ── RENDER MEETING (comic style) ── */
-let meetingHistory = [];
-
 function renderMeeting() {
+  /* Participant bar */
   const bar = document.getElementById('meetingBar');
   bar.innerHTML = '';
   meetingParticipants.forEach((id) => {
     const o = officers[id];
     bar.innerHTML += `<div class="meeting-participant" id="mp-${id}">
-      <div class="mp-av" style="background:${o.hex}" title="${o.name}">${o.name[0]}</div>
+      <div class="mp-av" style="background:${o.hex}" data-id="${id}" onclick="filterMeetingBy('${id}')" title="הצג רק את ${o.name}" style="cursor:pointer">${o.name[0]}</div>
       <div class="mp-name">${o.name}</div>
+      <div class="mp-line" id="mpline-${id}"></div>
     </div>`;
   });
+  /* Add Nadav */
   bar.innerHTML += `<div class="meeting-participant" id="mp-nadav">
-    <div class="mp-av" style="background:${nadav.hex}">N</div>
+    <div class="mp-av" style="background:${nadav.hex}" data-id="nadav" onclick="filterMeetingBy('nadav')" title="הצג רק את Nadav">N</div>
     <div class="mp-name">Nadav</div>
+    <div class="mp-line" id="mpline-nadav"></div>
   </div>`;
-  document.getElementById('meetingMsgs').innerHTML = '';
-  meetingHistory = [];
-  currentMeetingOfficers = new Set(meetingParticipants);
-}
 
-function appendMeetingMsg(speakerId, text, isUser) {
+  /* Messages */
   const msgs = document.getElementById('meetingMsgs');
-  const o = isUser ? null : officers[speakerId];
-  const col = isUser ? nadav.hex : (o?.hex || '#e8623a');
-  const init = isUser ? 'N' : (o?.name[0] || speakerId[0].toUpperCase());
-  const label = isUser ? 'Nadav (You)' : (o ? o.name + ' · ' + o.role : speakerId);
-  msgs.innerHTML += `<div class="comic-msg ${isUser ? 'is-user' : ''}" data-speaker="${speakerId}">
-    <div class="comic-speaker-row">
-      <div class="comic-av-sm" style="background:${col}">${init}</div>
-      <div class="comic-name-sm">${label}</div>
-    </div>
-    <div class="comic-bubble">${text}</div>
-  </div>`;
-  const ma = document.getElementById('meetingArea');
-  ma.scrollTop = ma.scrollHeight;
-}
-
-function parseMeetingReply(text) {
-  const lines = text.split('\n').filter(l => l.trim());
-  const parsed = [];
-  lines.forEach(line => {
-    const match = line.match(/^(\w+):\s*(.+)$/);
-    if (match) {
-      const name = match[1];
-      const msg = match[2];
-      const oId = Object.keys(officers).find(k => officers[k].name === name) || 'steve';
-      parsed.push({ id: oId, text: msg });
-    } else if (line.trim() && parsed.length === 0) {
-      parsed.push({ id: 'steve', text: line.trim() });
+  msgs.innerHTML = '';
+  let scriptIdx = 0;
+  meetingScript.forEach((line, i) => {
+    if (line.divider) {
+      msgs.innerHTML += `<div class="comic-time-divider">${line.divider}</div>`;
+      return;
     }
+    const isNadav = line.speaker==='nadav';
+    const o = isNadav ? nadav : officers[line.speaker];
+    const col = isNadav ? nadav.hex : o.hex;
+    const name = isNadav ? 'Nadav (You)' : o.name + ' · ' + o.role;
+    const init = isNadav ? 'N' : o.name[0];
+    /* colored bubble tint */
+    const r = parseInt(col.slice(1,3),16);
+    const g = parseInt(col.slice(3,5),16);
+    const b = parseInt(col.slice(5,7),16);
+    const bubbleStyle = isNadav ? '' : `style="--bubble-bg:rgba(${r},${g},${b},0.09);--bubble-border:${col}"`;
+    const gapAttr = line.gap ? ` data-gap="${line.gap}"` : '';
+    const speakerId = isNadav ? 'nadav' : line.speaker;
+    /* highlight active speaker in bar */
+    setTimeout(()=>{
+      document.querySelectorAll('.meeting-participant').forEach(el => {
+        el.classList.remove('mp-active');
+        const ln = document.getElementById('mpline-'+el.id.replace('mp-',''));
+        if (ln) ln.style.opacity='0';
+      });
+      const mpEl = document.getElementById('mp-'+speakerId);
+      if (mpEl) mpEl.classList.add('mp-active');
+    }, scriptIdx*80);
+    scriptIdx++;
+    msgs.innerHTML += `<div class="comic-msg ${isNadav?'is-user':''}"${gapAttr} data-speaker="${speakerId}">
+      <div class="comic-speaker-row">
+        <div class="comic-av-sm" style="background:${col}">${init}</div>
+        <div class="comic-name-sm">${name}</div>
+      </div>
+      <div class="comic-bubble" ${bubbleStyle}>${line.text}</div>
+    </div>`;
   });
-  return parsed.length ? parsed : [{ id: 'steve', text: text.trim() }];
+  setTimeout(()=>{ const ma=document.getElementById('meetingArea'); ma.scrollTop=ma.scrollHeight; },100);
 }
 
 /* ── SEARCH ── */
@@ -3184,69 +2157,27 @@ function setFood(name, el) {
 /* ── START / END MEETING ── */
 let meetingState = 'idle';
 let _meetingTimers = [];
-
-async function startMeeting() {
+function startMeeting() {
   if (['active','summarizing','done'].includes(meetingState)) return;
   const inner = document.getElementById('meetingCtaInner');
   const label = document.getElementById('meetingCtaLabel');
   const endLink = document.getElementById('meetingEndLink');
-  const cta = document.getElementById('meetingCTA');
-
   meetingState = 'starting';
   inner.className = 'meeting-cta-inner state-starting';
-  label.textContent = 'מזמין צוות...';
+  label.textContent = 'מחכה לצוות...';
   if (endLink) endLink.classList.remove('visible');
-
-  // Steve opens the meeting live via Gemini
-  await new Promise(r => setTimeout(r, 1200));
-
-  meetingState = 'active';
-  inner.className = 'meeting-cta-inner state-active';
-  label.textContent = 'ישיבה פעילה';
-  if (endLink) endLink.classList.add('visible');
-  if (cta) cta.style.marginBottom = '8px';
-
-  // Typing indicator for Steve
-  const msgs = document.getElementById('meetingMsgs');
-  const typingId = 'mt-' + Date.now();
-  msgs.innerHTML += `<div class="comic-msg" id="${typingId}">
-    <div class="comic-speaker-row">
-      <div class="comic-av-sm" style="background:${officers.steve.hex}">S</div>
-      <div class="comic-name-sm">Steve · CEO</div>
-    </div>
-    <div class="comic-bubble" style="color:var(--muted)"><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span></div>
-  </div>`;
-  document.getElementById('meetingArea').scrollTop = 99999;
-
-  try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: 'פתח את הישיבה בברכה קצרה ושאל את Nadav מה בסדר היום',
-        officerId: 'steve', history: [], mode: 'meeting',
-        participants: meetingParticipants
-      })
-    });
-    document.getElementById(typingId)?.remove();
-    let reply = 'Good morning, team. Nadav — what\'s on the agenda today?';
-    if (res.ok) {
-      const data = await res.json();
-      if (data.reply) reply = data.reply;
-    }
-    const parsed = parseMeetingReply(reply);
-    parsed.forEach(p => {
-      appendMeetingMsg(p.id, p.text, false);
-      meetingHistory.push({ role: 'assistant', content: `${officers[p.id]?.name || p.id}: ${p.text}` });
-    });
-  } catch {
-    document.getElementById(typingId)?.remove();
-    appendMeetingMsg('steve', 'Good morning. Nadav — what\'s on the agenda today?', false);
-    meetingHistory.push({ role: 'assistant', content: 'Steve: Good morning. Nadav — what\'s on the agenda today?' });
-  }
+  // Random 8–10 second wait
+  const wait = 8000 + Math.random() * 2000;
+  _meetingTimers.push(setTimeout(() => {
+    meetingState = 'active';
+    inner.className = 'meeting-cta-inner state-active';
+    label.textContent = 'ישיבה פעילה';
+    if (endLink) endLink.classList.add('visible');
+    const msgs = document.getElementById('meetingMsgs');
+    if (msgs) setTimeout(() => { msgs.scrollTop = msgs.scrollHeight; }, 100);
+  }, wait));
 }
-
-async function endMeeting() {
+function endMeeting() {
   if (meetingState !== 'active') return;
   const inner = document.getElementById('meetingCtaInner');
   const label = document.getElementById('meetingCtaLabel');
@@ -3254,71 +2185,37 @@ async function endMeeting() {
   meetingState = 'summarizing';
   inner.className = 'meeting-cta-inner state-summarizing';
   inner.onclick = null;
-  label.textContent = 'Steve מסכם...';
+  label.textContent = '✍️ Steve מסכם...';
   if (endLink) endLink.classList.remove('visible');
-
-  let summary = null;
-  try {
-    const res = await fetch('/api/summary', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ history: meetingHistory, officerName: 'Steve', officerRole: 'CEO', mode: 'meeting', participants: meetingParticipants })
-    });
-    if (res.ok) {
-      const data = await res.json();
-      summary = data.summary;
-    }
-  } catch {}
-
-  const dateStr = new Date().toISOString().split('T')[0];
-  const memKey = `hypeshow_meeting_${dateStr}_${Date.now()}`;
-  localStorage.setItem(memKey, JSON.stringify({
-    date: dateStr, type: 'meeting', mode: 'team',
-    participants: meetingParticipants, history: meetingHistory, summary
-  }));
-
-  meetingState = 'done';
-  inner.className = 'meeting-cta-inner state-done';
-  label.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה';
-  inner.style.cursor = 'default';
-  if (summary) {
-    const msgs = document.getElementById('meetingMsgs');
-    msgs.innerHTML += `<div class="comic-time-divider">סיכום Steve</div>
-    <div class="comic-msg" data-speaker="steve">
-      <div class="comic-speaker-row">
-        <div class="comic-av-sm" style="background:${officers.steve.hex}">S</div>
-        <div class="comic-name-sm">Steve · CEO</div>
-      </div>
-      <div class="comic-bubble">${summary}</div>
-    </div>`;
-    document.getElementById('meetingArea').scrollTop = 99999;
-  }
+  setTimeout(() => {
+    meetingState = 'done';
+    inner.className = 'meeting-cta-inner state-done';
+    label.textContent = '✓ ישיבה סוכמה — לחץ לצפייה בסיכום';
+    inner.style.cursor = 'pointer';
+    inner.onclick = () => {
+      closePanel();
+      toggleArchive();
+      setTimeout(() => { toggleArchiveRow(1); }, 150);
+    };
+  }, 5000);
 }
 
 /* ── CUSTOM MEETING ── */
 let selectedOfficers = new Set();
-let currentMeetingOfficers = new Set();
-
-function renderCustomMeeting(addMode = false) {
+function renderCustomMeeting() {
   const grid = document.getElementById('customGrid');
   grid.innerHTML = '';
   Object.entries(officers).forEach(([id, o]) => {
-    const alreadyIn = currentMeetingOfficers.has(id);
     const div = document.createElement('div');
-    div.className = 'custom-officer-pick' + (alreadyIn ? ' already-in' : '');
+    div.className = 'custom-officer-pick';
     div.id = 'cop-' + id;
-    div.innerHTML = `<div class="cop-av" style="background:${o.hex}">${o.name[0]}</div><div class="cop-name">${o.name}</div>${alreadyIn ? '<div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:2px">בפגישה</div>' : ''}`;
-    if (!alreadyIn) div.onclick = () => toggleOfficerSelection(id);
+    div.innerHTML = `<div class="cop-av" style="background:${o.hex}">${o.name[0]}</div><div class="cop-name">${o.name}</div>`;
+    div.onclick = () => toggleOfficerSelection(id);
     grid.appendChild(div);
   });
-  const btn = document.getElementById('customInviteBtn');
-  btn.classList.remove('visible');
-  btn.textContent = addMode ? 'הוסף למפגש' : 'התחל מפגש';
-  btn.setAttribute('data-addmode', addMode ? '1' : '0');
+  document.getElementById('customInviteBtn').classList.remove('visible');
 }
-
 function toggleOfficerSelection(id) {
-  if (currentMeetingOfficers.has(id)) return;
   const card = document.getElementById('cop-' + id);
   if (selectedOfficers.has(id)) {
     selectedOfficers.delete(id);
@@ -3329,69 +2226,23 @@ function toggleOfficerSelection(id) {
   }
   const btn = document.getElementById('customInviteBtn');
   const n = selectedOfficers.size;
-  const addMode = btn.getAttribute('data-addmode') === '1';
   if (n > 0) {
     btn.classList.add('visible');
-    btn.textContent = addMode ? `הוסף ${n} לישיבה` : `התחל מפגש עם ${n}`;
+    btn.textContent = 'הזמן ' + n + ' אנשי AI לישיבה';
   } else {
     btn.classList.remove('visible');
   }
 }
-
 function startCustomMeeting() {
   if (selectedOfficers.size === 0) return;
-  const addMode = document.getElementById('customInviteBtn').getAttribute('data-addmode') === '1';
-  const bar = document.getElementById('meetingBar');
-
-  if (addMode) {
-    // ADD to existing meeting — no reset
-    const names = [...selectedOfficers].map(id => officers[id].name).join(', ');
-    [...selectedOfficers].forEach(id => {
-      currentMeetingOfficers.add(id);
-      const o = officers[id];
-      if (!document.getElementById('mp-' + id)) {
-        bar.innerHTML += `<div class="meeting-participant" id="mp-${id}">
-          <div class="mp-av" style="background:${o.hex}">${o.name[0]}</div>
-          <div class="mp-name">${o.name}</div>
-        </div>`;
-      }
-    });
-    // Inject "joined" message in chat
-    const msgs = document.getElementById('meetingMsgs');
-    msgs.innerHTML += `<div class="comic-time-divider">${names} הצטרפ${selectedOfficers.size > 1 ? 'ו' : ''} לישיבה</div>`;
-    meetingHistory.push({ role: 'assistant', content: `[${names} joined the meeting]` });
-    document.getElementById('meetingArea').scrollTop = 99999;
-  } else {
-    // Fresh custom meeting — reset
-    const msgs = document.getElementById('meetingMsgs');
-    msgs.innerHTML = '';
-    bar.innerHTML = '';
-    currentMeetingOfficers.clear();
-    [...selectedOfficers].forEach(id => {
-      currentMeetingOfficers.add(id);
-      const o = officers[id];
-      bar.innerHTML += `<div class="meeting-participant" id="mp-${id}">
-        <div class="mp-av" style="background:${o.hex}">${o.name[0]}</div>
-        <div class="mp-name">${o.name}</div>
-      </div>`;
-    });
-    bar.innerHTML += `<div class="meeting-participant" id="mp-nadav">
-      <div class="mp-av" style="background:${nadav.hex}">N</div>
-      <div class="mp-name">Nadav</div>
-    </div>`;
-  }
-
-  // Hide picker, show meeting
-  document.getElementById('customArea').style.display = 'none';
-  document.getElementById('meetingArea').style.display = 'block';
-  document.getElementById('meetingArea').style.flex = '1';
-  if (!addMode) {
-    const cta = document.getElementById('meetingCTA');
-    if (cta) cta.style.display = 'none';
-    meetingState = 'active';
-  }
-  currentMode = 'custom';
-  selectedOfficers.clear();
+  // Override participant list temporarily
+  const saved = [...meetingParticipants];
+  meetingParticipants.length = 0;
+  [...selectedOfficers].forEach(id => meetingParticipants.push(id));
+  setMode('meeting');
+  // Restore after render
+  setTimeout(() => { meetingParticipants.length = 0; saved.forEach(id => meetingParticipants.push(id)); }, 0);
+  startMeeting();
 }
 
 /* ── ARCHIVE ── */
@@ -3467,78 +2318,7 @@ function filterMeetingBy(speakerId) {
 /* ── LOGO LAB ── */
 function toggleLogoLab() {
   const lab = document.getElementById('logoLab');
-  const isOpen = lab.style.display === 'none';
-  lab.style.display = isOpen ? 'block' : 'none';
-  if (isOpen) labInit();
-}
-
-/* ── LAB NOTES ── */
-function labInit() {
-  const saved = localStorage.getItem('hypeshow_lab_notes') || '';
-  document.getElementById('labNotes').value = saved;
-  labRenderList();
-}
-
-let _labSaveTimer = null;
-function labAutoSave() {
-  document.getElementById('labSaveStatus').textContent = '...';
-  clearTimeout(_labSaveTimer);
-  _labSaveTimer = setTimeout(() => {
-    const val = document.getElementById('labNotes').value;
-    localStorage.setItem('hypeshow_lab_notes', val);
-    document.getElementById('labSaveStatus').textContent = 'נשמר';
-    labRenderList();
-  }, 800);
-}
-
-function labInsert(prefix) {
-  const ta = document.getElementById('labNotes');
-  const pos = ta.selectionStart;
-  const val = ta.value;
-  const lineStart = val.lastIndexOf('\n', pos - 1) + 1;
-  ta.value = val.slice(0, lineStart) + prefix + val.slice(lineStart);
-  ta.selectionStart = ta.selectionEnd = lineStart + prefix.length;
-  ta.focus();
-  labAutoSave();
-}
-
-function labWrap(marker) {
-  const ta = document.getElementById('labNotes');
-  const start = ta.selectionStart, end = ta.selectionEnd;
-  const val = ta.value;
-  const sel = val.slice(start, end) || 'טקסט';
-  ta.value = val.slice(0, start) + marker + sel + marker + val.slice(end);
-  ta.selectionStart = start + marker.length;
-  ta.selectionEnd = start + marker.length + sel.length;
-  ta.focus();
-  labAutoSave();
-}
-
-function labExport() {
-  const content = document.getElementById('labNotes').value;
-  if (!content.trim()) return;
-  const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'notes.md';
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-
-function labRenderList() {
-  const content = localStorage.getItem('hypeshow_lab_notes') || '';
-  const list = document.getElementById('labNotesList');
-  if (!content.trim()) { list.innerHTML = ''; return; }
-  const firstLine = content.split('\n').find(l => l.trim()) || '';
-  const title = firstLine.replace(/^#+\s*/, '').trim() || 'רשימה ללא כותרת';
-  const words = content.trim().split(/\s+/).length;
-  list.innerHTML = `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px">
-    <div>
-      <div style="font-size:13px;font-weight:600;color:#f0eeea;direction:rtl;text-align:right">${title}</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.35);margin-top:2px">${words} מילים · נשמר ב-localStorage</div>
-    </div>
-    <button onclick="if(confirm('מחק את הרשימה?')){localStorage.removeItem(\'hypeshow_lab_notes\');document.getElementById(\'labNotes\').value=\'\';labRenderList()}" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:7px;color:rgba(255,255,255,.4);font-size:11px;padding:4px 10px;cursor:pointer">מחק</button>
-  </div>`;
+  lab.style.display = lab.style.display === 'none' ? 'block' : 'none';
 }
 
 /* ── SETTINGS ── */
@@ -3547,34 +2327,23 @@ function toggleSettings() {
   const btn   = document.getElementById('settingsBtn');
   const isOpen = panel.classList.contains('open');
   if (!isOpen) {
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-      // Mobile: drop down from top (CSS handles position; just clear inline overrides)
-      panel.style.top = '';
-      panel.style.bottom = '';
-      panel.style.maxHeight = '';
-    } else {
-      // Desktop: position relative to settings button
-      const rect = btn.getBoundingClientRect();
-      const vh = window.innerHeight;
-      let top = rect.top;
-      const estPanelH = 420;
-      if (top + estPanelH > vh - 16) {
-        top = Math.max(8, vh - estPanelH - 16);
-      }
-      panel.style.maxHeight = Math.floor(vh - top - 16) + 'px';
-      panel.style.bottom = 'auto';
-      panel.style.top = top + 'px';
+    const rect = btn.getBoundingClientRect();
+    const vh = window.innerHeight;
+    let top = rect.top;
+    const estPanelH = 420;
+    if (top + estPanelH > vh - 16) {
+      top = Math.max(8, vh - estPanelH - 16);
     }
+    panel.style.maxHeight = Math.floor(vh - top - 16) + 'px';
+    panel.style.bottom = 'auto';
+    panel.style.top = top + 'px';
   }
   panel.classList.toggle('open');
 }
 document.addEventListener('click', e => {
   const panel = document.getElementById('settingsPanel');
   const btn = document.getElementById('settingsBtn');
-  const mobileBtn = document.getElementById('mobileSettingsBtn');
-  const clickedBtn = (btn && btn.contains(e.target)) || (mobileBtn && mobileBtn.contains(e.target));
-  if (panel && panel.classList.contains('open') && !panel.contains(e.target) && !clickedBtn) {
+  if (panel && panel.classList.contains('open') && !panel.contains(e.target) && !btn.contains(e.target)) {
     panel.classList.remove('open');
   }
 });
@@ -3682,145 +2451,6 @@ function randomToggle() {
 setTimeout(randomToggle, 10000);
 
 /* ── SPRINT LOG → OPEN OFFICER CHAT ── */
-/* ── NOTIFICATIONS ── */
-const _notifications = [
-  { id:'n1', officerId:'oded',   color:'#2a2a2a', icon:'O', title:'ארכיטקטורת V3 אושרה', body:'ממתין לאישור Iftach לפני שמתחיל את ה-build. ETA: 3 ימים אם ה-green light מגיע מחר.', time:'לפני שעתיים', read:false },
-  { id:'n2', officerId:'daniel', color:'#7b3dd5', icon:'D', title:'Spec הדשבורד מוכן', body:'Design handoff & dev-ready spec מוכן לסקירה. פתח את פאנל Daniel לפרטים.', time:'לפני 4 שעות', read:false },
-  { id:'n3', officerId:'steve',  color:'#e8623a', icon:'S', title:'Sprint Day 14 — סיכום נדרש', body:'הספרינט הסתיים. מומלץ לפתוח ספרינט חדש ולהגדיר יעדים ל-Sprint 2.', time:'היום', read:false },
-];
-function toggleNotifications() {
-  const panel = document.getElementById('notifPanel');
-  const isOpen = panel.classList.contains('open');
-  // Close other dropdowns
-  document.getElementById('settingsPanel').classList.remove('open');
-  panel.classList.toggle('open', !isOpen);
-  if (!isOpen) _renderNotifs();
-}
-function _renderNotifs() {
-  const list = document.getElementById('notifList');
-  if (!_notifications.length) { list.innerHTML = '<div class="notif-empty">אין התראות חדשות</div>'; return; }
-  list.innerHTML = _notifications.map(n => `
-    <div class="notif-item${n.read?' notif-read':''}" onclick="_readNotif('${n.id}')">
-      <div class="notif-av" style="background:${n.color}">${n.icon}</div>
-      <div class="notif-content">
-        <div class="notif-title">${n.title}</div>
-        <div class="notif-body">${n.body}</div>
-        <div class="notif-time">${n.time}</div>
-      </div>
-      ${n.read?'':'<div class="notif-dot"></div>'}
-    </div>`).join('');
-}
-function _readNotif(id) {
-  const n = _notifications.find(x => x.id === id);
-  if (n) { n.read = true; _updateNotifBadge(); }
-  document.getElementById('notifPanel').classList.remove('open');
-  if (n) openPanel(n.officerId);
-}
-function markAllRead() {
-  _notifications.forEach(n => n.read = true);
-  _renderNotifs(); _updateNotifBadge();
-}
-function _updateNotifBadge() {
-  const unread = _notifications.filter(n => !n.read).length;
-  const badge = document.getElementById('notifBadge');
-  if (badge) { badge.textContent = unread || ''; badge.style.display = unread ? 'flex' : 'none'; }
-}
-document.addEventListener('click', e => {
-  const panel = document.getElementById('notifPanel');
-  const btn = document.getElementById('notifBtn');
-  const mobileNotifBtn = document.getElementById('mobileNotifBtn');
-  const clickedBtn = (btn && btn.contains(e.target)) || (mobileNotifBtn && mobileNotifBtn.contains(e.target));
-  if (panel && panel.classList.contains('open') && !panel.contains(e.target) && !clickedBtn) {
-    panel.classList.remove('open');
-  }
-});
-
-/* ── PROFILE DROPDOWN ── */
-function toggleProfile() {
-  const panel = document.getElementById('profilePanel');
-  const isOpen = panel.classList.contains('open');
-  // Close other dropdowns
-  document.getElementById('settingsPanel').classList.remove('open');
-  document.getElementById('notifPanel').classList.remove('open');
-  panel.classList.toggle('open', !isOpen);
-  if (!isOpen) _loadProfileIntoPanel();
-}
-async function _loadProfileIntoPanel() {
-  if (!_sbDash) return;
-  const { data: { user } } = await _sbDash.auth.getUser();
-  if (!user) return;
-
-  const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
-  const email = user.email || 'user@example.com';
-  const avatar = user.user_metadata?.avatar_url || user.user_metadata?.picture;
-  const initial = name.split(' ')[0].charAt(0).toUpperCase();
-
-  document.getElementById('profilePanelName').textContent = name;
-  document.getElementById('profilePanelEmail').textContent = email;
-  document.getElementById('mobileProfileAv').textContent = initial;
-
-  const av = document.getElementById('profilePanelAv');
-  if (avatar) {
-    av.innerHTML = `<img src="${avatar}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
-    av.style.background = 'transparent';
-  } else {
-    av.textContent = initial;
-    av.style.background = 'linear-gradient(135deg,#e8623a,#f0855e)';
-  }
-}
-function doLogout() {
-  if (_sbDash) {
-    _sbDash.auth.signOut().then(() => {
-      window.location.href = '../index.html';
-    });
-  } else {
-    window.location.href = '../index.html';
-  }
-}
-document.addEventListener('click', e => {
-  const panel = document.getElementById('profilePanel');
-  const btn = document.getElementById('mobileProfileBtn');
-  if (panel && panel.classList.contains('open') && !panel.contains(e.target) && !btn.contains(e.target)) {
-    panel.classList.remove('open');
-  }
-});
-
-/* ── SPRINT LOG: LOAD AI CONVERSATIONS ── */
-function loadDiscussionsFromMemory() {
-  const container = document.getElementById('sl-section-discussions');
-  if (!container) return;
-  const keys = Object.keys(localStorage).filter(k => k.startsWith('hypeshow_memory_'));
-  if (!keys.length) return;
-  const recent = keys.sort().slice(-6).reverse();
-  let extraHtml = '';
-  recent.forEach(key => {
-    try {
-      const data = JSON.parse(localStorage.getItem(key));
-      if (!data || !data.officerId) return;
-      const o = officers[data.officerId];
-      if (!o) return;
-      const snippet = data.summary || (data.history?.[data.history.length-1]?.content?.slice(0,80) + '…') || '';
-      const date = key.split('_')[3] || '';
-      extraHtml += `
-        <div class="sl-card sl-progress" style="cursor:pointer" onclick="openPanel('${data.officerId}')">
-          <div class="sl-card-top">
-            <div class="sl-officer-dot" style="background:${o.hex}">${o.name[0]}</div>
-            <div class="sl-card-info">
-              <div class="sl-task-name">${o.name} — שיחה שמורה</div>
-              <div class="sl-officer-role">${o.role} · ${date}</div>
-            </div>
-            <div class="sl-badge sl-badge-progress">New</div>
-          </div>
-          ${snippet ? `<div class="sl-note">${snippet}</div>` : ''}
-        </div>`;
-    } catch(e) {}
-  });
-  if (extraHtml) {
-    const label = container.querySelector('.sl-section-label');
-    if (label) label.insertAdjacentHTML('afterend', extraHtml);
-  }
-}
-
 function openOfficer(id) {
   openPanel(id);
 }
@@ -3955,7 +2585,6 @@ function toggleSprintLog() {
   document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
   if (!isOpen) {
     btn.classList.add('active');
-    loadDiscussionsFromMemory();
   } else {
     document.getElementById('officersBtn').classList.add('active');
   }
@@ -3992,11 +2621,10 @@ function updateSprintCounter() {
   const pct = Math.round((day / TOTAL) * 100);
 
   // Main dashboard
-  const dayEl  = document.getElementById('sprintDaysMain');
-  const fillEl = document.getElementById('sprintFillMain');
+  const dayEl  = document.querySelector('.sprint-days');
+  const fillEl = document.querySelector('.sprint-fill');
   if (dayEl)  dayEl.textContent  = `Day ${day} / ${TOTAL}`;
   if (fillEl) setTimeout(() => { fillEl.style.width = pct + '%'; }, 100);
-  renderSprintDots(TOTAL);
 
   // Sprint log panel
   const logDays = document.getElementById('sprintLogDays');
@@ -4005,324 +2633,6 @@ function updateSprintCounter() {
   if (logFill) setTimeout(() => { logFill.style.width = pct + '%'; }, 100);
 }
 document.addEventListener('DOMContentLoaded', updateSprintCounter);
-
-/* ── SPRINT DOTS ── */
-const DEFAULT_SPRINT_TASKS = [
-  { name:'Tech Stack',      day:3,  status:'done',        desc:'API, DB, hosting finalized.' },
-  { name:'User Journey',    day:6,  status:'done',        desc:'Onboarding + Day 1 finalized.' },
-  { name:'Threat Model',    day:9,  status:'missed',      desc:'Security review not completed.' },
-  { name:'Seniority Model', day:11, status:'upcoming',    desc:'Visual hierarchy for tiers.' },
-  { name:'API Spec',        day:12, status:'in-progress', desc:'REST endpoints for founder sync.' },
-  { name:'UI Polish',       day:14, status:'in-progress', desc:'Final UI refinements.' },
-];
-
-function getSprintTasks() {
-  try {
-    const stored = localStorage.getItem('hs_sprint_tasks');
-    return stored ? JSON.parse(stored) : DEFAULT_SPRINT_TASKS;
-  } catch(e) { return DEFAULT_SPRINT_TASKS; }
-}
-
-function saveSprintTasks(tasks) {
-  try { localStorage.setItem('hs_sprint_tasks', JSON.stringify(tasks)); } catch(e) {}
-}
-
-function renderSprintDots(total) {
-  total = total || 14;
-  const track = document.getElementById('sprintTrackMain');
-  if (!track) return;
-  track.querySelectorAll('.sprint-dot').forEach(d => d.remove());
-  const tasks = getSprintTasks();
-  tasks.forEach(task => {
-    const pct = Math.round((task.day / total) * 100);
-    const dot = document.createElement('div');
-    dot.className = `sprint-dot ${task.status}`;
-    dot.style.left = pct + '%';
-    dot.innerHTML = `
-      <span class="dot-name">${task.name}</span>
-      <div class="dot-bubble">
-        ${task.desc}
-        <div class="day-label">Day ${task.day}</div>
-      </div>`;
-    track.appendChild(dot);
-  });
-}
-
-// Init sprint tasks in localStorage if not set
-if (!localStorage.getItem('hs_sprint_tasks')) saveSprintTasks(DEFAULT_SPRINT_TASKS);
-
-/* ══════════════════════════════════════
-   DAILY BRIEFING + FIRST/RETURNING USER
-══════════════════════════════════════ */
-const OFFICER_UPDATES = [
-  { id:'steve',   color:'#e8623a', icon:'S', text:'<strong>Steve:</strong> Sprint 2 מוכן להתחלה — ממתין לאישורך על הפריורטיות.' },
-  { id:'oded',    color:'#2a2a2a', icon:'O', text:'<strong>Oded:</strong> ארכיטקטורת V3 אושרה. מתחיל build ברגע שיפתח מעביר green light.' },
-  { id:'daniel',  color:'#7b3dd5', icon:'D', text:'<strong>Daniel:</strong> Daily Briefing ו-First Login Flow מוכנים לסקירה.' },
-];
-
-function initDailyBriefing() {
-  const isReturning = !!localStorage.getItem('hypeshow_returning_user');
-  const briefing = document.getElementById('dailyBriefing');
-  if (!briefing) return;
-
-  briefing.style.display = 'block';
-
-  // Date + sprint pill
-  const days = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
-  const now = new Date();
-  const dayName = 'יום ' + days[now.getDay()];
-  const dd = String(now.getDate()).padStart(2,'0');
-  const mm = String(now.getMonth()+1).padStart(2,'0');
-  document.getElementById('dbDate').textContent = dayName + ' · ' + dd + '/' + mm + '/' + now.getFullYear();
-
-  const START = new Date('2026-03-31T00:00:00');
-  const sprintDay = Math.min(Math.max(Math.floor((now - START) / 86400000) + 1, 1), 14);
-  document.getElementById('dbSprintPill').textContent = 'Sprint Day ' + sprintDay + ' / 14';
-
-  if (isReturning) {
-    // DAILY LOGIN
-    document.getElementById('dbGreeting').textContent = 'שלום בחזרה, Nadav';
-    document.getElementById('dbCta').textContent = 'שאל את הצוות';
-    document.getElementById('dbCta').classList.add('db-cta-daily');
-
-    // Pull updates from localStorage first, fallback to static
-    const updates = buildUpdatesFromMemory();
-    const updateEl = document.getElementById('dbUpdates');
-    updateEl.innerHTML = updates.map(u =>
-      `<div class="db-update-row">
-        <div class="db-av" style="background:${u.color}">${u.icon}</div>
-        <div class="db-update-text">${u.text}</div>
-      </div>`
-    ).join('');
-  } else {
-    // FIRST LOGIN
-    document.getElementById('dbGreeting').textContent = 'ברוך הבא, Nadav';
-    document.getElementById('dbUpdates').innerHTML =
-      `<div class="db-update-row">
-        <div class="db-av" style="background:var(--coral)">S</div>
-        <div class="db-update-text"><strong>Steve:</strong> הצוות שלך מוכן. 9 קצינים, כל אחד בתחומו — לחץ על כרטיס כדי להתחיל שיחה.</div>
-      </div>`;
-    // Run first-login tour after 800ms
-    setTimeout(runFirstLoginTour, 800);
-  }
-}
-
-function buildUpdatesFromMemory() {
-  const keys = Object.keys(localStorage).filter(k => k.startsWith('hypeshow_memory_'));
-  const recent = {};
-  keys.forEach(k => {
-    try {
-      const d = JSON.parse(localStorage.getItem(k));
-      if (d && d.officerId && !recent[d.officerId]) recent[d.officerId] = d;
-    } catch(e) {}
-  });
-  const updates = [];
-  Object.entries(recent).slice(0, 3).forEach(([id, data]) => {
-    const o = officers[id];
-    if (!o) return;
-    const snippet = data.summary
-      ? data.summary.slice(0, 80) + (data.summary.length > 80 ? '…' : '')
-      : 'פעיל היום — לחץ לפתיחת השיחה';
-    updates.push({ color: o.hex, icon: o.name[0], text: `<strong>${o.name}:</strong> ${snippet}` });
-  });
-  if (!updates.length) return OFFICER_UPDATES;
-  return updates;
-}
-
-function handleDbCta() {
-  localStorage.setItem('hypeshow_returning_user', '1');
-  const isReturning = document.getElementById('dbCta').classList.contains('db-cta-daily');
-  if (isReturning) {
-    openPanel('steve');
-  } else {
-    localStorage.setItem('hypeshow_returning_user', '1');
-    runFirstLoginTour();
-  }
-}
-
-function toggleDailyBriefing() {
-  const db = document.getElementById('dailyBriefing');
-  const today = new Date().toISOString().split('T')[0];
-  const key = 'dbCollapsed-' + today;
-
-  if (db.classList.contains('collapsed')) {
-    db.classList.remove('collapsed');
-    localStorage.removeItem(key);
-  } else {
-    db.classList.add('collapsed');
-    localStorage.setItem(key, '1');
-  }
-}
-
-function loadDailyBriefingState() {
-  const db = document.getElementById('dailyBriefing');
-  if (!db) return;
-
-  const today = new Date().toISOString().split('T')[0];
-  const key = 'dbCollapsed-' + today;
-  const isCollapsed = localStorage.getItem(key);
-
-  if (isCollapsed) {
-    db.classList.add('collapsed');
-  } else {
-    db.classList.remove('collapsed');
-  }
-}
-
-function runFirstLoginTour() {
-  localStorage.setItem('hypeshow_returning_user', '1');
-  // Refresh briefing to daily mode
-  const cta = document.getElementById('dbCta');
-  if (cta) { cta.textContent = 'שאל את הצוות'; cta.classList.add('db-cta-daily'); }
-  document.getElementById('dbGreeting').textContent = 'שלום בחזרה, Nadav';
-  // Pulse-highlight officer cards in sequence
-  const ids = ['steve','yaniv','oded','daniel','inbar','yarden','yiftach','ayelet','mia'];
-  ids.forEach((id, i) => {
-    setTimeout(() => {
-      const card = document.querySelector(`[onclick*="openPanel('${id}')"]`);
-      if (card) card.classList.add('tour-highlight');
-      setTimeout(() => { if (card) card.classList.remove('tour-highlight'); }, 1800);
-    }, i * 220);
-  });
-}
-
-/* ── OFFICER CARDS: ACTIVE STATE FROM LOCALSTORAGE ── */
-function markActiveOfficers() {
-  const keys = Object.keys(localStorage).filter(k => k.startsWith('hypeshow_memory_'));
-  const today = new Date().toISOString().split('T')[0];
-  const activeToday = new Set();
-  keys.forEach(k => {
-    if (k.includes(today)) {
-      try {
-        const d = JSON.parse(localStorage.getItem(k));
-        if (d && d.officerId) activeToday.add(d.officerId);
-      } catch(e) {}
-    }
-  });
-  activeToday.forEach(id => {
-    const card = document.querySelector(`[onclick*="openPanel('${id}')"]`);
-    if (!card) return;
-    card.classList.add('has-convo');
-    let tag = card.querySelector('.card-active-tag');
-    if (!tag) {
-      tag = document.createElement('div');
-      tag.className = 'card-active-tag';
-      const taskEl = card.querySelector('.card-task');
-      if (taskEl) taskEl.after(tag);
-    }
-    tag.textContent = 'פעיל היום';
-  });
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-  initDailyBriefing();
-  loadDailyBriefingState();
-  markActiveOfficers();
-  _initGreeting();
-  initAuth();
-  // Wait for auth to complete before loading profile data
-  setTimeout(async () => {
-    await _loadProfileIntoPanel(); // Init mobile profile panel on load
-    await _loadDesktopProfileData(); // Init desktop profile menu on load
-  }, 500);
-});
-
-/* ── DYNAMIC TIME-BASED GREETING ── */
-function _initGreeting() {
-  const h = new Date().getHours();
-  const greet = h < 12 ? 'בוקר טוב' : h < 17 ? 'צהריים טובים' : 'ערב טוב';
-  const el = document.querySelector('.topbar-greeting');
-  if (el) {
-    const span = el.querySelector('span');
-    const svg = el.querySelector('svg');
-    el.innerHTML = '';
-    el.appendChild(document.createTextNode(greet + ', '));
-    if (span) el.appendChild(span); else { const s = document.createElement('span'); s.textContent = 'Nadav'; el.appendChild(s); }
-    if (svg) el.appendChild(svg);
-  }
-}
-
-/* ── REAL SEARCH ── */
-let _searchTimer = null;
-function runSearch(q) {
-  clearTimeout(_searchTimer);
-  const results = document.getElementById('searchResults');
-  if (!q.trim()) { results.style.display = 'none'; return; }
-  _searchTimer = setTimeout(() => _doSearch(q.trim().toLowerCase()), 180);
-}
-
-function _doSearch(q) {
-  const results = document.getElementById('searchResults');
-  const hits = [];
-
-  // Officers
-  Object.entries(officers).forEach(([id, o]) => {
-    if ((o.name + o.role + o.task).toLowerCase().includes(q)) {
-      hits.push({ type:'officer', id, label: o.name, sub: o.role, color: o.hex, icon: o.name[0] });
-    }
-  });
-
-  // Saved conversations
-  Object.keys(localStorage).filter(k => k.startsWith('hypeshow_memory_')).forEach(k => {
-    try {
-      const d = JSON.parse(localStorage.getItem(k));
-      if (!d) return;
-      const text = (d.summary || '') + (d.history || []).map(m => m.content).join(' ');
-      if (text.toLowerCase().includes(q)) {
-        const o = officers[d.officerId];
-        if (o) hits.push({ type:'convo', id: d.officerId, label: 'שיחה עם ' + o.name, sub: d.date + ' · ' + (d.summary || '').slice(0,60), color: o.hex, icon: o.name[0] });
-      }
-    } catch(e) {}
-  });
-
-  // Learning history entries
-  document.querySelectorAll('.hx-q,.hx-a').forEach(el => {
-    if (el.textContent.toLowerCase().includes(q)) {
-      const entry = el.closest('.hx-entry');
-      const qEl = entry?.querySelector('.hx-q');
-      if (qEl && !hits.find(h => h.label === qEl.textContent)) {
-        hits.push({ type:'learn', label: qEl.textContent, sub: 'Learning History', color:'#6e6e73', icon:'?', action: () => { toggleSearch(); toggleHistory(); } });
-      }
-    }
-  });
-
-  results.style.display = 'block';
-  if (!hits.length) { results.innerHTML = `<div class="sr-empty">אין תוצאות עבור "${q}"</div>`; return; }
-
-  const groups = { officer: 'קצינים', convo: 'שיחות', learn: 'Learning History' };
-  let html = '';
-  ['officer','convo','learn'].forEach(type => {
-    const group = hits.filter(h => h.type === type);
-    if (!group.length) return;
-    html += `<div class="sr-section">${groups[type]}</div>`;
-    group.slice(0,4).forEach((h, i) => {
-      html += `<div class="sr-item" onclick="_srClick(${i + hits.indexOf(h)})">
-        <div class="sr-av" style="background:${h.color}">${h.icon}</div>
-        <div><div class="sr-label">${h.label}</div><div class="sr-sub">${h.sub}</div></div>
-      </div>`;
-    });
-  });
-  results.innerHTML = html;
-  results._hits = hits;
-}
-
-function _srClick(idx) {
-  const results = document.getElementById('searchResults');
-  const hit = results._hits?.[idx];
-  if (!hit) return;
-  results.style.display = 'none';
-  toggleSearch();
-  if (hit.action) { hit.action(); return; }
-  if (hit.type === 'officer' || hit.type === 'convo') openPanel(hit.id);
-}
-
-document.addEventListener('click', e => {
-  const results = document.getElementById('searchResults');
-  const bar = document.getElementById('searchBar');
-  if (results && results.style.display !== 'none' && !results.contains(e.target) && !bar?.contains(e.target)) {
-    results.style.display = 'none';
-  }
-});
 </script>
 
 <!-- LEGAL FOOTER -->

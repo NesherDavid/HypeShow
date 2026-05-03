@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprint Strip v2 — Full Width</title>
+    <style>
+        :root {
+            --coral: #e8623a;
+            --coral-light: #fef0eb;
+            --coral-mid: #f0855e;
+            --bg: #faf8f5;
+            --card: #ffffff;
+            --text: #1c1c1e;
+            --muted: #999;
+            --border: rgba(0,0,0,0.07);
+            --green: #2d9b61;
+            --green-bg: #f0faf5;
+            --green-border: #c3e8d5;
+            --gray-progress: #999;
+            --gray-bg: #f5f5f7;
+            --gray-border: #d1d1d6;
+            --red-missed: #ff3b30;
+            --red-bg: #fff5f5;
+            --red-border: #ffd4c4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ── SPRINT BAR (ONE ROW) ── */
+        .sprint-bar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px 24px 28px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.04);
+        }
+
+        /* LEFT: Header */
+        .sprint-header {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .sprint-lbl {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .sprint-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* MIDDLE: Progress bar + dots */
+        .sprint-track-container {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .sprint-track {
+            position: relative;
+            height: 6px;
+            background: #f0ebe4;
+            border-radius: 3px;
+            overflow: visible;
+        }
+
+        .sprint-fill {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--coral), var(--coral-mid));
+            border-radius: 3px;
+            position: relative;
+        }
+
+        /* ── DOT MARKERS ── */
+        .sprint-dot {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+            color: #fff;
+            transition: all 0.2s;
+            border: 2px solid var(--card);
+            box-shadow: 0 2px 6px rgba(0,0,0,.15);
+            user-select: none;
+        }
+
+        .sprint-dot:hover {
+            transform: translateY(-50%) scale(1.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,.25);
+        }
+
+        /* Dot status colors */
+        .sprint-dot.done        { background: var(--green); }
+        .sprint-dot.in-progress { background: var(--gray-progress); }
+        .sprint-dot.missed      { background: var(--red-missed); }
+        /* upcoming = ring style: white center + coral border → "open slot, next up" */
+        .sprint-dot.upcoming    { background: #fff; border-color: var(--coral); border-width: 2.5px; }
+
+        /* ── ALWAYS-VISIBLE LABEL ── */
+        .dot-name {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 7px;
+            font-weight: 600;
+            white-space: nowrap;
+            color: var(--muted);
+            pointer-events: none;
+            letter-spacing: .01em;
+            transition: font-size 0.15s, color 0.15s;
+        }
+
+        .sprint-dot:hover .dot-name {
+            font-size: 10px;
+            color: var(--text);
+        }
+
+        /* ── BUBBLE TOOLTIP (styled like pills, hover only) ── */
+        .dot-bubble {
+            position: absolute;
+            bottom: calc(100% + 14px);
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.4;
+            white-space: normal;
+            width: 150px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 10;
+            border: 1px solid;
+        }
+
+        /* Arrow below bubble */
+        .dot-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+        }
+
+        /* Bubble colors by status (pill-styled) */
+        .sprint-dot.done .dot-bubble {
+            background: var(--green-bg);
+            color: var(--green);
+            border-color: var(--green-border);
+        }
+        .sprint-dot.done .dot-bubble::after { border-top-color: var(--green-bg); }
+
+        .sprint-dot.in-progress .dot-bubble {
+            background: var(--gray-bg);
+            color: var(--gray-progress);
+            border-color: var(--gray-border);
+        }
+        .sprint-dot.in-progress .dot-bubble::after { border-top-color: var(--gray-bg); }
+
+        .sprint-dot.missed .dot-bubble {
+            background: #fff5f5;
+            color: var(--red-missed);
+            border-color: rgba(255,59,48,0.3);
+        }
+        .sprint-dot.missed .dot-bubble::after { border-top-color: #fff5f5; }
+
+        .sprint-dot.upcoming .dot-bubble {
+            background: var(--coral-light);
+            color: var(--coral);
+            border-color: rgba(232,98,58,0.3);
+        }
+        .sprint-dot.upcoming .dot-bubble::after { border-top-color: var(--coral-light); }
+
+        /* Show bubble on hover */
+        .sprint-dot:hover .dot-bubble { opacity: 1; }
+
+        /* Day label inside bubble */
+        .day-label { font-weight: 700; margin-top: 4px; }
+
+        /* RIGHT: Day counter + Button */
+        .sprint-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            padding-left: 32px;
+        }
+
+        .sprint-days {
+            font-size: 12px;
+            color: var(--coral);
+            font-weight: 600;
+        }
+
+        .sprint-log-btn {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            border-radius: 8px;
+            border: none;
+            background: var(--coral);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: 'DM Sans', sans-serif;
+            box-shadow: 0 2px 8px rgba(232,98,58,.25);
+        }
+
+        .sprint-log-btn:hover {
+            background: var(--coral-mid);
+            box-shadow: 0 4px 14px rgba(232,98,58,.35);
+            transform: translateY(-1px);
+        }
+
+        .sprint-log-btn svg {
+            flex-shrink: 0;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .sprint-bar {
+                gap: 16px;
+                padding: 12px 20px;
+            }
+
+            .sprint-dot {
+                width: 14px;
+                height: 14px;
+            }
+
+            .dot-bubble {
+                width: 140px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sprint-bar {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .sprint-track-container {
+                flex-basis: 100%;
+            }
+
+            .sprint-right {
+                flex-basis: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sprint-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 12px 16px;
+            }
+
+            .sprint-dot {
+                width: 12px;
+                height: 12px;
+            }
+
+            .dot-bubble {
+                width: 130px;
+                font-size: 10px;
+            }
+
+            .sprint-log-btn {
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+        }
+
+        /* ── DEMO INFO ── */
+        .info {
+            margin-top: 32px;
+            padding: 16px;
+            background: var(--green-bg);
+            border: 1px solid var(--green-border);
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--green);
+            line-height: 1.6;
+        }
+
+        .info strong { color: var(--green); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- SPRINT BAR: Full width, one row -->
+        <div class="sprint-bar">
+            <!-- LEFT: Header -->
+            <div class="sprint-header">
+                <div class="sprint-lbl">Active Sprint</div>
+                <div class="sprint-name">MVP Foundation</div>
+            </div>
+
+            <!-- MIDDLE: Progress bar with dots -->
+            <div class="sprint-track-container">
+                <div class="sprint-track">
+                    <!-- Fill = Day 9 out of 14 = 64% -->
+                    <div class="sprint-fill" style="width: 64%;"></div>
+
+                    <!-- All dots positioned relative to full track (14 days = 100%) -->
+
+                    <!-- Done: Tech Stack — Day 3/14 = 21% -->
+                    <div class="sprint-dot done" style="left: 21%;">
+                        <span class="dot-name">Tech Stack</span>
+                        <div class="dot-bubble">
+                            API, DB, hosting finalized.
+                            <div class="day-label">Day 3</div>
+                        </div>
+                    </div>
+
+                    <!-- Done: User Journey — Day 6/14 = 43% -->
+                    <div class="sprint-dot done" style="left: 43%;">
+                        <span class="dot-name">User Journey</span>
+                        <div class="dot-bubble">
+                            Onboarding + Day 1 finalized.
+                            <div class="day-label">Day 6</div>
+                        </div>
+                    </div>
+
+                    <!-- Missed: Threat Model — slightly past fill edge -->
+                    <div class="sprint-dot missed" style="left: 67%;">
+                        <span class="dot-name">Threat Model</span>
+                        <div class="dot-bubble">
+                            Security review not completed.
+                            <div class="day-label">Day 9</div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming (coral-light): next task — Seniority Model -->
+                    <div class="sprint-dot upcoming" style="left: 79%;">
+                        <span class="dot-name">Seniority Model</span>
+                        <div class="dot-bubble">
+                            Visual hierarchy for tiers.
+                            <div class="day-label">Day 11</div>
+                        </div>
+                    </div>
+
+                    <!-- Future (gray): API Spec — Day 12/14 = 86% -->
+                    <div class="sprint-dot in-progress" style="left: 86%;">
+                        <span class="dot-name">API Spec</span>
+                        <div class="dot-bubble">
+                            REST endpoints for founder sync.
+                            <div class="day-label">Day 12</div>
+                        </div>
+                    </div>
+
+                    <!-- Future (gray): UI Polish — Day 14/14 = 100% -->
+                    <div class="sprint-dot in-progress" style="left: 99%;">
+                        <span class="dot-name">UI Polish</span>
+                        <div class="dot-bubble">
+                            Final UI refinements before beta.
+                            <div class="day-label">Day 14</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Day counter + Button -->
+            <div class="sprint-right">
+                <div class="sprint-days">Day 9 / 14</div>
+                <button class="sprint-log-btn">
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                        <rect x="1" y="2" width="11" height="10" rx="1.5" stroke="white" stroke-width="1.4"/>
+                        <path d="M4 1v2M9 1v2" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+                        <path d="M3.5 6h6M3.5 8.5h4" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                    Sprint Log
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

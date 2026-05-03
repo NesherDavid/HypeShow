@@ -12,6 +12,12 @@
       "runtimeExecutable": "node",
       "runtimeArgs": ["landing-server.js"],
       "port": 3457
+    },
+    {
+      "name": "dashboard-preview",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", ".", "-p", "3458", "--no-clipboard"],
+      "port": 3458
     }
   ]
 }
