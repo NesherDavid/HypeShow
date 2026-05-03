@@ -32,7 +32,7 @@ body.dark {
 body.dark .ring-bg { stroke:#2a2a30; }
 body.dark .topbar { background:rgba(15,15,17,.94); }
 body.dark .panel-input { background:#2a2a30; color:var(--text); }
-body.dark .chat-msg:not(.user) .chat-bubble { background:#2a2a30; }
+body.dark .chat-msg:not(.user) .chat-bubble { background:#2a2a30; color:var(--text); }
 /* settings-panel is always dark — no dark override needed */
 body.dark .sprint-bar { background:var(--card); box-shadow:none; }
 body.dark .sprint-track { background:#2a2a30; }
@@ -3037,7 +3037,7 @@ async function sendMsg() {
     const typingId = 'typing-' + Date.now();
     area.innerHTML += `<div class="chat-msg" id="${typingId}">
       <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
-      <div><div class="chat-name">${o.name}</div><div class="chat-bubble" style="color:var(--muted)">
+      <div><div class="chat-name">${o.name}</div><div class="chat-bubble">
         <span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>
       </div></div>
     </div>`;
