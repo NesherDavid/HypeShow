@@ -3100,9 +3100,13 @@ function renderChat() {
     const isUser = m.f==='Nadav';
     const col = isUser ? nadav.hex : o.hex;
     const init = m.f[0];
-    area.innerHTML += `<div class="chat-msg ${isUser?'user':''}">
-      <div class="chat-av" style="background:${col}">${init}</div>
-      <div><div class="chat-name">${m.f}</div><div class="chat-bubble">${m.t}</div></div>
+    const label = isUser ? 'Nadav (You)' : (o ? o.name + ' · ' + o.role : m.f);
+    area.innerHTML += `<div class="comic-msg ${isUser ? 'is-user' : ''}" data-speaker="${isUser ? 'nadav' : currentOfficer}">
+      <div class="comic-speaker-row">
+        <div class="comic-av-sm" style="background:${col}">${init}</div>
+        <div class="comic-name-sm">${label}</div>
+      </div>
+      <div class="comic-bubble">${m.t}</div>
     </div>`;
   });
   setTimeout(()=>{ area.scrollTop=area.scrollHeight; },50);
@@ -3137,19 +3141,25 @@ async function sendMsg() {
     const area = document.getElementById('chatArea');
     const o = officers[currentOfficer];
 
-    // Add user message
-    area.innerHTML += `<div class="chat-msg user">
-      <div class="chat-av" style="background:${nadav.hex}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="5" r="1"></circle><path d="m9 20 3-6 3 6"></path><path d="m6 8 6 2 6-2"></path><path d="M12 10v4"></path></svg></div>
-      <div><div class="chat-name">Nadav</div><div class="chat-bubble">${val}</div></div>
+    // Add user message (comic-style)
+    area.innerHTML += `<div class="comic-msg is-user" data-speaker="nadav">
+      <div class="comic-speaker-row">
+        <div class="comic-av-sm" style="background:${nadav.hex}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="5" r="1"></circle><path d="m9 20 3-6 3 6"></path><path d="m6 8 6 2 6-2"></path><path d="M12 10v4"></path></svg></div>
+        <div class="comic-name-sm">Nadav (You)</div>
+      </div>
+      <div class="comic-bubble">${val}</div>
     </div>`;
 
-    // Typing indicator
+    // Typing indicator (comic-style)
     const typingId = 'typing-' + Date.now();
-    area.innerHTML += `<div class="chat-msg" id="${typingId}">
-      <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
-      <div><div class="chat-name">${o.name}</div><div class="chat-bubble">
+    area.innerHTML += `<div class="comic-msg" id="${typingId}" data-speaker="${currentOfficer}">
+      <div class="comic-speaker-row">
+        <div class="comic-av-sm" style="background:${o.hex}">${o.name[0]}</div>
+        <div class="comic-name-sm">${o.name} · ${o.role}</div>
+      </div>
+      <div class="comic-bubble">
         <span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>
-      </div></div>
+      </div>
     </div>`;
     setTimeout(() => { area.scrollTop = area.scrollHeight; }, 80);
 
@@ -3171,17 +3181,23 @@ async function sendMsg() {
       chatHistory.push({ role: 'assistant', content: reply });
 
       document.getElementById(typingId)?.remove();
-      area.innerHTML += `<div class="chat-msg">
-        <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
-        <div><div class="chat-name">${o.name}</div><div class="chat-bubble">${reply}</div></div>
+      area.innerHTML += `<div class="comic-msg" data-speaker="${currentOfficer}">
+        <div class="comic-speaker-row">
+          <div class="comic-av-sm" style="background:${o.hex}">${o.name[0]}</div>
+          <div class="comic-name-sm">${o.name} · ${o.role}</div>
+        </div>
+        <div class="comic-bubble">${reply}</div>
       </div>`;
     } catch {
       const reply = getMockReply(currentOfficer);
       chatHistory.push({ role: 'assistant', content: reply });
       document.getElementById(typingId)?.remove();
-      area.innerHTML += `<div class="chat-msg">
-        <div class="chat-av" style="background:${o.color}">${o.name[0]}</div>
-        <div><div class="chat-name">${o.name}</div><div class="chat-bubble">${reply}</div></div>
+      area.innerHTML += `<div class="comic-msg" data-speaker="${currentOfficer}">
+        <div class="comic-speaker-row">
+          <div class="comic-av-sm" style="background:${o.hex}">${o.name[0]}</div>
+          <div class="comic-name-sm">${o.name} · ${o.role}</div>
+        </div>
+        <div class="comic-bubble">${reply}</div>
       </div>`;
     }
     setTimeout(() => { area.scrollTop = area.scrollHeight; }, 80);
