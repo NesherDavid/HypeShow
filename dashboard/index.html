@@ -1658,16 +1658,13 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
       <div onclick="toggleArchive()" style="cursor:pointer;font-size:22px;color:#fff;opacity:.5;transition:opacity .15s" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=.5" bis_skin_checked="1">✕</div>
     </div>
 
-    <!-- Open folder button -->
-    <div onclick="fetch(&#39;/open-folder&#39;).catch(()=&gt;{})" style="display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);cursor:pointer;margin-bottom:24px;transition:background .15s" onmouseenter="this.style.background=&#39;rgba(255,255,255,.1)&#39;" onmouseleave="this.style.background=&#39;rgba(255,255,255,.06)&#39;" bis_skin_checked="1">
-      <span style="font-size:18px">🗂️</span>
-      <div bis_skin_checked="1">
-        <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,.85)" bis_skin_checked="1">פתח תיקיית הפרויקט</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.35)" bis_skin_checked="1">/Users/nesher/Desktop/HypeShow</div>
-      </div>
+    <!-- TEAM / CUSTOM tabs -->
+    <div style="display:flex;gap:8px;margin-bottom:20px">
+      <button id="archTabTeam" onclick="switchArchiveTab('team')" style="flex:1;padding:9px 0;border-radius:10px;border:none;background:rgba(232,98,58,.9);color:#fff;font-size:13px;font-weight:700;cursor:pointer">Team</button>
+      <button id="archTabCustom" onclick="switchArchiveTab('custom')" style="flex:1;padding:9px 0;border-radius:10px;border:none;background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-size:13px;font-weight:600;cursor:pointer">Custom</button>
     </div>
 
-    <div id="archiveList" bis_skin_checked="1"></div>
+    <div id="archiveList"></div>
   </div>
 </div>
 
@@ -2431,6 +2428,14 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
     <button class="mode-btn" id="btnCustom" onclick="setMode('custom')" title="Custom"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><path d="M5 3a2 2 0 0 0-2 2"></path><path d="M19 3a2 2 0 0 1 2 2"></path><path d="M21 19a2 2 0 0 1-2 2"></path><path d="M5 21a2 2 0 0 1-2-2"></path><path d="M9 3h1"></path><path d="M9 21h1"></path><path d="M14 3h1"></path><path d="M14 21h1"></path><path d="M3 9v1"></path><path d="M21 9v1"></path><path d="M3 14v1"></path><path d="M21 14v1"></path></svg> Custom</button>
   </div>
 
+  <!-- Topic prompt overlay (spontaneous meeting) -->
+  <div id="meetingTopicPrompt" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:10;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;border-radius:inherit">
+    <div style="font-size:15px;font-weight:700;color:#fff;text-align:center">מה נושא הישיבה?</div>
+    <input id="meetingTopicInput" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-size:14px;text-align:center" placeholder="הקלד את נושא הישיבה..." dir="auto" onkeydown="if(event.key==='Enter')confirmMeetingTopic()">
+    <button onclick="confirmMeetingTopic()" style="width:100%;padding:11px 0;border-radius:10px;border:none;background:#4a9e6b;color:#fff;font-size:14px;font-weight:700;cursor:pointer">התחל ישיבה</button>
+    <button onclick="document.getElementById('meetingTopicPrompt').style.display='none'" style="background:none;border:none;color:rgba(255,255,255,.4);font-size:12px;cursor:pointer">ביטול</button>
+  </div>
+
   <div id="meetingArea" class="meeting-area">
     <div class="meeting-bar" id="meetingBar"></div>
     <div id="meetingMsgs"></div>
@@ -2959,35 +2964,46 @@ function _syncSetStatus(state) {
 function _loadHistoryIntoPanel(officerId) {
   const keys = Object.keys(localStorage)
     .filter(k => k.startsWith('hypeshow_memory_' + officerId + '_'))
-    .sort().slice(-1);
+    .sort(); // all sessions, oldest first
   if (!keys.length) return;
-  try {
-    const data = JSON.parse(localStorage.getItem(keys[0]));
-    if (!data || !data.history || data.history.length < 2) return;
-    const recent = data.history.slice(-6);
-    chatHistory = recent.slice();
-    // Render history messages with dimmed style after renderChat runs
-    setTimeout(() => {
-      const area = document.getElementById('chatArea');
-      const o = officers[officerId];
-      if (!area || !o) return;
-      const divider = `<div style="text-align:center;font-size:10px;color:var(--muted);padding:4px 0 8px;opacity:.6">— שיחה קודמת —</div>`;
-      let histHtml = divider;
-      recent.forEach(m => {
-        const isUser = m.role === 'user';
-        const col = isUser ? nadav.hex : o.hex;
-        const init = isUser ? 'N' : o.name[0];
-        const name = isUser ? 'Nadav' : o.name;
-        histHtml += `<div class="chat-msg${isUser?' user':''}" style="opacity:.55">
-          <div class="chat-av" style="background:${col}">${init}</div>
-          <div><div class="chat-name">${name}</div><div class="chat-bubble">${m.content}</div></div>
-        </div>`;
-      });
-      histHtml += `<div style="text-align:center;font-size:10px;color:var(--muted);padding:4px 0 8px;opacity:.6">— שיחה חדשה —</div>`;
-      area.innerHTML = histHtml;
-      area.scrollTop = area.scrollHeight;
-    }, 60);
-  } catch(e) {}
+
+  setTimeout(() => {
+    const area = document.getElementById('chatArea');
+    const o = officers[officerId];
+    if (!area || !o) return;
+
+    let histHtml = '';
+    let lastHistory = [];
+
+    keys.forEach((key, idx) => {
+      try {
+        const data = JSON.parse(localStorage.getItem(key));
+        if (!data || !data.history || data.history.length < 2) return;
+        const dateLabel = data.date || key.split('_')[3] || '';
+        histHtml += `<div style="text-align:center;font-size:10px;color:var(--muted);padding:6px 0 4px;opacity:.5">— שיחה ${dateLabel} —</div>`;
+        if (data.summary) {
+          histHtml += `<div style="margin:4px 12px 8px;padding:8px 12px;border-radius:10px;background:rgba(232,98,58,.08);border:1px solid rgba(232,98,58,.15);font-size:11.5px;color:var(--muted);line-height:1.5">${data.summary}</div>`;
+        } else {
+          data.history.forEach(m => {
+            const isUser = m.role === 'user';
+            const col = isUser ? nadav.hex : o.hex;
+            const init = isUser ? 'N' : o.name[0];
+            const name = isUser ? 'Nadav' : o.name;
+            histHtml += `<div class="chat-msg${isUser?' user':''}" style="opacity:.5">
+              <div class="chat-av" style="background:${col}">${init}</div>
+              <div><div class="chat-name">${name}</div><div class="chat-bubble">${m.content}</div></div>
+            </div>`;
+          });
+        }
+        if (idx === keys.length - 1) lastHistory = data.history.slice(-6);
+      } catch {}
+    });
+
+    histHtml += `<div style="text-align:center;font-size:10px;color:var(--muted);padding:6px 0 8px;opacity:.5">— שיחה חדשה —</div>`;
+    area.innerHTML = histHtml;
+    chatHistory = lastHistory.slice();
+    area.scrollTop = area.scrollHeight;
+  }, 60);
 }
 
 /* ── MODE SWITCH ── */
@@ -3034,14 +3050,20 @@ function setMode(mode) {
 function openMeetingRoom() {
   document.getElementById('meetingRoomOverlay').classList.add('open');
   document.getElementById('meetingRoom').classList.add('open');
+  meetingState = 'idle';
+  meetingTopic = '';
   setMode('meeting');
-  if (typeof startMeeting === 'function') startMeeting();
 }
 
-function closeMeetingRoom() {
+async function closeMeetingRoom() {
+  if (meetingState === 'active' && meetingHistory.length > 1) {
+    await saveMeetingSummary();
+  }
   document.getElementById('meetingRoomOverlay').classList.remove('open');
   document.getElementById('meetingRoom').classList.remove('open');
-  if (typeof meetingState !== 'undefined') meetingState = 'idle';
+  meetingState = 'idle';
+  meetingTopic = '';
+  meetingHistory = [];
 }
 
 /* ── SEND MEETING MESSAGE (TEAM / CUSTOM) ── */
@@ -3210,52 +3232,6 @@ async function sendMsg() {
       </div>`;
     }
     setTimeout(() => { area.scrollTop = area.scrollHeight; }, 80);
-
-  } else if (currentMode === 'meeting' || currentMode === 'custom') {
-    appendMeetingMsg('nadav', val, true);
-    meetingHistory.push({ role: 'user', content: val });
-
-    const typingId = 'typing-' + Date.now();
-    const msgs = document.getElementById('meetingMsgs');
-    msgs.innerHTML += `<div class="comic-msg" id="${typingId}">
-      <div class="comic-speaker-row"><div class="comic-av-sm" style="background:#e8623a">S</div>
-      <div class="comic-name-sm">Steve · CEO</div></div>
-      <div class="comic-bubble" style="color:var(--muted)"><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span></div>
-    </div>`;
-
-    const ma = document.getElementById('meetingArea');
-    ma.scrollTop = ma.scrollHeight;
-
-    const mode = currentMode === 'custom' ? 'custom' : 'meeting';
-    const participants = currentMode === 'custom' ? [...selectedOfficers] : meetingParticipants;
-
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: val, officerId: 'steve', history: meetingHistory.slice(-12), mode, participants })
-      });
-      document.getElementById(typingId)?.remove();
-      let replyText = '';
-      if (res.ok) {
-        const data = await res.json();
-        replyText = data.reply || '';
-      }
-      if (!replyText) { replyText = 'Steve: ' + getMockReply('steve'); }
-
-      const parsed = parseMeetingReply(replyText);
-      parsed.forEach(p => {
-        appendMeetingMsg(p.id, p.text, false);
-        meetingHistory.push({ role: 'assistant', content: `${officers[p.id]?.name || p.id}: ${p.text}` });
-      });
-    } catch {
-      document.getElementById(typingId)?.remove();
-      const fallback = getMockReply('steve');
-      appendMeetingMsg('steve', fallback, false);
-      meetingHistory.push({ role: 'assistant', content: `Steve: ${fallback}` });
-    }
-
-    ma.scrollTop = ma.scrollHeight;
   }
 
   input.disabled = false;
@@ -3354,111 +3330,159 @@ function setFood(name, el) {
 
 /* ── START / END MEETING ── */
 let meetingState = 'idle';
+let meetingTopic = '';
 let _meetingTimers = [];
+let _currentMeetingMode = 'team'; // 'team' or 'custom'
 
-async function startMeeting() {
-  if (['active','summarizing','done'].includes(meetingState)) return;
-  const inner = document.getElementById('meetingCtaInner');
-  const label = document.getElementById('meetingCtaLabel');
-  const endLink = document.getElementById('meetingEndLink');
-  const cta = document.getElementById('meetingCTA');
+function _doStartMeeting(topic, participants, mode) {
   const teamBtn = document.getElementById('teamInviteBtn');
+  const customBtn = document.getElementById('customInviteBtn');
+  const topicPrompt = document.getElementById('meetingTopicPrompt');
+
+  if (topicPrompt) topicPrompt.style.display = 'none';
+  meetingTopic = topic;
+  _currentMeetingMode = mode;
+
+  // Update panel title with topic
+  if (topic) {
+    const nameEl = document.querySelector('#meetingRoom .panel-name');
+    if (nameEl) nameEl.textContent = topic;
+  }
 
   meetingState = 'starting';
   if (teamBtn) { teamBtn.textContent = 'מזמין צוות...'; teamBtn.disabled = true; teamBtn.style.opacity = '0.6'; }
-  if (inner) inner.className = 'meeting-cta-inner state-starting';
-  if (label) label.textContent = 'מזמין צוות...';
-  if (endLink) endLink.classList.remove('visible');
+  if (customBtn) { customBtn.textContent = 'מזמין...'; customBtn.disabled = true; customBtn.style.opacity = '0.6'; }
 
-  // Steve opens the meeting live via Gemini
-  await new Promise(r => setTimeout(r, 1200));
+  setTimeout(async () => {
+    meetingState = 'active';
+    if (teamBtn) { teamBtn.textContent = 'ישיבה פעילה'; teamBtn.style.background = '#e03322'; teamBtn.style.opacity = '1'; }
+    if (customBtn) { customBtn.textContent = 'ישיבה פעילה'; customBtn.style.background = '#e03322'; customBtn.style.opacity = '1'; }
 
-  meetingState = 'active';
-  if (teamBtn) { teamBtn.textContent = 'ישיבה פעילה'; teamBtn.style.background = '#e03322'; teamBtn.style.opacity = '1'; }
-  if (inner) inner.className = 'meeting-cta-inner state-active';
-  if (label) label.textContent = 'ישיבה פעילה';
-  if (endLink) endLink.classList.add('visible');
-  if (cta) cta.style.marginBottom = '8px';
+    const endLink = document.getElementById('meetingEndLink');
+    if (endLink) endLink.classList.add('visible');
 
-  // Typing indicator for Steve
-  const msgs = document.getElementById('meetingMsgs');
-  const typingId = 'mt-' + Date.now();
-  msgs.innerHTML += `<div class="comic-msg" id="${typingId}">
-    <div class="comic-speaker-row">
-      <div class="comic-av-sm" style="background:${officers.steve.hex}">S</div>
-      <div class="comic-name-sm">Steve · CEO</div>
-    </div>
-    <div class="comic-bubble" style="color:var(--muted)"><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span></div>
-  </div>`;
-  document.getElementById('meetingArea').scrollTop = 99999;
+    const msgs = document.getElementById('meetingMsgs');
+    const typingId = 'mt-' + Date.now();
+    if (msgs) msgs.innerHTML += `<div class="comic-msg" id="${typingId}">
+      <div class="comic-speaker-row">
+        <div class="comic-av-sm" style="background:${officers.steve.hex}">S</div>
+        <div class="comic-name-sm">Steve · CEO</div>
+      </div>
+      <div class="comic-bubble" style="color:var(--muted)"><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span></div>
+    </div>`;
+    const ma = document.getElementById('meetingArea');
+    if (ma) ma.scrollTop = 99999;
 
-  try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: 'פתח את הישיבה בברכה קצרה ושאל את Nadav מה בסדר היום',
-        officerId: 'steve', history: [], mode: 'meeting',
-        participants: meetingParticipants
-      })
-    });
-    document.getElementById(typingId)?.remove();
-    let reply = 'Good morning, team. Nadav — what\'s on the agenda today?';
-    if (res.ok) {
-      const data = await res.json();
-      if (data.reply) reply = data.reply;
+    const openMsg = topic
+      ? `פתח את הישיבה בברכה קצרה. נושא הישיבה: ${topic}`
+      : 'פתח את הישיבה בברכה קצרה ושאל את Nadav מה בסדר היום';
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: openMsg, officerId: 'steve', history: [], mode, participants })
+      });
+      document.getElementById(typingId)?.remove();
+      let reply = topic
+        ? `Good morning team. Today we're here to discuss: ${topic}. Let's get started.`
+        : "Good morning, team. Nadav — what's on the agenda today?";
+      if (res.ok) { const data = await res.json(); if (data.reply) reply = data.reply; }
+      const parsed = parseMeetingReply(reply);
+      parsed.forEach(p => {
+        appendMeetingMsg(p.id, p.text, false);
+        meetingHistory.push({ role: 'assistant', content: `${officers[p.id]?.name || p.id}: ${p.text}` });
+      });
+    } catch {
+      document.getElementById(typingId)?.remove();
+      const fallback = topic
+        ? `Good morning team. Today: ${topic}. Let's get started.`
+        : "Good morning. Nadav — what's on the agenda today?";
+      appendMeetingMsg('steve', fallback, false);
+      meetingHistory.push({ role: 'assistant', content: `Steve: ${fallback}` });
     }
-    const parsed = parseMeetingReply(reply);
-    parsed.forEach(p => {
-      appendMeetingMsg(p.id, p.text, false);
-      meetingHistory.push({ role: 'assistant', content: `${officers[p.id]?.name || p.id}: ${p.text}` });
-    });
-  } catch {
-    document.getElementById(typingId)?.remove();
-    appendMeetingMsg('steve', 'Good morning. Nadav — what\'s on the agenda today?', false);
-    meetingHistory.push({ role: 'assistant', content: 'Steve: Good morning. Nadav — what\'s on the agenda today?' });
+    if (ma) ma.scrollTop = ma.scrollHeight;
+  }, 1200);
+}
+
+function requestMeetingStart(mode) {
+  const participants = mode === 'custom' ? [...currentMeetingOfficers] : meetingParticipants;
+  if (mode === 'custom' && participants.length === 0) return;
+  // Spontaneous — ask for topic
+  const prompt = document.getElementById('meetingTopicPrompt');
+  if (prompt) {
+    prompt.style.display = 'flex';
+    const input = document.getElementById('meetingTopicInput');
+    if (input) { input.value = ''; setTimeout(() => input.focus(), 100); }
+    prompt._mode = mode;
+    prompt._participants = participants;
   }
 }
 
-async function endMeeting() {
-  if (meetingState !== 'active') return;
-  const inner = document.getElementById('meetingCtaInner');
-  const label = document.getElementById('meetingCtaLabel');
-  const endLink = document.getElementById('meetingEndLink');
-  const teamBtn = document.getElementById('teamInviteBtn');
-  meetingState = 'summarizing';
-  if (inner) { inner.className = 'meeting-cta-inner state-summarizing'; inner.onclick = null; }
-  if (teamBtn) { teamBtn.textContent = 'Steve מסכם...'; teamBtn.disabled = true; teamBtn.style.background = '#7b3dd5'; }
-  if (label) label.textContent = 'Steve מסכם...';
-  if (endLink) endLink.classList.remove('visible');
+function confirmMeetingTopic() {
+  const prompt = document.getElementById('meetingTopicPrompt');
+  const input = document.getElementById('meetingTopicInput');
+  const topic = input ? input.value.trim() : '';
+  if (!topic) { if (input) input.focus(); return; }
+  const mode = prompt._mode || 'meeting';
+  const participants = prompt._participants || meetingParticipants;
+  _doStartMeeting(topic, participants, mode);
+}
+
+async function saveMeetingSummary() {
+  const dateStr = new Date().toISOString().split('T')[0];
+  const memKey = `hypeshow_meeting_${dateStr}_${Date.now()}`;
+  const participantList = _currentMeetingMode === 'custom'
+    ? [...currentMeetingOfficers].map(id => ({ id, role: officers[id]?.role || id }))
+    : meetingParticipants.map(id => ({ id, role: officers[id]?.role || id }));
 
   let summary = null;
   try {
     const res = await fetch('/api/summary', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ history: meetingHistory, officerName: 'Steve', officerRole: 'CEO', mode: 'meeting', participants: meetingParticipants })
+      body: JSON.stringify({ history: meetingHistory, officerName: 'Steve', officerRole: 'CEO', mode: _currentMeetingMode, participants: participantList.map(p => p.id) })
     });
-    if (res.ok) {
-      const data = await res.json();
-      summary = data.summary;
-    }
+    if (res.ok) { const data = await res.json(); summary = data.summary; }
   } catch {}
 
-  const dateStr = new Date().toISOString().split('T')[0];
-  const memKey = `hypeshow_meeting_${dateStr}_${Date.now()}`;
   localStorage.setItem(memKey, JSON.stringify({
-    date: dateStr, type: 'meeting', mode: 'team',
-    participants: meetingParticipants, history: meetingHistory, summary
+    date: dateStr, type: 'meeting', mode: _currentMeetingMode,
+    topic: meetingTopic,
+    participants: participantList,
+    history: meetingHistory, summary
   }));
+}
+
+function startMeeting() {
+  if (['active','summarizing','done'].includes(meetingState)) return;
+  requestMeetingStart('meeting');
+}
+
+async function endMeeting() {
+  if (meetingState !== 'active') return;
+  const teamBtn = document.getElementById('teamInviteBtn');
+  const customBtn = document.getElementById('customInviteBtn');
+  const endLink = document.getElementById('meetingEndLink');
+  meetingState = 'summarizing';
+  if (teamBtn) { teamBtn.textContent = 'Steve מסכם...'; teamBtn.disabled = true; teamBtn.style.background = '#7b3dd5'; }
+  if (customBtn) { customBtn.textContent = 'Steve מסכם...'; customBtn.disabled = true; customBtn.style.background = '#7b3dd5'; }
+  if (endLink) endLink.classList.remove('visible');
+
+  await saveMeetingSummary();
+
+  const saved = Object.keys(localStorage).filter(k => k.startsWith('hypeshow_meeting_')).sort().slice(-1);
+  let summary = null;
+  if (saved.length) {
+    try { summary = JSON.parse(localStorage.getItem(saved[0]))?.summary; } catch {}
+  }
 
   meetingState = 'done';
-  if (inner) { inner.className = 'meeting-cta-inner state-done'; inner.style.cursor = 'default'; }
-  if (teamBtn) { teamBtn.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה'; teamBtn.style.background = '#2a9d8f'; }
-  if (label) label.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה';
+  if (teamBtn) { teamBtn.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה'; teamBtn.style.background = '#2a9d8f'; teamBtn.disabled = false; }
+  if (customBtn) { customBtn.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה'; customBtn.style.background = '#2a9d8f'; customBtn.disabled = false; }
   if (summary) {
     const msgs = document.getElementById('meetingMsgs');
-    msgs.innerHTML += `<div class="comic-time-divider">סיכום Steve</div>
+    if (msgs) msgs.innerHTML += `<div class="comic-time-divider">סיכום Steve</div>
     <div class="comic-msg" data-speaker="steve">
       <div class="comic-speaker-row">
         <div class="comic-av-sm" style="background:${officers.steve.hex}">S</div>
@@ -3466,7 +3490,8 @@ async function endMeeting() {
       </div>
       <div class="comic-bubble">${summary}</div>
     </div>`;
-    document.getElementById('meetingArea').scrollTop = 99999;
+    const ma = document.getElementById('meetingArea');
+    if (ma) ma.scrollTop = 99999;
   }
 }
 
@@ -3519,7 +3544,7 @@ function startCustomMeeting() {
   const bar = document.getElementById('meetingBar');
 
   if (addMode) {
-    // ADD to existing meeting — no reset
+    // ADD to existing meeting — no reset, no topic prompt
     const names = [...selectedOfficers].map(id => officers[id].name).join(', ');
     [...selectedOfficers].forEach(id => {
       currentMeetingOfficers.add(id);
@@ -3531,42 +3556,43 @@ function startCustomMeeting() {
         </div>`;
       }
     });
-    // Inject "joined" message in chat
     const msgs = document.getElementById('meetingMsgs');
-    msgs.innerHTML += `<div class="comic-time-divider">${names} הצטרפ${selectedOfficers.size > 1 ? 'ו' : ''} לישיבה</div>`;
+    if (msgs) msgs.innerHTML += `<div class="comic-time-divider">${names} הצטרפ${selectedOfficers.size > 1 ? 'ו' : ''} לישיבה</div>`;
     meetingHistory.push({ role: 'assistant', content: `[${names} joined the meeting]` });
-    document.getElementById('meetingArea').scrollTop = 99999;
-  } else {
-    // Fresh custom meeting — reset
-    const msgs = document.getElementById('meetingMsgs');
-    msgs.innerHTML = '';
-    bar.innerHTML = '';
-    currentMeetingOfficers.clear();
-    [...selectedOfficers].forEach(id => {
-      currentMeetingOfficers.add(id);
-      const o = officers[id];
-      bar.innerHTML += `<div class="meeting-participant" id="mp-${id}">
-        <div class="mp-av" style="background:${o.hex}">${o.name[0]}</div>
-        <div class="mp-name">${o.name}</div>
-      </div>`;
-    });
-    bar.innerHTML += `<div class="meeting-participant" id="mp-nadav">
-      <div class="mp-av" style="background:${nadav.hex}"></div>
-      <div class="mp-name">Nadav</div>
-    </div>`;
+    const ma = document.getElementById('meetingArea');
+    if (ma) ma.scrollTop = 99999;
+    document.getElementById('customArea').style.display = 'none';
+    document.getElementById('meetingArea').style.display = 'block';
+    currentMode = 'custom';
+    selectedOfficers.clear();
+    return;
   }
 
-  // Hide picker, show meeting
+  // Fresh custom meeting — build participant bar, then ask for topic
+  const msgs = document.getElementById('meetingMsgs');
+  if (msgs) msgs.innerHTML = '';
+  bar.innerHTML = '';
+  currentMeetingOfficers.clear();
+  [...selectedOfficers].forEach(id => {
+    currentMeetingOfficers.add(id);
+    const o = officers[id];
+    bar.innerHTML += `<div class="meeting-participant" id="mp-${id}">
+      <div class="mp-av" style="background:${o.hex}">${o.name[0]}</div>
+      <div class="mp-name">${o.name}</div>
+    </div>`;
+  });
+  bar.innerHTML += `<div class="meeting-participant" id="mp-nadav">
+    <div class="mp-av" style="background:${nadav.hex}"></div>
+    <div class="mp-name">Nadav</div>
+  </div>`;
+
   document.getElementById('customArea').style.display = 'none';
   document.getElementById('meetingArea').style.display = 'block';
-  document.getElementById('meetingArea').style.flex = '1';
-  if (!addMode) {
-    const cta = document.getElementById('meetingCTA');
-    if (cta) cta.style.display = 'none';
-    meetingState = 'active';
-  }
   currentMode = 'custom';
   selectedOfficers.clear();
+
+  // Show topic prompt
+  requestMeetingStart('custom');
 }
 
 /* ── ARCHIVE ── */
@@ -3591,36 +3617,62 @@ function toggleAlbum() {
   modal.style.display = isOpen ? 'none' : 'flex';
 }
 
+let _archiveTab = 'team';
+
 function toggleArchive() {
   const overlay = document.getElementById('archiveOverlay');
   const isOpen = overlay.style.display !== 'none';
   overlay.style.display = isOpen ? 'none' : 'block';
   if (!isOpen) renderArchive();
 }
+
+function switchArchiveTab(tab) {
+  _archiveTab = tab;
+  document.getElementById('archTabTeam').style.background = tab === 'team' ? 'rgba(232,98,58,.9)' : 'rgba(255,255,255,.1)';
+  document.getElementById('archTabTeam').style.color = tab === 'team' ? '#fff' : 'rgba(255,255,255,.6)';
+  document.getElementById('archTabCustom').style.background = tab === 'custom' ? 'rgba(232,98,58,.9)' : 'rgba(255,255,255,.1)';
+  document.getElementById('archTabCustom').style.color = tab === 'custom' ? '#fff' : 'rgba(255,255,255,.6)';
+  renderArchive();
+}
+
 function renderArchive() {
   const list = document.getElementById('archiveList');
   list.innerHTML = '';
-  archiveMeetings.forEach(m => {
-    const typeLabel = m.type==='team' ? 'Team Meeting' : m.type==='1on1' ? '1:1' : 'Working Session';
-    const typeCls = m.type==='team' ? 'badge-team' : m.type==='1on1' ? 'badge-1on1' : 'badge-working';
-    const avatars = m.participants.map(id => {
+
+  // Load from localStorage
+  const meetings = Object.keys(localStorage)
+    .filter(k => k.startsWith('hypeshow_meeting_'))
+    .map(k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } })
+    .filter(m => m && m.mode === _archiveTab)
+    .sort((a, b) => b.date > a.date ? 1 : -1);
+
+  if (meetings.length === 0) {
+    list.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,.3);padding:40px 0;font-size:13px">אין ישיבות ב-${_archiveTab === 'team' ? 'Team' : 'Custom'} עדיין</div>`;
+    return;
+  }
+
+  meetings.forEach((m, i) => {
+    const topic = m.topic || (m.date || '');
+    const participantInfo = _archiveTab === 'custom' && m.participants
+      ? m.participants.map(p => typeof p === 'object' ? p.role : (officers[p]?.role || p)).join(', ')
+      : '';
+    const avatars = (m.participants || []).map(p => {
+      const id = typeof p === 'object' ? p.id : p;
       const o = officers[id];
       return o ? `<div class="archive-av" style="background:${o.hex}" title="${o.name}">${o.name[0]}</div>` : '';
     }).join('');
-    list.innerHTML += `<div class="archive-row" id="ar-${m.id}" onclick="toggleArchiveRow(${m.id})">
-      <span class="archive-type-badge ${typeCls}">${typeLabel}</span>
+    const summary = m.summary || '';
+
+    list.innerHTML += `<div class="archive-row" id="ar-${i}" onclick="this.classList.toggle('expanded')">
       <div class="archive-meta">
-        <div class="archive-date">${m.date}</div>
-        <div class="archive-title">${m.title}</div>
+        <div class="archive-date">${m.date || ''}</div>
+        <div class="archive-title">${topic}</div>
+        ${_archiveTab === 'custom' && participantInfo ? `<div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">${participantInfo}</div>` : ''}
         <div class="archive-participants">${avatars}</div>
-        <div class="archive-summary">${m.summary}</div>
+        ${summary ? `<div class="archive-summary">${summary}</div>` : ''}
       </div>
     </div>`;
   });
-}
-function toggleArchiveRow(id) {
-  const row = document.getElementById('ar-'+id);
-  row.classList.toggle('expanded');
 }
 
 /* ── MEETING FILTER ── */
