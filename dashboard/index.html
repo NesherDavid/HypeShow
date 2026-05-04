@@ -762,13 +762,20 @@ body.dark .btn-conflict-secondary:hover { background:rgba(255,255,255,.12); }
 .cop-name { font-size:9.5px; color:var(--muted); text-align:center; line-height:1.2; }
 .custom-invite-wrap { padding:10px 20px 4px; }
 .custom-invite-btn {
-  display:none; width:100%; padding:10px 0; border-radius:100px;
+  display:none; width:60%; margin:0 auto; padding:10px 0; border-radius:100px;
   background:var(--coral); color:#fff; font-size:13px; font-weight:600;
   text-align:center; cursor:pointer; border:none; font-family:'DM Sans',sans-serif;
   transition:all .15s; direction:rtl;
 }
 .custom-invite-btn:hover { background:var(--coral-mid); }
 .custom-invite-btn.visible { display:block; }
+.team-invite-btn {
+  display:block; width:60%; margin:8px auto 4px; padding:10px 0; border-radius:100px;
+  background:#4a9e6b; color:#fff; font-size:13px; font-weight:600;
+  text-align:center; cursor:pointer; border:none; font-family:'DM Sans',sans-serif;
+  transition:all .15s; direction:rtl;
+}
+.team-invite-btn:hover { background:#3d8a5c; }
 @keyframes pulse-dot {
   0%,100% { opacity:1; transform:scale(1); }
   50%      { opacity:.4; transform:scale(.7); }
@@ -2427,12 +2434,14 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
   <div id="meetingArea" class="meeting-area">
     <div class="meeting-bar" id="meetingBar"></div>
     <div id="meetingMsgs"></div>
-    <div id="meetingCTA"></div>
+    <div id="meetingCTA">
+      <button class="team-invite-btn" id="teamInviteBtn" onclick="startMeeting()">התחל ישיבת צוות</button>
+    </div>
   </div>
 
   <div id="customArea" class="custom-meeting-area" style="display:none">
     <div class="custom-meeting-grid" id="customGrid"></div>
-    <button class="custom-invite-btn" id="customInviteBtn" onclick="startCustomMeeting()">התחל מפגש</button>
+    <button class="custom-invite-btn" id="customInviteBtn" onclick="startCustomMeeting()">התחל ישיבה</button>
   </div>
 
   <div style="padding:0 24px 4px;font-size:11px;color:#6e6e73;direction:rtl;text-align:right">
@@ -3353,18 +3362,21 @@ async function startMeeting() {
   const label = document.getElementById('meetingCtaLabel');
   const endLink = document.getElementById('meetingEndLink');
   const cta = document.getElementById('meetingCTA');
+  const teamBtn = document.getElementById('teamInviteBtn');
 
   meetingState = 'starting';
-  inner.className = 'meeting-cta-inner state-starting';
-  label.textContent = 'מזמין צוות...';
+  if (teamBtn) { teamBtn.textContent = 'מזמין צוות...'; teamBtn.disabled = true; teamBtn.style.opacity = '0.6'; }
+  if (inner) inner.className = 'meeting-cta-inner state-starting';
+  if (label) label.textContent = 'מזמין צוות...';
   if (endLink) endLink.classList.remove('visible');
 
   // Steve opens the meeting live via Gemini
   await new Promise(r => setTimeout(r, 1200));
 
   meetingState = 'active';
-  inner.className = 'meeting-cta-inner state-active';
-  label.textContent = 'ישיבה פעילה';
+  if (teamBtn) { teamBtn.textContent = 'ישיבה פעילה'; teamBtn.style.background = '#e03322'; teamBtn.style.opacity = '1'; }
+  if (inner) inner.className = 'meeting-cta-inner state-active';
+  if (label) label.textContent = 'ישיבה פעילה';
   if (endLink) endLink.classList.add('visible');
   if (cta) cta.style.marginBottom = '8px';
 
@@ -3413,10 +3425,11 @@ async function endMeeting() {
   const inner = document.getElementById('meetingCtaInner');
   const label = document.getElementById('meetingCtaLabel');
   const endLink = document.getElementById('meetingEndLink');
+  const teamBtn = document.getElementById('teamInviteBtn');
   meetingState = 'summarizing';
-  inner.className = 'meeting-cta-inner state-summarizing';
-  inner.onclick = null;
-  label.textContent = 'Steve מסכם...';
+  if (inner) { inner.className = 'meeting-cta-inner state-summarizing'; inner.onclick = null; }
+  if (teamBtn) { teamBtn.textContent = 'Steve מסכם...'; teamBtn.disabled = true; teamBtn.style.background = '#7b3dd5'; }
+  if (label) label.textContent = 'Steve מסכם...';
   if (endLink) endLink.classList.remove('visible');
 
   let summary = null;
@@ -3440,9 +3453,9 @@ async function endMeeting() {
   }));
 
   meetingState = 'done';
-  inner.className = 'meeting-cta-inner state-done';
-  label.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה';
-  inner.style.cursor = 'default';
+  if (inner) { inner.className = 'meeting-cta-inner state-done'; inner.style.cursor = 'default'; }
+  if (teamBtn) { teamBtn.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה'; teamBtn.style.background = '#2a9d8f'; }
+  if (label) label.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה';
   if (summary) {
     const msgs = document.getElementById('meetingMsgs');
     msgs.innerHTML += `<div class="comic-time-divider">סיכום Steve</div>
@@ -3475,7 +3488,7 @@ function renderCustomMeeting(addMode = false) {
   });
   const btn = document.getElementById('customInviteBtn');
   btn.classList.remove('visible');
-  btn.textContent = addMode ? 'הוסף למפגש' : 'התחל מפגש';
+  btn.textContent = addMode ? 'הוסף למפגש' : 'התחל ישיבה';
   btn.setAttribute('data-addmode', addMode ? '1' : '0');
 }
 
@@ -3494,7 +3507,7 @@ function toggleOfficerSelection(id) {
   const addMode = btn.getAttribute('data-addmode') === '1';
   if (n > 0) {
     btn.classList.add('visible');
-    btn.textContent = addMode ? `הוסף ${n} לישיבה` : `התחל מפגש עם ${n}`;
+    btn.textContent = addMode ? `הוסף ${n} לישיבה` : `התחל ישיבה עם ${n}`;
   } else {
     btn.classList.remove('visible');
   }
