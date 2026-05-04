@@ -3008,7 +3008,9 @@ function setMode(mode) {
     if (typeof renderMeeting === 'function') renderMeeting();
   } else if (mode === 'custom') {
     selectedOfficers.clear();
-    const addMode = currentMeetingOfficers.size > 0 && meetingState === 'active';
+    // Add-mode only if already in custom (switching back while meeting active)
+    // Fresh mode if coming from TEAM (currentMode==='meeting') — always clear officers
+    const addMode = currentMode === 'custom' && currentMeetingOfficers.size > 0 && meetingState === 'active';
     if (!addMode) {
       // Fresh custom meeting — clear officers so all are selectable
       currentMeetingOfficers.clear();
