@@ -3007,7 +3007,15 @@ function setMode(mode) {
   if (mode === 'meeting') {
     if (typeof renderMeeting === 'function') renderMeeting();
   } else if (mode === 'custom') {
-    if (typeof renderCustomMeeting === 'function') renderCustomMeeting(false);
+    selectedOfficers.clear();
+    const addMode = currentMeetingOfficers.size > 0 && meetingState === 'active';
+    if (!addMode) {
+      // Fresh custom meeting — clear officers so all are selectable
+      currentMeetingOfficers.clear();
+    }
+    // addMode=true: keep currentMeetingOfficers, show them as "already-in"
+    // addMode=false: empty currentMeetingOfficers, all officers are selectable
+    if (typeof renderCustomMeeting === 'function') renderCustomMeeting(addMode);
   }
 }
 
