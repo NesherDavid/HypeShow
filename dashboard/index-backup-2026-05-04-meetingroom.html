@@ -1066,7 +1066,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
     <span>HypeShow</span>
   </div>
   <div class="mobile-icons">
-    <div class="mobile-icon-btn" onclick="openMeetingRoom()" title="כנס ישיבה">
+    <div class="mobile-icon-btn" onclick="openPanel('steve');setMode('meeting');startMeeting()" title="כנס ישיבה">
       <svg width="17" height="14" viewBox="0 0 17 14" fill="none">
         <circle cx="6" cy="4.5" r="2.8" stroke="currentColor" stroke-width="1.5"></circle>
         <path d="M1 13c0-2.8 2.2-5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
@@ -1223,7 +1223,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
 
   <div class="topbar-right" bis_skin_checked="1">
     <!-- Convene meeting -->
-    <button class="tb-icon-btn" onclick="openMeetingRoom()" data-tip="כנס ישיבה">
+    <button class="tb-icon-btn" onclick="openPanel(&#39;steve&#39;);setMode(&#39;meeting&#39;);startMeeting()" data-tip="כנס ישיבה">
       <svg width="17" height="14" viewBox="0 0 17 14" fill="none">
         <circle cx="6" cy="4.5" r="2.8" stroke="currentColor" stroke-width="1.5"></circle>
         <path d="M1 13c0-2.8 2.2-5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
@@ -2402,50 +2402,6 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
   </div>
 </div>
 
-<!-- MEETING ROOM OVERLAY -->
-<div class="overlay" id="meetingRoomOverlay" onclick="closeMeetingRoom()"></div>
-
-<!-- MEETING ROOM (TEAM + CUSTOM) -->
-<div class="float-panel meeting-mode" id="meetingRoom">
-  <div class="panel-header">
-    <div class="panel-av" style="background:linear-gradient(135deg,#e8623a,#f0855e)">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
-    </div>
-    <div class="panel-info">
-      <div class="panel-role">חדר ישיבות</div>
-      <div class="panel-name">Board Meeting</div>
-      <div class="panel-task">Steve מנחה את הישיבה</div>
-    </div>
-    <div class="panel-close" onclick="closeMeetingRoom()">✕</div>
-  </div>
-
-  <div class="panel-mode-row">
-    <button class="mode-btn active" id="btnTeam" onclick="setMode('meeting')" title="Team"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg> Team</button>
-    <button class="mode-btn" id="btnCustom" onclick="setMode('custom')" title="Custom"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><path d="M5 3a2 2 0 0 0-2 2"></path><path d="M19 3a2 2 0 0 1 2 2"></path><path d="M21 19a2 2 0 0 1-2 2"></path><path d="M5 21a2 2 0 0 1-2-2"></path><path d="M9 3h1"></path><path d="M9 21h1"></path><path d="M14 3h1"></path><path d="M14 21h1"></path><path d="M3 9v1"></path><path d="M21 9v1"></path><path d="M3 14v1"></path><path d="M21 14v1"></path></svg> Custom</button>
-  </div>
-
-  <div id="meetingArea" class="meeting-area">
-    <div class="meeting-bar" id="meetingBar"></div>
-    <div id="meetingMsgs"></div>
-    <div id="meetingCTA"></div>
-  </div>
-
-  <div id="customArea" class="custom-meeting-area" style="display:none">
-    <div class="custom-meeting-grid" id="customGrid"></div>
-    <button class="custom-invite-btn" id="customInviteBtn" onclick="startCustomMeeting()">התחל מפגש</button>
-  </div>
-
-  <div style="padding:0 24px 4px;font-size:11px;color:#6e6e73;direction:rtl;text-align:right">
-    הסוכנים פועלים באמצעות AI חיצוני — הימנע מסיסמאות וכרטיסי אשראי
-  </div>
-  <div class="panel-input-wrap">
-    <input class="panel-input" id="meetingInput" placeholder="Message…" dir="auto"
-      onkeydown="if(event.key==='Enter')sendMeetingMsg()"
-      oninput="_checkPIIRealtime(this.value)">
-    <button class="panel-send" onclick="sendMeetingMsg()"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" fill="#ea6c43" stroke="none" /><path d="M12 17V3M7 8L12 3L17 8M4 21H20"></path></svg></button>
-  </div>
-</div>
-
 <script>
 /* ── DATA ── */
 const officers = {
@@ -2983,102 +2939,10 @@ function _loadHistoryIntoPanel(officerId) {
 
 /* ── MODE SWITCH ── */
 function setMode(mode) {
-  // 1:1 chat mode (within float-panel)
-  if (mode === 'chat') {
-    currentMode = 'chat';
-    const chatArea = document.getElementById('chatArea');
-    if (chatArea) chatArea.style.display = 'flex';
-    renderChat();
-    return;
-  }
-
-  // Meeting room modes (TEAM / CUSTOM) — within #meetingRoom
-  const meetingArea = document.getElementById('meetingArea');
-  const customArea = document.getElementById('customArea');
-  if (!meetingArea || !customArea) return;
-
-  currentMode = mode;
-  meetingArea.style.display = mode === 'meeting' ? 'block' : 'none';
-  customArea.style.display = mode === 'custom' ? 'flex' : 'none';
-
-  document.getElementById('btnTeam')?.classList.toggle('active', mode === 'meeting');
-  document.getElementById('btnCustom')?.classList.toggle('active', mode === 'custom');
-
-  if (mode === 'meeting') {
-    if (typeof renderMeeting === 'function') renderMeeting();
-  } else if (mode === 'custom') {
-    if (typeof renderCustomMeeting === 'function') renderCustomMeeting(false);
-  }
-}
-
-/* ── MEETING ROOM OPEN/CLOSE ── */
-function openMeetingRoom() {
-  document.getElementById('meetingRoomOverlay').classList.add('open');
-  document.getElementById('meetingRoom').classList.add('open');
-  setMode('meeting');
-  if (typeof startMeeting === 'function') startMeeting();
-}
-
-function closeMeetingRoom() {
-  document.getElementById('meetingRoomOverlay').classList.remove('open');
-  document.getElementById('meetingRoom').classList.remove('open');
-  if (typeof meetingState !== 'undefined') meetingState = 'idle';
-}
-
-/* ── SEND MEETING MESSAGE (TEAM / CUSTOM) ── */
-async function sendMeetingMsg() {
-  const input = document.getElementById('meetingInput');
-  const val = input.value.trim();
-  if (!val) return;
-  input.value = '';
-  input.disabled = true;
-
-  appendMeetingMsg('nadav', val, true);
-  meetingHistory.push({ role: 'user', content: val });
-
-  const typingId = 'typing-' + Date.now();
-  const msgs = document.getElementById('meetingMsgs');
-  msgs.innerHTML += `<div class="comic-msg" id="${typingId}">
-    <div class="comic-speaker-row"><div class="comic-av-sm" style="background:#e8623a">S</div>
-    <div class="comic-name-sm">Steve · CEO</div></div>
-    <div class="comic-bubble" style="color:var(--muted)"><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span></div>
-  </div>`;
-
-  const ma = document.getElementById('meetingArea');
-  ma.scrollTop = ma.scrollHeight;
-
-  const mode = currentMode === 'custom' ? 'custom' : 'meeting';
-  const participants = currentMode === 'custom' ? [...selectedOfficers] : meetingParticipants;
-
-  try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: val, officerId: 'steve', history: meetingHistory.slice(-12), mode, participants })
-    });
-    document.getElementById(typingId)?.remove();
-    let replyText = '';
-    if (res.ok) {
-      const data = await res.json();
-      replyText = data.reply || '';
-    }
-    if (!replyText) { replyText = 'Steve: ' + getMockReply('steve'); }
-
-    const parsed = parseMeetingReply(replyText);
-    parsed.forEach(p => {
-      appendMeetingMsg(p.id, p.text, false);
-      meetingHistory.push({ role: 'assistant', content: `${officers[p.id]?.name || p.id}: ${p.text}` });
-    });
-  } catch {
-    document.getElementById(typingId)?.remove();
-    const fallback = getMockReply('steve');
-    appendMeetingMsg('steve', fallback, false);
-    meetingHistory.push({ role: 'assistant', content: `Steve: ${fallback}` });
-  }
-
-  ma.scrollTop = ma.scrollHeight;
-  input.disabled = false;
-  input.focus();
+  currentMode = 'chat';
+  const chatArea = document.getElementById('chatArea');
+  if (chatArea) chatArea.style.display = 'flex';
+  renderChat();
 }
 
 /* ── RENDER 1-ON-1 CHAT ── */
