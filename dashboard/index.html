@@ -3351,8 +3351,10 @@ function _doStartMeeting(topic, participants, mode) {
 
   setTimeout(async () => {
     meetingState = 'active';
-    if (teamBtn) { teamBtn.textContent = 'ישיבה פעילה'; teamBtn.style.background = '#4a9e6b'; teamBtn.style.opacity = '1'; teamBtn.onclick = endMeeting; }
-    if (customBtn) { customBtn.textContent = 'ישיבה פעילה'; customBtn.style.background = '#4a9e6b'; customBtn.style.opacity = '1'; customBtn.onclick = endMeeting; }
+    const tBtn = document.getElementById('teamInviteBtn');
+    const cBtn = document.getElementById('customInviteBtn');
+    if (tBtn) { tBtn.textContent = 'ישיבה פעילה'; tBtn.style.background = '#4a9e6b'; tBtn.style.opacity = '1'; tBtn.disabled = false; tBtn.onclick = endMeeting; }
+    if (cBtn) { cBtn.textContent = 'ישיבה פעילה'; cBtn.style.background = '#4a9e6b'; cBtn.style.opacity = '1'; cBtn.disabled = false; cBtn.onclick = endMeeting; }
 
     const endLink = document.getElementById('meetingEndLink');
     if (endLink) endLink.classList.add('visible');
