@@ -2462,6 +2462,7 @@ body.dark .mobile-header { background:rgba(15,15,17,0.94); }
 
 <script>
 /* ── DATA ── */
+const NADAV_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="5" r="1"></circle><path d="m9 20 3-6 3 6"></path><path d="m6 8 6 2 6-2"></path><path d="M12 10v4"></path></svg>`;
 const officers = {
   steve:  {role:'CEO',name:'Steve',task:'Strategy & routing — sprint oversight',color:'linear-gradient(135deg,#e8623a,#f0855e)',hex:'#e8623a',hobby:'☕',
     msgs:[{f:'Steve',t:"Good morning, Nadav. Sprint Day 5 — we're on track. Yiftach closes the Threat Model tomorrow."},{f:'Nadav',t:'Anything I need to decide today?'},{f:'Steve',t:"One thing: should I give Inbar a brand brief now, or wait for Oded's architecture to settle?"}]},
@@ -2987,11 +2988,11 @@ function _loadHistoryIntoPanel(officerId) {
           data.history.forEach(m => {
             const isUser = m.role === 'user';
             const col = isUser ? nadav.hex : o.hex;
-            const init = isUser ? 'N' : o.name[0];
-            const name = isUser ? 'Nadav' : o.name;
-            histHtml += `<div class="chat-msg${isUser?' user':''}" style="opacity:.5">
-              <div class="chat-av" style="background:${col}">${init}</div>
-              <div><div class="chat-name">${name}</div><div class="chat-bubble">${m.content}</div></div>
+            const avatarContent = isUser ? NADAV_SVG : o.name[0];
+            const name = isUser ? 'Nadav (You)' : o.name;
+            histHtml += `<div class="comic-msg${isUser?' is-user':''}" style="opacity:.5">
+              <div class="comic-speaker-row"><div class="comic-av-sm" style="background:${col}">${avatarContent}</div><div class="comic-name-sm">${name}</div></div>
+              <div class="comic-bubble">${m.content}</div>
             </div>`;
           });
         }
@@ -3055,15 +3056,10 @@ function openMeetingRoom() {
   setMode('meeting');
 }
 
-async function closeMeetingRoom() {
-  if (meetingState === 'active' && meetingHistory.length > 1) {
-    await saveMeetingSummary();
-  }
+function closeMeetingRoom() {
   document.getElementById('meetingRoomOverlay').classList.remove('open');
   document.getElementById('meetingRoom').classList.remove('open');
-  meetingState = 'idle';
-  meetingTopic = '';
-  meetingHistory = [];
+  // Closing does NOT end the meeting — use "ישיבה פעילה" button to end
 }
 
 /* ── SEND MEETING MESSAGE (TEAM / CUSTOM) ── */
@@ -3130,11 +3126,11 @@ function renderChat() {
   o.msgs.forEach(m => {
     const isUser = m.f==='Nadav';
     const col = isUser ? nadav.hex : o.hex;
-    const init = m.f[0];
+    const avatarContent = isUser ? NADAV_SVG : o.name[0];
     const label = isUser ? 'Nadav (You)' : (o ? o.name + ' · ' + o.role : m.f);
     area.innerHTML += `<div class="comic-msg ${isUser ? 'is-user' : ''}" data-speaker="${isUser ? 'nadav' : currentOfficer}">
       <div class="comic-speaker-row">
-        <div class="comic-av-sm" style="background:${col}">${init}</div>
+        <div class="comic-av-sm" style="background:${col}">${avatarContent}</div>
         <div class="comic-name-sm">${label}</div>
       </div>
       <div class="comic-bubble">${m.t}</div>
@@ -3355,8 +3351,8 @@ function _doStartMeeting(topic, participants, mode) {
 
   setTimeout(async () => {
     meetingState = 'active';
-    if (teamBtn) { teamBtn.textContent = 'ישיבה פעילה'; teamBtn.style.background = '#e03322'; teamBtn.style.opacity = '1'; }
-    if (customBtn) { customBtn.textContent = 'ישיבה פעילה'; customBtn.style.background = '#e03322'; customBtn.style.opacity = '1'; }
+    if (teamBtn) { teamBtn.textContent = 'ישיבה פעילה'; teamBtn.style.background = '#4a9e6b'; teamBtn.style.opacity = '1'; teamBtn.onclick = endMeeting; }
+    if (customBtn) { customBtn.textContent = 'ישיבה פעילה'; customBtn.style.background = '#4a9e6b'; customBtn.style.opacity = '1'; customBtn.onclick = endMeeting; }
 
     const endLink = document.getElementById('meetingEndLink');
     if (endLink) endLink.classList.add('visible');
