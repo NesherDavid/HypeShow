@@ -3049,17 +3049,35 @@ function setMode(mode) {
 
 /* ── MEETING ROOM OPEN/CLOSE ── */
 function openMeetingRoom() {
+  // If meeting was done, reset for new meeting
+  if (meetingState === 'done') {
+    meetingState = 'idle';
+    meetingTopic = '';
+    meetingHistory = [];
+    currentMeetingOfficers.clear();
+  } else {
+    // If meeting was active, keep it; if idle, reset anyway
+    meetingState = meetingState === 'active' ? 'active' : 'idle';
+  }
   document.getElementById('meetingRoomOverlay').classList.add('open');
   document.getElementById('meetingRoom').classList.add('open');
-  meetingState = 'idle';
-  meetingTopic = '';
-  setMode('meeting');
+  setMode(meetingState === 'active' ? 'meeting' : 'meeting');
 }
 
 function closeMeetingRoom() {
+  const wasDone = meetingState === 'done';
+
+  // If meetingState === 'active': close panel but keep meeting open
+  // If meetingState === 'done': close panel AND reset for new meeting
   document.getElementById('meetingRoomOverlay').classList.remove('open');
   document.getElementById('meetingRoom').classList.remove('open');
-  // Closing does NOT end the meeting — use "ישיבה פעילה" button to end
+
+  if (wasDone) {
+    meetingState = 'idle';
+    meetingTopic = '';
+    meetingHistory = [];
+    currentMeetingOfficers.clear();
+  }
 }
 
 /* ── SEND MEETING MESSAGE (TEAM / CUSTOM) ── */
@@ -3476,8 +3494,8 @@ async function endMeeting() {
   }
 
   meetingState = 'done';
-  if (teamBtn) { teamBtn.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה'; teamBtn.style.background = '#2a9d8f'; teamBtn.disabled = false; }
-  if (customBtn) { customBtn.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה'; customBtn.style.background = '#2a9d8f'; customBtn.disabled = false; }
+  if (teamBtn) { teamBtn.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה'; teamBtn.style.background = '#2a9d8f'; teamBtn.disabled = false; teamBtn.onclick = () => closeMeetingRoom(); }
+  if (customBtn) { customBtn.textContent = summary ? 'ישיבה סוכמה' : 'ישיבה הסתיימה'; customBtn.style.background = '#2a9d8f'; customBtn.disabled = false; customBtn.onclick = () => closeMeetingRoom(); }
   if (summary) {
     const msgs = document.getElementById('meetingMsgs');
     if (msgs) msgs.innerHTML += `<div class="comic-time-divider">סיכום Steve</div>
