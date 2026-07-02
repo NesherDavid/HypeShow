@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>HypeShow — החלטת ארכיטקטורה: סוכנים, דפדפן, Extension</title>
+<style>
+  :root{
+    --coral:#e8623a;
+    --dark:#1c1c1e;
+    --gray:#6e6e73;
+    --purple:#7b3dd5;
+    --green:#2e9e5b;
+    --yellow:#c98a1f;
+    --red:#c0392b;
+    --bg:#f7f6f4;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html, body{
+    font-family:"Segoe UI", Arial, sans-serif;
+    background:var(--bg);
+    color:var(--dark);
+    margin:0;
+    padding:0;
+    line-height:1.6;
+    height:auto;
+    min-height:100%;
+    overflow-y:auto;
+  }
+  header{
+    background:var(--dark);
+    color:#fff;
+    padding:28px 40px;
+    border-bottom:5px solid var(--coral);
+  }
+  header h1{
+    margin:0 0 6px 0;
+    font-size:24px;
+  }
+  header .meta{
+    color:#bbb;
+    font-size:13px;
+  }
+  .status-bar{
+    display:flex;
+    gap:10px;
+    padding:14px 40px;
+    background:#fff;
+    border-bottom:1px solid #e3e1dd;
+    flex-wrap:wrap;
+  }
+  .pill{
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+  }
+  .pill.decided{background:#e6f4ea;color:var(--green);}
+  .pill.open{background:#fdf0e3;color:var(--yellow);}
+  .pill.blocked{background:#fdeaea;color:var(--red);}
+
+  main{
+    max-width:980px;
+    margin:0 auto;
+    padding:30px 40px 80px;
+  }
+  section{
+    background:var(--card);
+    border-radius:14px;
+    padding:24px 28px;
+    margin-bottom:22px;
+    box-shadow:0 1px 4px rgba(0,0,0,.06);
+    border-right:5px solid var(--coral);
+  }
+  section.purple{border-right-color:var(--purple);}
+  section.green{border-right-color:var(--green);}
+  section.gray{border-right-color:var(--gray);}
+
+  h2{
+    margin-top:0;
+    font-size:19px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  h3{
+    font-size:15px;
+    color:var(--gray);
+    margin:18px 0 8px;
+  }
+  .badge{
+    display:inline-block;
+    font-size:11px;
+    padding:3px 10px;
+    border-radius:12px;
+    background:var(--coral);
+    color:#fff;
+    font-weight:700;
+  }
+  .badge.purple{background:var(--purple);}
+  .badge.green{background:var(--green);}
+  .badge.gray{background:var(--gray);}
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:12px 0;
+    font-size:14px;
+  }
+  th, td{
+    text-align:right;
+    padding:10px 12px;
+    border-bottom:1px solid #ececec;
+  }
+  th{
+    background:#faf9f7;
+    color:var(--gray);
+    font-weight:600;
+    font-size:13px;
+  }
+  tr.win td:first-child{color:var(--green);font-weight:600;}
+  tr.risk td:first-child{color:var(--red);font-weight:600;}
+
+  .diagram{
+    background:#faf9f7;
+    border:1px dashed #d8d5d0;
+    border-radius:10px;
+    padding:18px;
+    font-family:monospace;
+    font-size:13px;
+    white-space:pre-wrap;
+    direction:ltr;
+    text-align:left;
+    color:#444;
+    overflow-x:auto;
+  }
+  ul{padding-right:20px;margin:8px 0;}
+  li{margin-bottom:6px;}
+  .note{
+    background:#fdf0e3;
+    border-right:3px solid var(--yellow);
+    padding:10px 14px;
+    border-radius:8px;
+    font-size:13.5px;
+    margin:10px 0;
+  }
+  .todo{
+    background:#fdeaea;
+    border-right:3px solid var(--red);
+    padding:10px 14px;
+    border-radius:8px;
+    font-size:13.5px;
+    margin:10px 0;
+  }
+  code{
+    background:#f1efe9;
+    padding:2px 6px;
+    border-radius:4px;
+    font-size:12.5px;
+    direction:ltr;
+    display:inline-block;
+  }
+  .changelog{
+    font-size:13px;
+    color:var(--gray);
+  }
+  .changelog li{margin-bottom:10px;}
+  .changelog .date{font-weight:700;color:var(--dark);}
+  footer{
+    text-align:center;
+    color:var(--gray);
+    font-size:12px;
+    padding:20px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>החלטת ארכיטקטורה — סוכני HypeShow מעבר לדפדפן</h1>
+  <div class="meta">עודכן לאחרונה: 28.06.2026 · מסמך חי · מתעדכן עם כל החלטה</div>
+</header>
+
+<div class="status-bar">
+  <span class="pill decided">✅ הוחלט: OAuth לאימות</span>
+  <span class="pill decided">✅ הוחלט: Extension/MCP ל-IDE</span>
+  <span class="pill decided">✅ הוחלט: שני מוצרים נפרדים (אתר + Extension)</span>
+  <span class="pill blocked">⛔ פתוח: שיחות באתר עדיין לא עובדות (עודד נתקע)</span>
+  <span class="pill open">🟡 פתוח: בדיקת GSTACK כתבנית ארכיטקטורה</span>
+</div>
+
+<main>
+
+<section>
+<h2>1. השאלה שהתחלנו ממנה</h2>
+<p>נדב בדק עם מישהו מבין בתחום אם אפשר לבנות צוות סוכנים שקורא/כותב לתיקיות מרקדאון, לומד מהניסיון, ומתעד פתרונות — הכל מתוך <b>דפדפן</b>. הטענה שנשמעה: "אין סיכוי", ובנפרד — חשש שמסמכים גדלים יעמיסו על הסוכנים.</p>
+<div class="note">תוצאת מחקר עומק (Claude Opus, Research+Web Search, 28.06.2026): שתי החששות נכונות <b>חלקית</b>. זה לא בלתי אפשרי — אבל יש מגבלה אמיתית של דפדפן שדורשת החלטת ארכיטקטורה.</div>
+</section>
+
+<section>
+<h2>2. הממצא המרכזי — File System Access API</h2>
+<p>היכולת של דפדפן לגשת/לכתוב לתיקייה מקומית של המשתמש (<code>showDirectoryPicker</code>) קיימת — אבל <b>רק ב-Chromium</b> (Chrome, Edge, Brave, Opera). לא Safari, לא Firefox, לא Mobile.</p>
+<table>
+<tr><th>דפדפן</th><th>גישה לתיקייה מקומית</th><th>נתח שוק (משוער 2026)</th></tr>
+<tr class="win"><td>Chrome / Edge / Brave / Opera (Desktop)</td><td>✅ כן (מ-Chrome 122+, persistent)</td><td>~75-80%</td></tr>
+<tr class="risk"><td>Safari</td><td>❌ לא (OPFS בלבד — סנדבוקס פרטי)</td><td>~20-25%</td></tr>
+<tr class="risk"><td>Firefox</td><td>❌ לא</td><td>~2-3%</td></tr>
+<tr class="risk"><td>Mobile (Chrome/Safari ל-Android/iOS)</td><td>❌ לא בכלל</td><td>כל המובייל</td></tr>
+</table>
+<div class="note">קהל המטרה של HypeShow = vibe coders / יזמים צעירים, חלקם בני נוער — קהל שבעיקרו Chrome-first. לכן PWA בלבד (בלי Tauri) <b>מספיק לdesktop</b>, אבל מובייל נשאר חסום מגישה ל"תיקייה שלי".</div>
+</section>
+
+<section class="gray">
+<h2>3. מה זה אומר על עלות/זיכרון (לא חסם, אלא מהונדס)</h2>
+<p>החשש השני (מסמכים שגדלים = עומס) <b>נפתר</b> בעזרת:</p>
+<ul>
+<li><b>Memory tool</b> של Anthropic — סוכן כותב/קורא זיכרון בקובץ, שולט מי שומר מה</li>
+<li><b>Context editing + compaction</b> — ניקוי אוטומטי של הקשר ישן (שיפור מדוד: עד 84% פחות טוקנים)</li>
+<li><b>RAG</b> — שליפה של ~4K טוקנים רלוונטיים בלבד, לא כל המאגר</li>
+<li><b>Prompt caching</b> — עד 90% הנחה על טקסט שחוזר על עצמו</li>
+</ul>
+<table>
+<tr><th>תרחיש</th><th>עלות נאיבית/חודש</th><th>עלות ממוטבת/חודש</th></tr>
+<tr><td>לקוח בודד (40 שיחות 1:1 + 4 פגישות חברה + 8 פגישות קטנות)</td><td>~$153</td><td>~$22</td></tr>
+</table>
+<div class="note">מחיר הצעה: $149-249/חודש → מרווח גולמי 70-80%. כלכלית עובד <b>אם בונים נכון</b> — לא בארכיטקטורה נאיבית.</div>
+</section>
+
+<section class="purple">
+<h2>4. הסיכון האמיתי — לא טכני, אמינות סוכנים מרובים</h2>
+<p>Anthropic עצמה כותבת: מערכות multi-agent עם הקשר משותף ותלות גבוהה (בדיוק כמו "פגישת חברה" עם 9 קצינים) <b>לא מתאימות היטב</b> למצב הנוכחי של multi-agent systems.</p>
+<table>
+<tr><th>סוג פגישה</th><th>סטטוס</th><th>הערה</th></tr>
+<tr class="win"><td>1:1 (משתמש + קצין אחד)</td><td>✅ בטוח, נבדק, עובד</td><td>תבנית סטנדרטית</td></tr>
+<tr><td>צוות קטן (3 סוכנים)</td><td>✅ אפשרי</td><td>צריך speaker-orchestrator (מנהל תור דיבור)</td></tr>
+<tr class="risk"><td>פגישת חברה מלאה (9 סוכנים, transcript משותף)</td><td>⚠️ בנוי אך שביר</td><td>15× יותר טוקנים, 14 דפוסי כשל מתועדים, עלות גבוהה מאוד</td></tr>
+</table>
+<h3>speaker-orchestrator — מה זה בעברית</h3>
+<p>לא סאב-אייג'נטים. זה "מנהל ישיבה" — מחליט מי מדבר מתי, כדי שלא כל הסוכנים יענו בבת אחת (כאוס + עלות). זה feature הכרחי, אבל מוסיף חישוב (=כסף) ועיכוב לכל סבב.</p>
+<div class="note">החלטה מומלצת (סטיב): Stage 1 = סוכן בודד → Stage 2 = 3 סוכנים → Stage 3 = 9 סוכנים, רק אחרי שStage 2 עובר ללא תקלות.</div>
+</section>
+
+<section>
+<h2>5. שתי הזרועות של המוצר — לא תחליפים, תוספות</h2>
+<div class="diagram">
+                Vercel + Supabase  (שרת אחד, קיים כבר)
+                       /                    \
+            אתר HypeShow (Website)     Extension ל-Claude Desktop / VSCode / IDE
+            - שיחות 1:1                - אותם קצינים, אותו vault
+            - פגישות צוות קטן          - קריאה/כתיבה לקבצים בתיקייה מקומית
+            - חלק מילולי בלבד          - פיתוח קוד + הצגת ארטיפקטים
+            - ⛔ עדיין לא עובד          - דרך כניסה: MCP + OAuth
+</div>
+<table>
+<tr><th>פיצ'ר</th><th>אתר HypeShow</th><th>Extension (Claude Desktop/IDE)</th></tr>
+<tr><td>שיחות עם קצינים</td><td>✅ (מתוכנן, ⛔ לא עובד עדיין)</td><td>✅</td></tr>
+<tr><td>קריאה/כתיבה לתיקייה מקומית</td><td>❌ (חסם דפדפן)</td><td>✅</td></tr>
+<tr><td>פיתוח קוד + ארטיפקטים</td><td>❌</td><td>✅</td></tr>
+<tr><td>נגיש מהטלפון</td><td>✅</td><td>❌ (תלוי IDE על מחשב)</td></tr>
+</table>
+</section>
+
+<section class="green">
+<h2>6. אימות ותשלום — ההחלטה: OAuth</h2>
+<p>שלוש אופציות הוצגו והושוו. <b>OAuth נבחר.</b></p>
+<table>
+<tr><th>שיטה</th><th>חיכוך למשתמש</th><th>אבטחה</th><th>התאמה לקהל (בני נוער / לא טכניים)</th><th>סטטוס</th></tr>
+<tr><td>API Key</td><td>גבוה — העתק-הדבק</td><td>תקף לנצח אם נגנב</td><td>נמוכה</td><td>נדחה</td></tr>
+<tr class="win"><td>OAuth (Login)</td><td>נמוך — לחיצה אחת</td><td>טוקן פג תוקף אוטומטית</td><td>גבוהה</td><td><b>✅ נבחר</b></td></tr>
+<tr><td>License File</td><td>גבוה — קובץ + מיקום</td><td>קל לזיוף, קשה לבטל</td><td>נמוכה</td><td>נדחה</td></tr>
+</table>
+<h3>איך זה עובד בפועל</h3>
+<ol>
+<li>משתמש מתקין HypeShow Extension ב-Claude Desktop / VSCode (פעם אחת)</li>
+<li>לוחץ "Login with HypeShow" → מאשר בדפדפן → מחובר</li>
+<li>כל שאלה שולחת בקשה ל-Vercel, מאומתת מול Supabase ("שילם? מורשה?")</li>
+<li>אם תקף → Vercel מריץ את הלוגיקה של הקצין הרלוונטי, מחזיר תשובה בלבד — הכללים/הvault נשארים בשרת, לא נחשפים</li>
+</ol>
+</section>
+
+<section>
+<h2>7. סיכוני אבטחה שעלו — דורש בדיקה עם Iftach</h2>
+<table>
+<tr><th>סיכון</th><th>הגנה</th></tr>
+<tr><td>גניבת API Key / טוקן</td><td>OAuth tokens עם TTL קצר; אף פעם לא client-side גלוי</td></tr>
+<tr><td>הרשאות יתר ל-Extension</td><td>minimal permissions — רק מה שצריך</td></tr>
+<tr><td>קוד זדוני ב-Extension</td><td>חתימה דיגיטלית (code signing)</td></tr>
+<tr><td>יירוט תקשורת</td><td>TLS/הצפנה מקצה לקצה</td></tr>
+</table>
+<div class="todo">⛔ דורש סשן ייעודי עם Iftach לפני כל build בפועל של ה-Extension.</div>
+</section>
+
+<section class="gray">
+<h2>8. GSTACK — תבנית קיימת ללמוד ממנה</h2>
+<p>כלי קוד פתוח (MIT) של גארי טאן, CEO של Y Combinator. 23 סקילים שמתלבשים על Claude Code, מדמים צוות פיתוח שלם.</p>
+<table>
+<tr><th>מאפיין</th><th>פרט</th></tr>
+<tr><td>מבנה</td><td>תיקיית <code>.claude/skills/</code> + daemon כרום ל-QA אוטומטי (Playwright) + 3 קבצי context (CLAUDE.md, DESIGN.md, PRD.md)</td></tr>
+<tr><td>זרימת עבודה</td><td>/office-hours → /plan → /implement → /review → /qa → /ship → /retro</td></tr>
+<tr><td>תפקידים מדומים</td><td>מנכ"ל, מנהל הנדסה, מעצב, בודק QA, מהנדס אבטחה, מנהל שחרורים</td></tr>
+<tr><td>תוצאה מדווחת</td><td>66,000 כוכבים בגיטהאב בפחות מחודש; אומץ ע"י Anthropic כדוגמה לשימוש ב-Skills</td></tr>
+</table>
+<div class="note">למה רלוונטי ל-HypeShow: זה כמעט הקונספט שלנו (קצינים = skills, CLAUDE.md = תיעוד עקבי), אבל בנוי למפתח יחיד בתוך IDE — לא ל-SaaS מרובה משתמשים. שווה לבחון את מבנה הסקילים שלו כתבנית ל-Extension שלנו, לא להעתיק כמו שהוא.</div>
+</section>
+
+<section>
+<h2>9. מה פתוח לשיחה הבאה</h2>
+<ul>
+<li><b>שיחות באתר עדיין לא עובדות</b> — עודד נתקע, לא יושם. צריך לחזור לזה לפני שממשיכים קדימה עם Extension.</li>
+<li>בחינת GSTACK כתבנית/השראה לארכיטקטורת skills של ה-Extension</li>
+<li>נדב חוקר סביבות פיתוח נוספות לקלוד — לדון בשיחה הבאה</li>
+<li>החלטה: מתי להפעיל Stage 0 (פרוטוטיפ קטן לבדיקת FSA + memory tool)</li>
+</ul>
+</section>
+
+<section class="gray">
+<h2>היסטוריית עדכונים</h2>
+<ul class="changelog">
+<li><span class="date">28.06.2026</span> — מסמך נוצר. מחקר עומק (Opus+Research) הושלם. הוחלט: OAuth לאימות, אתר+Extension כשני מוצרים נפרדים. נבדק GSTACK.</li>
+</ul>
+</section>
+
+</main>
+
+<footer>HypeShow · מסמך חי — נא לא למחוק, רק לעדכן · Steve (CEO)</footer>
+
+</body>
+</html>

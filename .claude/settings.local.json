@@ -178,7 +178,11 @@
       "Bash(curl -sv http://localhost:8000/)",
       "Bash(kill 44598)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8000/)",
-      "Bash(unzip -l /Users/nesher/Desktop/hype_profiles.zip)"
+      "Bash(unzip -l /Users/nesher/Desktop/hype_profiles.zip)",
+      "Bash(open \"/Users/nesher/Desktop/HypeShow/00_CURRENT_SPRINT/architecture-decision-browser-agents.html\")",
+      "Bash(ls -la ~/.claude/skills 2>/dev/null || mkdir -p ~/.claude/skills)",
+      "Bash(git -C /Users/nesher/Desktop/HypeShow status --short)",
+      "Bash(cp /Users/nesher/Desktop/HypeShow/CLAUDE.md /Users/nesher/Desktop/HypeShow/CLAUDE.md.backup-2026-07-02)"
     ]
   },
   "enabledPlugins": {
