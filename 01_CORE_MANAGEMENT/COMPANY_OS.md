@@ -51,3 +51,59 @@
 - מיה handles: mediation, motivation, team culture, and psychological support.
 - Only if unresolved: `[ESCALATE TO: Chairman]` — the entrepreneur steps in as the final human anchor.
 - Protocol: `[HANDOFF FROM: Any Officer TO: CPsyO — מיה]`
+
+---
+
+## 7. החלטות גלובליות — מאושרות 2026-07-02
+
+כל קצין קורא את הרשימה הזו בפתיחת כל שיחה.
+
+| # | החלטה | מי אישר |
+|---|--------|---------|
+| 1 | Stack: Next.js + TypeScript + Supabase + Vercel | Chairman + Steve |
+| 2 | LLM: 80% Haiku / 15% Sonnet / 5% Opus + prompt caching | Steve + Oded |
+| 3 | Throttling: 4 zones (Normal/Yellow/Red/Danger/STOP) | Steve + Yarden |
+| 4 | Pricing: $49/$99/$199 (Junior/Senior/Partner) | Chairman |
+| 5 | Seniority Score: Collective, anonymized, 3 tiers | Chairman |
+| 6 | Security: RLS על כל טבלה + JWT rotation | Iftach |
+| 7 | Legal: Privacy Policy + ToS + checkbox בהרשמה | Chairman + Iftach |
+| 8 | Prototype handoff: תמיד שאל 1:1 vs spec לפני CTO | Steve |
+| 9 | שרשרת פיקוד: נדב ↔ סטיב להוראות וביצוע. קצינים אחרים — ייעוץ ותחום | Chairman |
+
+---
+
+## 8. ארכיטקטורת זיכרון — אושרה 2026-07-02
+
+### שלוש שכבות
+
+**שכבה 1 — סיכומי שיחה** (פר-קצין)
+- כל 5 הודעות → API מסכם → נשמר ב-`conversations.summary`
+- בפתיחת שיחה חדשה → 3 סיכומים אחרונים נטענים ל-system prompt
+- פרטי לכל קצין — לא משותף
+
+**שכבה 2 — החלטות** (גלובלי + פר-קצין)
+- טבלה: `decisions` — scope: global / officer / sprint
+- גלובליות: כל קצין קורא בפתיחת שיחה
+- כותב: service_role בלבד (Chairman / Steve דרך API)
+
+**שכבה 3 — מסמכים ותוצרים**
+- טבלה: `documents` + Supabase Storage (private bucket)
+- גישה: signed URL עם תפוגה של שעה
+- חיפוש לפי: officer_id + topic + sprint + status
+
+### טבלת Directives (דשבורד ניהול)
+- `directives` — הוראות מסטיב לקצינים
+- שדות: from/to officer, instruction, due_date, status, blocked_reason, output_url
+- Statuses: pending (coral) / done (ירוק #2d9b61) / blocked (אדום #c0392b)
+- Hover על blocked → tooltip: "ממתין ל-[קצין] — [סיבה]"
+
+### דשבורד ניהול — UI
+- אייקון SVG coral בשורת הניהול למעלה ימין (במקום אייקון האלבום)
+- פותח side drawer מימין
+- Tab פעיל: ממתין + תקוע (ברירת מחדל)
+- Tab הושלם: 5 אחרונים + "הצג עוד" (pagination של 10)
+- אין אימוג'ים — SVG בלבד בסגנון coral-שחור-לבן
+
+### תנאי אבטחה (יפתח)
+- audit log על כל INSERT ב-decisions
+- Storage bucket: private בלבד, לא public URL

@@ -76,3 +76,32 @@
 | V2 | פתיחת Marketplace ליזמים בתוך הפלטפורמה |
 
 ---
+
+---
+
+## 🔑 IDE Integration — Personal Access Token
+**סטטוס:** Backlog — לקראת השקה
+**החלטה:** 2026-07-02 | סטיב (CEO) — לא עכשיו, אחרי משתמשים ראשונים
+
+### הרקע
+משתמש שרוצה לעבוד עם קצינים ב-IDE (VS Code, Claude Desktop, Cursor) צריך דרך להתחבר ל-API של HypeShow — בלי לראות את מפתח Anthropic שלנו ובלי להביא מפתח משלו.
+
+### הפתרון שעודד הציג
+1. Dashboard מציג כפתור **"חבר IDE"** → יוצר personal access token
+2. המשתמש מעתיק את ה-token פעם אחת
+3. IDE מגדיר את ה-token → מדבר עם `api.hypeshow.com`
+4. HypeShow בין לבין — המשתמש לא נוגע ב-Anthropic ישירות
+
+### תנאי Green Light של יפתח (חובה לפני ביצוע)
+1. Token מאוחסן ב-Supabase — לא ב-localStorage
+2. רק hash של ה-token נשמר ב-DB (לא ה-token עצמו)
+3. תפוגה: 90 יום — חידוש אוטומטי בכניסה
+4. כפתור "בטל גישה ל-IDE" ב-dashboard (revoke מיידי)
+5. Log כל שימוש: IP + timestamp + officer_id
+6. Rate limit: 100 קריאות לשעה לכל token
+
+### Endpoint נדרש
+`POST /api/tokens` — יצירת personal access token לכל משתמש
+
+### מתי לבצע
+ברגע שיש ביקוש ממשתמש אחד לפחות. לא לפני.
